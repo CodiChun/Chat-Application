@@ -1,12 +1,15 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import edu.uw.tcss450.codichun.team6tcss450.R;
 
 public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 
@@ -21,16 +24,18 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
     @NonNull
     @Override
     public ChatRowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        return new ChatRowViewHolder(LayoutInflater.from(context).inflate(R.layout.fragment_chat_room_view, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChatRowViewHolder holder, int position) {
-
+        holder.nameView.setText(rows.get(position).getName());
+        holder.messageView.setText(rows.get(position).getMessage());
+        holder.profileView.setImageResource(rows.get(position).getImage());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return rows.size();
     }
 }
