@@ -2,7 +2,6 @@ package edu.uw.tcss450.codichun.team6tcss450.ui.chat;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,22 +33,22 @@ public class ChatRoomListFragment extends Fragment {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_chatList);
          //can be changed to database later
         List<ChatRow> rows = new ArrayList<ChatRow>();
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_24dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_24dp));
+        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ChatRowAdapter(getActivity(),rows));
         return rootView;
