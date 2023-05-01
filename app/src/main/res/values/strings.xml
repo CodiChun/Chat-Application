@@ -91,4 +91,13 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //for chat list
+    <string name="buttonname_chatlist_newchat">New Chat</string>
+    <string name="buttondes_chatlist_newchat">Create a new chat room</string>
+
+
+    //for chat room
+    <string name="buttonname_chatroom_send">send</string>
+
 </resources>

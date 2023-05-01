@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--    topbar-->
+<!--    https://github.com/material-components/material-components-android/blob/master/docs/components/TopAppBar.md-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layoutcontainer_chatroom_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topbar_chatroom"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/topbar_chatroom_menu"
+            app:navigationIcon="@drawable/buttonimage_chatroom_back_24dp"
+            app:title="chat room name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_chatroom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
+        app:layout_constraintTop_toBottomOf="@+id/layoutcontainer_chatroom_topbar" />
+
+    <TextView
+        android:id="@+id/textview_chatroom_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/view_chatroom"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view_chatroom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?colorBackgroundFloating"
+        app:layout_constraintBottom_toTopOf="@+id/layout_chatroom_chatbox" />
+
+    <RelativeLayout
+        android:id="@+id/layout_chatroom_chatbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+<!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
+        <EditText
+            android:layout_marginStart="12dp"
+            android:id="@+id/edittext_chatroom_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/button_chatroom_send"
+            android:background="?colorBackgroundFloating"
+            android:hint="Enter Message"
+            android:inputType="text"
+            android:maxLines="6"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/button_chatroom_send"
+            android:layout_width="84dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackground"
+            android:text="@string/buttonname_chatroom_send"
+            android:textColor="?colorPrimary" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

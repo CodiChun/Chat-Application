@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.chat.ChatRoomListFragment">
 
+<!--    <ImageButton-->
+<!--        android:id="@+id/button_newchatroom_chatlist"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:src="@drawable/buttonimage_chatlist_newroom_24dp" />-->
+
+<!--    https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md#extended-fabs-->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button_newchatroom_chatlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/buttondes_chatlist_newchat"
+        android:text="@string/buttonname_chatlist_newchat"
+        app:icon="@drawable/buttonimage_chatlist_newroom_24dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/button_newchatroom_chatlist"
         android:id="@+id/recyclerview_chatList"/>
+
+
 
 
 </RelativeLayout>

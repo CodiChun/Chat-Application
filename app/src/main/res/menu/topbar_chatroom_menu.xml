@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_chatroom_profile"
+        android:icon="@drawable/image_chatlist_profile_24dp"
+        android:title="profile"
+        android:contentDescription="des2"
+        app:showAsAction="ifRoom" />
+
+</menu>
