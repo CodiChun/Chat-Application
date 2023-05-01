@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/item_chatroom_profile"
-        android:icon="@drawable/image_chatlist_profile_24dp"
+        android:icon="@drawable/image_chatlist_profile_32dp"
         android:title="profile"
         android:contentDescription="des2"
         app:showAsAction="ifRoom" />

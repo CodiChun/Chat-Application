@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/topbar_chatroom_menu"
-            app:navigationIcon="@drawable/buttonimage_chatroom_back_24dp"
-            app:title="chat room name" />
+            app:navigationIcon="@drawable/buttonimage_chatroom_back_32dp"
+            app:title="@string/title_fragment_chatroom_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -29,6 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
         app:layout_constraintTop_toBottomOf="@+id/layoutcontainer_chatroom_topbar" />
@@ -52,20 +54,21 @@
     <RelativeLayout
         android:id="@+id/layout_chatroom_chatbox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-<!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
+        <!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
         <EditText
-            android:layout_marginStart="12dp"
             android:id="@+id/edittext_chatroom_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:layout_toStartOf="@+id/button_chatroom_send"
             android:background="?colorBackgroundFloating"
-            android:hint="Enter Message"
+            android:hint="@string/hint_fragment_chatroom_textingfiled"
             android:inputType="text"
             android:maxLines="6"
             tools:ignore="Autofill" />
@@ -76,7 +79,7 @@
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:text="@string/buttonname_chatroom_send"
+            android:text="@string/buttonname_fragment_chatroom_send"
             android:textColor="?colorPrimary" />
 
     </RelativeLayout>
