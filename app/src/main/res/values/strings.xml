@@ -92,12 +92,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    //for chat list
-    <string name="buttonname_chatlist_newchat">New Chat</string>
-    <string name="buttondes_chatlist_newchat">Create a new chat room</string>
+    //for chat room fragment
+    <string name="text_fragment_chatroom_name">Name</string>
+    <string name="text_fragment_chatroom_message">Last Message</string>
+
+    //for chat room list fragment
+    <string name="buttonname_fragment_chatlist_newchat">New Chat</string>
+    <string name="buttondes_fragment_chatlist_newchat">Create a new chat room</string>
 
 
-    //for chat room
-    <string name="buttonname_chatroom_send">send</string>
+    //for chat room fragment
+    <string name="buttonname_fragment_chatroom_send">send</string>
+    <string name="title_fragment_chatroom_title">chat room name</string>
+    <string name="hint_fragment_chatroom_textingfiled">Enter Message</string>
+
+    //for new chat fragment
+    <string name="hint_fragment_newchat_addfiled">To: </string>
+    <string name="hint_fragment_newchat_testingfiled">Enter Message</string>
+    <string name="buttonname_fragment_newchat_send">Send</string>
+
 
 </resources>
