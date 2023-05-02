@@ -18,6 +18,7 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 /**
  * create an instance of this fragment.
  * @author codichun
+ * @version 1.0
  */
 public class ChatRoomListFragment extends Fragment {
 
@@ -31,7 +32,8 @@ public class ChatRoomListFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerview_chatList);
-         //can be changed to database later
+
+         //Mock data for testing, can be changed to database later
         List<ChatRow> rows = new ArrayList<ChatRow>();
         rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
         rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));

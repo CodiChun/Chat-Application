@@ -12,6 +12,8 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 
 /**
  * create an instance of this fragment.
+ * @author codichun
+ * @version 1.0
  */
 public class NewChatFragment extends Fragment {
 

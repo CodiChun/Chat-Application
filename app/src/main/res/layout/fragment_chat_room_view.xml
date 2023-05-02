@@ -39,7 +39,7 @@
         android:layout_height="2dp"
         android:layout_below="@id/imageview_chatroomview_profile"
         android:layout_marginTop="10dp"
-        android:background="?android:colorBackground"
+        android:background="?colorBackgroundFloating"
         />
 
 </RelativeLayout>

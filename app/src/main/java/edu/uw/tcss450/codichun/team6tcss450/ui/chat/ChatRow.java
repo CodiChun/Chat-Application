@@ -1,5 +1,10 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat;
 
+/**
+ * An object for a row of the chat list
+ * @author codichun
+ * @version 1.0
+ */
 public class ChatRow {
     String name;
     String message;

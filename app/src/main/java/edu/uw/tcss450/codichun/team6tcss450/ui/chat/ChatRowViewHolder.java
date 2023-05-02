@@ -9,6 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
+/**
+ * The view holder of chat row
+ * @author codichun
+ * @version 1.0
+ */
 public class ChatRowViewHolder extends RecyclerView.ViewHolder {
 
     ImageView profileView;

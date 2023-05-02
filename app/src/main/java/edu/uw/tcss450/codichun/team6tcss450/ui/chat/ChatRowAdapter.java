@@ -11,6 +11,12 @@ import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
+
+/**
+ * The Adappter for chat row
+ * @author codichun
+ * @version 1.0
+ */
 public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 
     Context context;
