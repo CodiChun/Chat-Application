@@ -3,7 +3,11 @@ package edu.uw.tcss450.codichun.team6tcss450.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import android.os.Bundle;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;

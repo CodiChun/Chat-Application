@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/register"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Register"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.auth.register.Register"
         android:label="activity_register"
         tools:layout="@layout/activity_register">
 
@@ -18,7 +18,7 @@
 
     <activity
         android:id="@+id/login"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Login"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.auth.signin.Login"
         android:label="activity_login"
         tools:layout="@layout/activity_login" />
     <activity

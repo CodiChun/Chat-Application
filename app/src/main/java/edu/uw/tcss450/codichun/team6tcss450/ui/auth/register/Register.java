@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui;
+package edu.uw.tcss450.codichun.team6tcss450.ui.auth.register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,14 +14,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
