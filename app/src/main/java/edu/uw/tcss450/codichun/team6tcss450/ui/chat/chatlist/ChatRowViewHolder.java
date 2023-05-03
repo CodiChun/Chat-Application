@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.chat;
+package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 
 import android.view.View;
 import android.widget.ImageView;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.chat.ChatRoomListFragment">
+    tools:context=".ui.chat.chatlist.ChatRoomListFragment">
 
 <!--    https://github.com/material-components/material-components-android/blob/master/docs/components/FloatingActionButton.md#extended-fabs-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
