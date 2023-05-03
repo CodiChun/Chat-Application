@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.JD.weather;
+package edu.uw.tcss450.codichun.team6tcss450.ui.weather;
 
 import android.app.Application;
 import android.util.Log;

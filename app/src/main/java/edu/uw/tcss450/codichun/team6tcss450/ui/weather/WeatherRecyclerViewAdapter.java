@@ -1,7 +1,6 @@
-package edu.uw.tcss450.codichun.team6tcss450.JD.weather;
+package edu.uw.tcss450.codichun.team6tcss450.ui.weather;
 
 import android.graphics.drawable.Icon;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
