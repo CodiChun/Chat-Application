@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui;
+package edu.uw.tcss450.codichun.team6tcss450.ui.auth.signin;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
