@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keys_json_weather_day">day</string>
+    <string name="keys_json_weather_temp">temp</string>
+    <string name="keys_json_weather_wind">wind</string>
+    <string name="keys_json_weather_city">city</string>
+
+</resources>

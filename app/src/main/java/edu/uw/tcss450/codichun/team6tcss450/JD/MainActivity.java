@@ -1,5 +1,5 @@
 
-package edu.uw.tcss450.codichun.team6tcss450.ui;
+package edu.uw.tcss450.codichun.team6tcss450.JD;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
