@@ -18,16 +18,5 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EditText username = (EditText)  findViewById(R.id.username);
-        MaterialButton regbtn = (MaterialButton) findViewById(R.id.signupbtn);
-
-        regbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String username1 = username.getText().toString();
-                Toast.makeText(MainActivity.this,"Username is "+" " + username1, Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 }
