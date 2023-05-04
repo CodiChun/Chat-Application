@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
+package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.chatroom;
 
 import android.os.Bundle;
 
