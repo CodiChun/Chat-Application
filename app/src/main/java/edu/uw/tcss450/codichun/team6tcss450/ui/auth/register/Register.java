@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.fragment_register);
 
         mUsernameEditText = findViewById(R.id.username);
         mEmailEditText = findViewById(R.id.email);

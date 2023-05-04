@@ -3,68 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:paddingTop="8dp"
-    android:paddingRight="8dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/contacts_new_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/buttonimage_contacts_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_root"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contacts_search"
-        tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
-        tools:layout_editor_absoluteX="8dp"
-        tools:listitem="@layout/fragment_contact_card" />
-
-    <EditText
-        android:id="@+id/contacts_search"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/contacts_new_contact"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Search" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TableLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/contacts_new_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/buttonimage_contacts_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_root"
+            android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contacts_new_contact"
+            tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
+            tools:listitem="@layout/fragment_contact_card" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+        <EditText
+            android:id="@+id/contacts_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/contacts_new_contact"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Search" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
