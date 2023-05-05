@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/baseline_email_24"
+        android:title="Login" />
+    <item
+        android:id="@+id/navigation_incrementor"
+        android:icon="@drawable/buttonimage_chatlist_newroom_32dp"
+        android:title="Chat" />
+    <item
+        android:id="@+id/navigation_blogs"
+        android:icon="@drawable/baseline_wb_sunny_24"
+        android:title="Weather" />
+    <item
+        android:id="@+id/navigation_contacts"
+        android:icon="@drawable/buttonimage_newchat_addperson_32dp"
+        android:title="Contacts" />
+</menu>

@@ -81,7 +81,9 @@ public class Register extends AppCompatActivity {
                 }
 
                 registerUser(username, email, password);
+                setContentView(R.layout.activity_login);
             }
+
         });
     }
 

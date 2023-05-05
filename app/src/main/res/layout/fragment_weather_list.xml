@@ -31,8 +31,8 @@
 
         <SearchView
             android:id="@+id/search_location"
-            android:layout_width="141dp"
-            android:layout_height="58dp"
+            android:layout_width="411dp"
+            android:layout_height="62dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

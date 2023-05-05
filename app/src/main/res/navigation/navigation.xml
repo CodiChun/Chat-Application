@@ -9,12 +9,7 @@
         android:id="@+id/register"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.auth.register.Register"
         android:label="activity_register"
-        tools:layout="@layout/activity_register">
-
-        <action
-            android:id="@+id/action_register_to_login"
-            app:destination="@id/login" />
-    </activity>
+        tools:layout="@layout/activity_register"/>
 
     <activity
         android:id="@+id/login"
@@ -24,6 +19,5 @@
     <activity
         android:id="@+id/mainActivity"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        android:label="MainActivity" />
 </navigation>
