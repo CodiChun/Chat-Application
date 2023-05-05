@@ -3,6 +3,8 @@ package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,8 +27,11 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
  */
 public class ChatRoomListFragment extends Fragment {
 
-    public View myView;
-    private NavController myNavController;
+    private RecyclerView recyclerView;
+    private ChatRowAdapter adapter;
+    private ChatListViewModel viewModel;
+
+    View view;
 
     public ChatRoomListFragment(){
 
@@ -36,7 +41,21 @@ public class ChatRoomListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        myView = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
+        view = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerview_chatList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        viewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
+        viewModel.getChatRows().observe(getViewLifecycleOwner(), new Observer<List<ChatRow>>() {
+            @Override
+            public void onChanged(List<ChatRow> chatRows) {
+                adapter = new ChatRowAdapter(getActivity(), chatRows);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+
+        return view;
+
 //        RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
 //
 //         //Mock data for testing, can be changed to database later
@@ -63,12 +82,10 @@ public class ChatRoomListFragment extends Fragment {
 //
 //        myNavController = Navigation.findNavController(myView);
 
-
-        return myView;
     }
 
     private void addButtonNewChat(){
-        ImageButton buttonNewChat = (ImageButton) myView.findViewById(R.id.button_newchatroom_chatlist);
+        ImageButton buttonNewChat = (ImageButton) view.findViewById(R.id.button_newchatroom_chatlist);
         buttonNewChat.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
