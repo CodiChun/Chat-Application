@@ -3,32 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Home.HomeFragment"
-        android:label="fragment_home"
+        android:id="@+id/navigation_home"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.HomeFragment"
+        android:label="@string/nav_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_weather"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.weather.WeatherListFragment"
-        android:label="WeatherListFragment" />
+        android:label="@string/nav_weather"
+        tools:layout="@layout/fragment_weather_list"/>
     <fragment
         android:id="@+id/navigation_contacts"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
-        android:label="ContactsListFragment" />
+        android:label="@string/nav_contacts"
+        tools:layout="@layout/fragment_contacts_list"/>
     <fragment
         android:id="@+id/navigation_chat"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment"
-        android:label="fragment_chat_room_list"
+        android:label="@string/nav_chat"
         tools:layout="@layout/fragment_chat_room_list" >
         <action
             android:id="@+id/action_chatRoomListFragment_to_chatRoomFragment"
+            android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.chatroom.chatRoomFragment"
+            android:label="fragment_chat_room_list"
             app:destination="@id/chatRoomFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.chatroom.ChatRoomFragment"
-        android:label="ChatRoomFragment" />
+        android:label="ChatRoomFragment"
+        tools:layout="@layout/fragment_chat_room"/>
 </navigation>

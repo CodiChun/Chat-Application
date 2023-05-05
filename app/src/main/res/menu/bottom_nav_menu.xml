@@ -3,15 +3,18 @@
 
     <item
         android:id="@+id/navigation_chats"
-        android:icon="@drawable/baseline_person_outline_24" />
+        android:icon="@drawable/contacts_chat"
+        android:title="@string/nav_chat"/>
 
     <item
         android:id="@+id/navigation_contact"
-        android:icon="@drawable/contacts_chat"/>
+        android:icon="@drawable/baseline_person_outline_24"
+        android:title="@string/nav_contacts"/>
 
     <item
         android:id="@+id/navigation_weathers"
-        android:icon="@drawable/baseline_wb_sunny_24" />
+        android:icon="@drawable/baseline_wb_sunny_24"
+        android:title="@string/nav_weather"/>
 
 
 </menu>
