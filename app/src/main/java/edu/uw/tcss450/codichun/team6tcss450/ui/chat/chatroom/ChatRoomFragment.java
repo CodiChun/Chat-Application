@@ -1,6 +1,9 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -31,17 +34,22 @@ public class ChatRoomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
-        myNavController = Navigation.findNavController(myView);
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
-
-        // add button listener
-        addButtonSend();
-
         return myView;
     }
 
-    private void addButtonSend(){
-        Button buttonSend = (Button) myView.findViewById(R.id.button_chatroom_send);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        myNavController = Navigation.findNavController(view);
+        // Button listeners
+        addButtonSend(view);
+        addNavigationBack(view);
+
+    }
+
+    private void addButtonSend(View view){
+        Button buttonSend = (Button) view.findViewById(R.id.button_chatroom_send);
         buttonSend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -50,14 +58,13 @@ public class ChatRoomFragment extends Fragment {
         });
     }
 
-//    private void addNavigationBack(){
-//        myToolBar.setNavigationOnClickListener(new View.OnClickListener(){
-//
-//            @Override
-//            public void onClick(View view) {
-//                //TODO: wait till the navigator done to edit and uncomment this one
-////                NavHostFragment.findNavController(ChatRoomFragment.this).navigate(R.id.TODO);
-//            }
-//        });
-//    }
+    private void addNavigationBack(View view) {
+        ImageButton buttonBack = (ImageButton) view.findViewById(R.id.imageButton_chatroom_back);
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myNavController.navigate(R.id.action_chatRoomFragment_to_navigation_chatlist);
+            }
+        });
+    }
 }
