@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
 <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingTop="8dp"
     android:paddingRight="8dp"
+    android:paddingLeft="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -22,13 +23,12 @@
         android:id="@+id/list_root"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contacts_search"
+        app:layout_constraintTop_toBottomOf="@id/contacts_new_contact"
         tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
-        tools:layout_editor_absoluteX="8dp"
         tools:listitem="@layout/fragment_contact_card" />
 
     <EditText
@@ -43,28 +43,4 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Search" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
-</layout>

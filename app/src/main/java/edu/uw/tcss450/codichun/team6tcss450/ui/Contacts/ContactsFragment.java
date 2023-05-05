@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.Contacts;
+package edu.uw.tcss450.codichun.team6tcss450.ui.contacts;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 public class ContactsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contacts_list)
+        View view = inflater.inflate(R.layout.fragment_contacts_list, container, false);
+        return view;
     }
 }

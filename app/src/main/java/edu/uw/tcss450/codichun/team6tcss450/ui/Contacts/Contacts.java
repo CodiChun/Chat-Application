@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.Contacts;
+package edu.uw.tcss450.codichun.team6tcss450.ui.contacts;
 
 import java.io.Serializable;
 import java.net.URLEncoder;
