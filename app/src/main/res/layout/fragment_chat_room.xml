@@ -5,35 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    topbar-->
-<!--    https://github.com/material-components/material-components-android/blob/master/docs/components/TopAppBar.md-->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/layoutcontainer_chatroom_topbar"
+    <RelativeLayout
+        android:id="@+id/layout_chatroom_roominfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:layout_height="50dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topbar_chatroom"
+        <TextView
+            android:id="@+id/textView_chatroom_name"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/topbar_chatroom_menu"
-            app:navigationIcon="@drawable/buttonimage_chatroom_back_32dp"
-            app:title="@string/title_fragment_chatroom_title" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/imageButton_chatroom_back"
+            android:text="@string/text_fragment_chatroom_name"
+            android:textColor="?colorPrimary"
+            android:textSize="20dp"
 
-    </com.google.android.material.appbar.AppBarLayout>
+            />
+
+
+        <ImageButton
+            android:id="@+id/imageButton_chatroom_back"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?colorBackgroundFloating"
+            app:srcCompat="@drawable/buttonimage_chatroom_back_32dp" />
+
+    </RelativeLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_chatroom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
-        app:layout_constraintTop_toBottomOf="@+id/layoutcontainer_chatroom_topbar" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_chatroom_roominfo" />
 
     <TextView
         android:id="@+id/textview_chatroom_indicator"

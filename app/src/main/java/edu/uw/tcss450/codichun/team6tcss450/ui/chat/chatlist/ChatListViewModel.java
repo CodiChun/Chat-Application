@@ -7,28 +7,32 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
+/**
+ * @author codichun
+ * @version 1.0
+ */
 public class ChatListViewModel extends ViewModel {
 
     private MutableLiveData<List<ChatRow>> chatRowsLiveData;
 
-//    public ChatListViewModel(@NonNull Application application) {
-//        super(application);
-//    }
-
     public LiveData<List<ChatRow>> getChatRows() {
         if (chatRowsLiveData == null) {
             chatRowsLiveData = new MutableLiveData<List<ChatRow>>();
+
+            //local data
             loadChatRows();
         }
         return chatRowsLiveData;
     }
 
+    /**
+     * Local data
+     */
     private void loadChatRows() {
         //Mock data for testing, can be changed to database later
         List<ChatRow> rows = new ArrayList<ChatRow>();
