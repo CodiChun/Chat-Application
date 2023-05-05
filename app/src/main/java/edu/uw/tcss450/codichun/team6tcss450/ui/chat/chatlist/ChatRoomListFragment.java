@@ -37,31 +37,31 @@ public class ChatRoomListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
-        RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
-
-         //Mock data for testing, can be changed to database later
-        List<ChatRow> rows = new ArrayList<ChatRow>();
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ChatRowAdapter(getActivity(),rows));
-
-
-        myNavController = Navigation.findNavController(myView);
+//        RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
+//
+//         //Mock data for testing, can be changed to database later
+//        List<ChatRow> rows = new ArrayList<ChatRow>();
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerView.setAdapter(new ChatRowAdapter(getActivity(),rows));
+//
+//
+//        myNavController = Navigation.findNavController(myView);
 
 
         return myView;

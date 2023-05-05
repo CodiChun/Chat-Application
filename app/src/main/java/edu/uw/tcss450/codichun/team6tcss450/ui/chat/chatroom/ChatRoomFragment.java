@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toolbar;
+//import android.widget.Toolbar;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
@@ -24,7 +24,7 @@ public class ChatRoomFragment extends Fragment {
 
     public View myView;
     private NavController myNavController;
-    private Toolbar myToolBar;
+//    private Toolbar myToolBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,7 +32,7 @@ public class ChatRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
         myNavController = Navigation.findNavController(myView);
-        myToolBar = myView.findViewById(R.id.topbar_chatroom);
+//        myToolBar = myView.findViewById(R.id.topbar_chatroom);
 
         // add button listener
         addButtonSend();
@@ -50,14 +50,14 @@ public class ChatRoomFragment extends Fragment {
         });
     }
 
-    private void addNavigationBack(){
-        myToolBar.setNavigationOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                //TODO: wait till the navigator done to edit and uncomment this one
-//                NavHostFragment.findNavController(ChatRoomFragment.this).navigate(R.id.TODO);
-            }
-        });
-    }
+//    private void addNavigationBack(){
+//        myToolBar.setNavigationOnClickListener(new View.OnClickListener(){
+//
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: wait till the navigator done to edit and uncomment this one
+////                NavHostFragment.findNavController(ChatRoomFragment.this).navigate(R.id.TODO);
+//            }
+//        });
+//    }
 }

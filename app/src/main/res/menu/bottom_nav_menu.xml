@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_chatlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="chat" />
+
+    <item
+        android:id="@+id/navigation_contactlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="contact" />
+
+
+    <item
+        android:id="@+id/navigation_weatherlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="weather" />
+
+
+
+
+</menu>
