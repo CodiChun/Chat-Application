@@ -70,7 +70,7 @@ public class WeatherListViewModel extends AndroidViewModel {
                                                 R.string.keys_json_weather_day)),
                                 jsonBlog.getString(
                                         getString.apply(
-                                                R.string.keys_json_weather_city)))
+                                                R.string.keys_json_weather_city)),"12:00PM")
                                 .build();
                         if (!mBlogList.getValue().contains(post)) {
                             mBlogList.getValue().add(post);

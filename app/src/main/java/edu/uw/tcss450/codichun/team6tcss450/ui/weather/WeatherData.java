@@ -5,18 +5,21 @@ public class WeatherData {
     private final String mTemp;
     private final String mWind;
     private final String mCity;
+    private final String mTime;
     public static class Builder {
         private final String mDay;
         private final String mTemp;
         private final String mWind;
         private final String mCity;
+        private final String mTime;
 
 
-        public Builder(String day, String temp,String wind,String city) {
+        public Builder(String day, String temp,String wind,String city,String time) {
             this.mDay = day;
             this.mTemp = temp;
             this.mWind = wind;
             this.mCity = city;
+            this.mTime = time;
         }
 
         public WeatherData build() {
@@ -29,6 +32,7 @@ public class WeatherData {
         this.mTemp = builder.mTemp;
         this.mWind = builder.mWind;
         this.mCity = builder.mCity;
+        this.mTime = builder.mTime;
     }
 
     public String getmDay() {
@@ -46,4 +50,9 @@ public class WeatherData {
     public String getmCity() {
         return mCity;
     }
+
+    public String getmTime() {
+        return mTime;
+    }
+
 }
