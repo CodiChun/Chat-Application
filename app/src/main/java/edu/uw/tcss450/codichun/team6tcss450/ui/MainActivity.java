@@ -8,6 +8,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.view.Menu;
@@ -22,7 +24,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRowAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -47,5 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 }
