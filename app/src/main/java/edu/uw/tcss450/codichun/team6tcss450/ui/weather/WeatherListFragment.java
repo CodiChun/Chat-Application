@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
-import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentWeatherListBinding;
+//import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentWeatherListBinding;
 
 
 public class WeatherListFragment extends Fragment {
@@ -28,17 +28,17 @@ public class WeatherListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_weather_list, container, false);
 
     }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
-        mModel.addBlogListObserver(getViewLifecycleOwner(), blogList -> {
-            if (!blogList.isEmpty()) {
-                binding.listRoot.setAdapter(
-                        new WeatherRecyclerViewAdapter(blogList)
-                );
-                binding.layoutWait.setVisibility(View.GONE);
-            }
-        });
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
+//        mModel.addBlogListObserver(getViewLifecycleOwner(), blogList -> {
+//            if (!blogList.isEmpty()) {
+//                binding.listRoot.setAdapter(
+//                        new WeatherRecyclerViewAdapter(blogList)
+//                );
+//                binding.layoutWait.setVisibility(View.GONE);
+//            }
+//        });
+//    }
 }
