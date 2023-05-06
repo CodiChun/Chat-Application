@@ -28,7 +28,7 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contacts_new_contact"
-        tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
+        tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactsListFragment"
         tools:listitem="@layout/fragment_contact_card" />
 
     <EditText
