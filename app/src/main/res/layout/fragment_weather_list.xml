@@ -6,6 +6,32 @@
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_hourly"
+            android:name="edu.uw.tcss450.uiandnavigationlab.ui.weather.WeatherFragment"
+            android:layout_width="374dp"
+            android:layout_height="135dp"
+            android:orientation="horizontal"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/list_root"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/label_city"
+            tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.WeatherListFragment"
+            tools:listitem="@layout/fragment_weather_hourly" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_root"
+            android:name="edu.uw.tcss450.uiandnavigationlab.ui.weather.WeatherFragment"
+            android:layout_width="362dp"
+            android:layout_height="304dp"
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="@+id/layout_wait"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.WeatherListFragment"
+            tools:listitem="@layout/fragment_weather_card" />
 
         <ImageView
             android:id="@+id/image_current_weather"
@@ -36,38 +62,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_hourly"
-            android:name="edu.uw.tcss450.uiandnavigationlab.ui.weather.WeatherFragment"
-            android:layout_width="374dp"
-            android:layout_height="135dp"
-            android:orientation="horizontal"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/list_root"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/label_city"
-            tools:context="edu.uw.tcss450.uiandnavigationlab.ui.blog.BlogListFragment"
-            tools:listitem="@layout/fragment_weather_hourly" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_root"
-            android:name="edu.uw.tcss450.uiandnavigationlab.ui.weather.WeatherFragment"
-            android:layout_width="362dp"
-            android:layout_height="304dp"
-            android:orientation="vertical"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="@+id/layout_wait"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:context="edu.uw.tcss450.uiandnavigationlab.ui.blog.BlogListFragment"
-            tools:listitem="@layout/fragment_weather_card" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_wait"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/material_on_background_emphasis_medium"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
