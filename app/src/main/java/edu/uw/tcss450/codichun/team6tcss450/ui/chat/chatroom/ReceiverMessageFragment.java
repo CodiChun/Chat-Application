@@ -1,4 +1,4 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.Contacts;
+package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
 
 import android.os.Bundle;
 
@@ -11,15 +11,16 @@ import android.view.ViewGroup;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
 /**
- * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
+ * @author codichun
+ * @version 1.0
  */
-public class ContactsListFragment extends Fragment {
+public class ReceiverMessageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_contacts_list, container, false);
-        return view;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_receiver_message, container, false);
     }
 }

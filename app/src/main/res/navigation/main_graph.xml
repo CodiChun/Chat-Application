@@ -3,32 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/navigation_chatlist">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/navigation_weather"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.weather.WeatherListFragment"
-        android:label="WeatherListFragment" />
-    <fragment
-        android:id="@+id/navigation_contacts"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.Contacts.ContactsListFragment"
-        android:label="ContactsListFragment" />
-    <fragment
-        android:id="@+id/navigation_chat"
+        android:id="@+id/navigation_chatlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment"
         android:label="fragment_chat_room_list"
-        tools:layout="@layout/fragment_chat_room_list" >
-        <action
-            android:id="@+id/action_chatRoomListFragment_to_chatRoomFragment"
-            app:destination="@id/chatRoomFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_chat_room_list" />
     <fragment
-        android:id="@+id/chatRoomFragment"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.chatroom.ChatRoomFragment"
-        android:label="ChatRoomFragment" />
+        android:id="@+id/navigation_contactlist"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactsListFragment"
+        android:label="ContactsListFragment" />
+    <fragment
+        android:id="@+id/navigation_weatherlist"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.weather.WeatherListFragment"
+        android:label="WeatherListFragment" />
 </navigation>

@@ -2,16 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_chats"
-        android:icon="@drawable/baseline_person_outline_24" />
+        android:id="@+id/navigation_chatlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="chat" />
 
     <item
-        android:id="@+id/navigation_contact"
-        android:icon="@drawable/contacts_chat"/>
+        android:id="@+id/navigation_contactlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="contact" />
+
 
     <item
-        android:id="@+id/navigation_weathers"
-        android:icon="@drawable/baseline_wb_sunny_24" />
+        android:id="@+id/navigation_weatherlist"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="weather" />
+
+
 
 
 </menu>
