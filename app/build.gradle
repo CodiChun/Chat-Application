@@ -23,6 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "appType"
+    productFlavors {
+        local {
+            dimension "appType"
+            applicationIdSuffix ".local"
+        }
+        remote {
+            dimension "appType"
+            applicationIdSuffix ".remote"
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -64,4 +75,13 @@ dependencies {
 
     //for biding
     implementation 'androidx.databinding:viewbinding:7.4.2'
+
+    //for pushy
+    implementation 'me.pushy:sdk:1.0.90'
+
+    //for ??
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // TODO: safeargs
 }
