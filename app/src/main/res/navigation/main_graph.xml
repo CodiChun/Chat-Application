@@ -18,6 +18,9 @@
             <argument
                 android:name="chatRoomId"
                 app:argType="integer" />
+            <argument
+                android:name="chatRoomName"
+                app:argType="string" />
         </action>
 
     </fragment>

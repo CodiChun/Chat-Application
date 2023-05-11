@@ -64,10 +64,12 @@ public class ChatRoomListFragment extends Fragment {
 
                         // Get the ID of the chat room
                         int chatRoomId = data.getChatRoomId();
+                        String chatRoomName = data.getName();
 
                         // Create a Bundle to hold the chat room ID
                         Bundle bundle = new Bundle();
                         bundle.putInt("chatRoomId", chatRoomId);
+                        bundle.putString("chatRoomName", chatRoomName);
 
                         // Use Navigation Component to navigate to the new Fragment
                         Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment, bundle);

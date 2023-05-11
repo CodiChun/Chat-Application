@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 //import android.widget.Toolbar;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -43,6 +44,12 @@ public class ChatRoomFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
         int chatRoomId = getArguments().getInt("chatRoomId");
+        // Get the name of the chat room
+        String chatRoomName = getArguments().getString("chatRoomName");
+
+        // Set the text of the TextView to the chat room name
+        TextView textView = myView.findViewById(R.id.textView_chatroom_name);
+        textView.setText(chatRoomName);
         return myView;
     }
 
