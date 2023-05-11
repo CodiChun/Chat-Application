@@ -2,10 +2,13 @@
 buildscript {
     repositories {
         google()
+        jcenter() //maybe not using
         // other repositories
     }
     dependencies {
-        def nav_version = '2.5.0'
+        classpath 'com.android.tools.build:gradle:7.4.2' //maybe not using
+
+        def nav_version = '2.5.2'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -20,5 +23,7 @@ plugins {
     id 'com.android.library' version '7.4.2' apply false
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
 }
+
+
 
 

@@ -20,6 +20,8 @@ import android.widget.Button;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentChatRoomListBinding;
+import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 
 /**
@@ -98,6 +100,12 @@ public class ChatRoomListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //******************
+        UserInfoViewModel model = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
+        //FragmentChatRoomListBinding.bind(getView()).textHello.setText("Hello " + model.getEmail());
+        //******************
         myNavController = Navigation.findNavController(view);
         addButtonNewChat(view);
     }
