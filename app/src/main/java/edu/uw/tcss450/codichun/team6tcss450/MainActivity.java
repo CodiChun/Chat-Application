@@ -1,8 +1,9 @@
 
-package edu.uw.tcss450.codichun.team6tcss450.ui;
+package edu.uw.tcss450.codichun.team6tcss450;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -28,11 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.databinding.ActivityMainBinding;
+import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRowAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,6 +44,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Make sure the new statements go BELOW setContentView
+        //****************
+        @NonNull MainActivityArgs args = MainActivityArgs.fromBundle(getIntent().getExtras());
+
+        new ViewModelProvider(this,
+                new UserInfoViewModel.UserInfoViewModelFactory(args.getEmail(), args.getJwt())
+        ).get(UserInfoViewModel.class);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
+        //******************
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -53,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         //setSupportActionBar(findViewById(R.id.toolbar));
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 
 
