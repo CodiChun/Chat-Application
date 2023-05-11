@@ -1,6 +1,7 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +20,15 @@ public class ChatRowViewHolder extends RecyclerView.ViewHolder {
     ImageView profileView;
     TextView nameView, messageView;
 
+//    public Button buttonToRoom;
+
     public ChatRowViewHolder(@NonNull View itemView) {
         super(itemView);
         profileView = itemView.findViewById(R.id.imageview_chatroomview_profile);
         nameView = itemView.findViewById(R.id.textview_chatroomview_name);
         messageView = itemView.findViewById((R.id.textview_chatroomview_message));
+//        buttonToRoom = itemView.findViewById(R.id.button_chatrow_toroom);
     }
+
+
 }

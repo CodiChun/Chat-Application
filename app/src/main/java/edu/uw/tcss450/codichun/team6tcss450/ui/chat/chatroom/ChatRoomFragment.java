@@ -26,8 +26,15 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 public class ChatRoomFragment extends Fragment {
 
     public View myView;
+
+
+
     private NavController myNavController;
 //    private Toolbar myToolBar;
+
+    public ChatRoomFragment() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,6 +42,7 @@ public class ChatRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
+        int chatRoomId = getArguments().getInt("chatRoomId");
         return myView;
     }
 

@@ -12,6 +12,14 @@
         <action
             android:id="@+id/action_navigation_chatlist_to_newChatFragment"
             app:destination="@id/newChatFragment" />
+        <action
+            android:id="@+id/action_navigation_chatlist_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" >
+            <argument
+                android:name="chatRoomId"
+                app:argType="integer" />
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/navigation_contactlist"

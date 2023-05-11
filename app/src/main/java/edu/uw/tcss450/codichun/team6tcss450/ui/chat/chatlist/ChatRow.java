@@ -10,10 +10,14 @@ public class ChatRow {
     String message;
     int profile;
 
+
+    int ChatRoomId;
+
     public ChatRow(String name, String message, int image) {
         this.name = name;
         this.message = message;
         this.profile = image;
+        this.ChatRoomId = hashCode();
     }
 
     public String getName() {
@@ -38,5 +42,11 @@ public class ChatRow {
 
     public void setImage(int image) {
         this.profile = image;
+    }
+
+
+
+    public int getChatRoomId() {
+        return ChatRoomId;
     }
 }
