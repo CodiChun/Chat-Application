@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -23,7 +24,7 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
  */
 public class NewChatFragment extends Fragment {
 
-    public View myView;
+    public View view;
     private NavController myNavController;
 
     @Override
@@ -31,7 +32,7 @@ public class NewChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        myView = inflater.inflate(R.layout.fragment_new_chat, container, false);
+        view = inflater.inflate(R.layout.fragment_new_chat, container, false);
 
 //        myNavController = Navigation.findNavController(myView);
 //
@@ -39,7 +40,7 @@ public class NewChatFragment extends Fragment {
 //        addCancelButtonListener();
 //        addAddPeopleButtonListener();
 
-        return myView;
+        return view;
     }
 
     @Override
@@ -49,11 +50,11 @@ public class NewChatFragment extends Fragment {
         // Button listeners
         addCancelButtonListener(view);
         addAddPeopleButtonListener(view);
-        addSendButtonListener(view);
+        addSendButtonListener();
     }
 
     private void addCancelButtonListener(View view){
-        ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_chatroom_cancel);
+        ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_newchat_cancel);
         buttonCancel.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -63,7 +64,7 @@ public class NewChatFragment extends Fragment {
     }
 
     private void addAddPeopleButtonListener(View view){
-        ImageButton buttonAddPeople = (ImageButton)view.findViewById(R.id.button_chatroom_addpeople);
+        ImageButton buttonAddPeople = (ImageButton)view.findViewById(R.id.button_newchat_addpeople);
         buttonAddPeople.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -77,14 +78,31 @@ public class NewChatFragment extends Fragment {
         });
     }
 
-    private void addSendButtonListener(View view){
-        Button buttonSend = (Button)view.findViewById(R.id.button_chatroom_send);
+    private void addSendButtonListener(){
+        Button buttonSend = (Button)view.findViewById(R.id.button_newchat_send);
+        EditText editTextRoomName = view.findViewById(R.id.edittext_newchat_roomname);
         buttonSend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //TODO: need to make sure it's creating a specific new chat room
                 //TODO: add correct new data to the chatting history
-                myNavController.navigate(R.id.action_newChatFragment_to_chatRoomFragment);
+
+                // Assign a unique chat room number
+                int newChatRoomId = hashCode();
+
+                //get the room name from user input
+                //TODO: HANDLE IF ROOM NAME IS NULL
+
+                String chatRoomName = editTextRoomName.getText().toString();
+                System.out.println(chatRoomName);
+
+                //TODO: get the message from user input
+
+                Bundle bundleNewRoom = new Bundle();
+                bundleNewRoom.putInt("newChatRoomId", newChatRoomId);
+                bundleNewRoom.putString("newChatRoomName", chatRoomName);
+
+                //pass the bundle to the new chat room
+                myNavController.navigate(R.id.action_newChatFragment_to_chatRoomFragment, bundleNewRoom);
             }
         });
     }

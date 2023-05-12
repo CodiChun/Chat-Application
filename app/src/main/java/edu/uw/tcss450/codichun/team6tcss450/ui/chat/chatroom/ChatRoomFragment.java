@@ -42,6 +42,8 @@ public class ChatRoomFragment extends Fragment {
     private UserInfoViewModel mUserModel;
 
     private ChatSendViewModel mSendModel;
+    int chatRoomId;
+    String chatRoomName;
 
     public ChatRoomFragment() {
 
@@ -67,22 +69,35 @@ public class ChatRoomFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
 
-        int chatRoomId = getArguments().getInt("chatRoomId");
-        HARD_CODED_CHAT_ID = chatRoomId;
-        //int chatRoomId = HARD_CODED_CHAT_ID;
+//        //TODO: following part was to get info from chat list, could be delete?
+//        if(getArguments()!=null) {
+//            chatRoomId = getArguments().getInt("chatRoomId");
+//            HARD_CODED_CHAT_ID = chatRoomId;
+//            //int chatRoomId = HARD_CODED_CHAT_ID;
+//            // Get the name of the chat room
+//            chatRoomName = getArguments().getString("chatRoomName");
+//            // Set the text of the TextView to the chat room name
+//            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
+//            textView.setText(chatRoomName);
+//        }
 
-        // Get the name of the chat room
-        String chatRoomName = getArguments().getString("chatRoomName");
 
-        // Set the text of the TextView to the chat room name
-        TextView textView = myView.findViewById(R.id.textView_chatroom_name);
-        textView.setText(chatRoomName);
         return myView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //get new chat room name
+        if(getArguments()!=null){
+            chatRoomId = getArguments().getInt("newChatRoomId");
+            chatRoomName = getArguments().getString("newChatRoomName");
+            // Set the text of the TextView to the chat room name
+            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
+            textView.setText(chatRoomName);
+        }
+
         myNavController = Navigation.findNavController(view);
         // Button listeners
         //addButtonSend(view);
@@ -94,11 +109,11 @@ public class ChatRoomFragment extends Fragment {
         //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
         binding.swipeContainer.setRefreshing(true);
 
-        final RecyclerView rv = binding.recyclerviewChatroom;
+        final RecyclerView rv = binding.recyclerviewNewchat;
         //Set the Adapter to hold a reference to the list FOR THIS chat ID that the ViewModel
         //holds.
         rv.setAdapter(new ChatRecyclerViewAdapter(
-                mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),
+                mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),//HARD_CODED_CHAT_ID
                 mUserModel.getEmail()));
 
 
