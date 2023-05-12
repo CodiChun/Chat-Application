@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -19,6 +20,9 @@ import android.widget.Button;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentChatRoomListBinding;
+import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 
 /**
  * create an instance of this fragment.
@@ -27,7 +31,7 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
  */
 public class ChatRoomListFragment extends Fragment {
 
-//    private RecyclerView myRecyclerView;
+    //    private RecyclerView myRecyclerView;
     private ChatRowAdapter myAdapter;
     private ChatListViewModel myViewModel;
     private View myView;
@@ -53,6 +57,42 @@ public class ChatRoomListFragment extends Fragment {
             @Override
             public void onChanged(List<ChatRow> chatRows) {
                 myAdapter = new ChatRowAdapter(getActivity(), chatRows);
+                myAdapter.setOnItemClickListener(new ChatRowAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        //Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment);
+                        // Get the data at position
+                        ChatRow data = myAdapter.getDataAtPosition(position);
+
+                        // Get the ID of the chat room
+
+                        //TODO: UNCOMMENT IT WHEN IT'S NOT HARD CODE
+                        int chatRoomId = data.getChatRoomId();
+                        //TODO: UNCOMMENT IT WHEN IT'S HARD CODE
+                        //int chatRoomId = 1;
+
+                        String chatRoomName = data.getName();
+
+                        // Create a Bundle to hold the chat room ID
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("chatRoomId", chatRoomId);
+                        bundle.putString("chatRoomName", chatRoomName);
+
+                        // Use Navigation Component to navigate to the new Fragment
+                        Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment, bundle);
+//
+//                        // Create new Fragment
+//                        ChatRoomFragment fragment = new ChatRoomFragment();
+//
+//                        // Replace the current Fragment with the new one
+//                        //FragmentTransaction transaction = getActivity()
+//                        getActivity().getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.container_chatlist_fragmentcontainer, fragment)
+//                                .addToBackStack(null)
+//                                .commit();
+                    }
+                });
+
                 recyclerView.setAdapter(myAdapter);
             }
         });
@@ -65,6 +105,12 @@ public class ChatRoomListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //******************
+        UserInfoViewModel model = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
+        //FragmentChatRoomListBinding.bind(getView()).textHello.setText("Hello " + model.getEmail());
+        //******************
         myNavController = Navigation.findNavController(view);
         addButtonNewChat(view);
     }

@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/container_chatroom_fragmentcontainer"
-    >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/layout_chatroom_roominfo"
@@ -37,11 +35,12 @@
             app:srcCompat="@drawable/buttonimage_chatroom_back_32dp" />
 
     </RelativeLayout>
-    <!--  Used for loading new messages  -->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
-        android:layout_width="338dp"
-        android:layout_height="561dp"
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_chatroom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
@@ -50,22 +49,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layout_chatroom_roominfo">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_chatroom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constrainedHeight="true"
-            app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_chatroom_roominfo" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintTop_toBottomOf="@+id/layout_chatroom_roominfo" />
 
     <TextView
         android:id="@+id/textview_chatroom_indicator"
