@@ -78,10 +78,10 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
                 card.setCardBackgroundColor(
                         ColorUtils.setAlphaComponent(
-                                res.getColor(com.google.android.material.R.color.design_default_color_primary, null),
+                                res.getColor(R.color.md_theme_light_primary, null),
                                 16));
                 binding.textMessage.setTextColor(
-                        res.getColor(com.google.android.material.R.color.design_default_color_on_secondary, null));
+                        res.getColor(R.color.md_theme_light_secondary, null));
 
                 card.setStrokeWidth(standard / 5);
                 card.setStrokeColor(ColorUtils.setAlphaComponent(

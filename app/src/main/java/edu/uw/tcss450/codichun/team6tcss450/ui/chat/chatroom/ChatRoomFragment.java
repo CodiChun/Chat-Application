@@ -31,7 +31,8 @@ import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 public class ChatRoomFragment extends Fragment {
 
     //The chat ID for "global" chat
-    private static final int HARD_CODED_CHAT_ID = 1;
+    //TODO: MAKE IT NOT HARD CODE
+    private int HARD_CODED_CHAT_ID = 1;
 
     public View myView;
 
@@ -39,6 +40,8 @@ public class ChatRoomFragment extends Fragment {
 
     private ChatViewModel mChatModel;
     private UserInfoViewModel mUserModel;
+
+    private ChatSendViewModel mSendModel;
 
     public ChatRoomFragment() {
 
@@ -52,6 +55,7 @@ public class ChatRoomFragment extends Fragment {
         mUserModel = provider.get(UserInfoViewModel.class);
         mChatModel = provider.get(ChatViewModel.class);
         mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
+        mSendModel = provider.get(ChatSendViewModel.class);
     }
     //*************
 
@@ -62,7 +66,11 @@ public class ChatRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
+
         int chatRoomId = getArguments().getInt("chatRoomId");
+        HARD_CODED_CHAT_ID = chatRoomId;
+        //int chatRoomId = HARD_CODED_CHAT_ID;
+
         // Get the name of the chat room
         String chatRoomName = getArguments().getString("chatRoomName");
 
@@ -77,7 +85,7 @@ public class ChatRoomFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         myNavController = Navigation.findNavController(view);
         // Button listeners
-        addButtonSend(view);
+        //addButtonSend(view);
         addNavigationBack(view);
 
         //*************
@@ -114,19 +122,29 @@ public class ChatRoomFragment extends Fragment {
                     binding.swipeContainer.setRefreshing(false);
                 });
 
+        //Send button was clicked. Send the message via the SendViewModel
+        binding.buttonChatroomSend.setOnClickListener(button -> {
+            mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+                    mUserModel.getmJwt(),
+                    binding.edittextChatroomMessage.getText().toString());
+        });
+//when we get the response back from the server, clear the edittext
+        mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
+                binding.edittextChatroomMessage.setText(""));
+
         //*************
 
     }
 
-    private void addButtonSend(View view){
-        Button buttonSend = (Button) view.findViewById(R.id.button_chatroom_send);
-        buttonSend.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //TODO: add action
-            }
-        });
-    }
+//    private void addButtonSend(View view){
+//        Button buttonSend = (Button) view.findViewById(R.id.button_chatroom_send);
+//        buttonSend.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: add action
+//            }
+//        });
+//    }
 
     private void addNavigationBack(View view) {
         ImageButton buttonBack = (ImageButton) view.findViewById(R.id.imageButton_chatroom_back);

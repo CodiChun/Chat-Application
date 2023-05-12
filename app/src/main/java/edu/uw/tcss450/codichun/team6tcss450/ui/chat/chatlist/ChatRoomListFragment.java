@@ -65,7 +65,12 @@ public class ChatRoomListFragment extends Fragment {
                         ChatRow data = myAdapter.getDataAtPosition(position);
 
                         // Get the ID of the chat room
+
+                        //TODO: UNCOMMENT IT WHEN IT'S NOT HARD CODE
                         int chatRoomId = data.getChatRoomId();
+                        //TODO: UNCOMMENT IT WHEN IT'S HARD CODE
+                        //int chatRoomId = 1;
+
                         String chatRoomName = data.getName();
 
                         // Create a Bundle to hold the chat room ID
