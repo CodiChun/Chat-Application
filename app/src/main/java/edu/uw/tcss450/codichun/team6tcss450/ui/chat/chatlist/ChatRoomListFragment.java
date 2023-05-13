@@ -32,6 +32,7 @@ import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 public class ChatRoomListFragment extends Fragment {
 
     //    private RecyclerView myRecyclerView;
+    int HARD_CODE_CHAT_ROOM_ID = 1;
     private ChatRowAdapter myAdapter;
     private ChatListViewModel myViewModel;
     private View myView;
@@ -52,11 +53,14 @@ public class ChatRoomListFragment extends Fragment {
         RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        myViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
+        myViewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
+        //myViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
         myViewModel.getChatRows().observe(getViewLifecycleOwner(), new Observer<List<ChatRow>>() {
             @Override
             public void onChanged(List<ChatRow> chatRows) {
                 myAdapter = new ChatRowAdapter(getActivity(), chatRows);
+
+
                 myAdapter.setOnItemClickListener(new ChatRowAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -67,9 +71,9 @@ public class ChatRoomListFragment extends Fragment {
                         // Get the ID of the chat room
 
                         //TODO: UNCOMMENT IT WHEN IT'S NOT HARD CODE
-                        int chatRoomId = data.getChatRoomId();
+                        //int chatRoomId = data.getChatRoomId();
                         //TODO: UNCOMMENT IT WHEN IT'S HARD CODE
-                        //int chatRoomId = 1;
+                        int chatRoomId = HARD_CODE_CHAT_ROOM_ID;
 
                         String chatRoomName = data.getName();
 
@@ -80,20 +84,11 @@ public class ChatRoomListFragment extends Fragment {
 
                         // Use Navigation Component to navigate to the new Fragment
                         Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment, bundle);
-//
-//                        // Create new Fragment
-//                        ChatRoomFragment fragment = new ChatRoomFragment();
-//
-//                        // Replace the current Fragment with the new one
-//                        //FragmentTransaction transaction = getActivity()
-//                        getActivity().getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.container_chatlist_fragmentcontainer, fragment)
-//                                .addToBackStack(null)
-//                                .commit();
                     }
                 });
 
                 recyclerView.setAdapter(myAdapter);
+
             }
         });
 
@@ -113,6 +108,9 @@ public class ChatRoomListFragment extends Fragment {
         //******************
         myNavController = Navigation.findNavController(view);
         addButtonNewChat(view);
+
+
+
     }
 
     private void addButtonNewChat(View view){
@@ -124,4 +122,5 @@ public class ChatRoomListFragment extends Fragment {
             }
         });
     }
+
 }

@@ -12,7 +12,7 @@
 
     <!--    container 1-->
     <RelativeLayout
-        android:id="@+id/container_chatroom_roomnamefiled"
+        android:id="@+id/container_newchat_roomnamefiled"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,13 +20,13 @@
 
         <!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
         <EditText
-            android:id="@+id/edittext_chatroom_roomname"
+            android:id="@+id/edittext_newchat_roomname"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:layout_toStartOf="@+id/button_chatroom_cancel"
+            android:layout_toStartOf="@+id/button_newchat_cancel"
             android:background="?colorBackgroundFloating"
             android:hint="Enter Group Name"
             android:inputType="text"
@@ -34,7 +34,7 @@
             tools:ignore="Autofill" />
 
         <ImageButton
-            android:id="@+id/button_chatroom_cancel"
+            android:id="@+id/button_newchat_cancel"
             android:layout_width="52dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -47,21 +47,21 @@
 
     <!--    container 2-->
     <RelativeLayout
-        android:id="@+id/container_chatroom_addpeoplefiled"
+        android:id="@+id/container_newchat_addpeoplefiled"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/container_chatroom_roomnamefiled">
+        app:layout_constraintTop_toBottomOf="@+id/container_newchat_roomnamefiled">
 
         <!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
         <EditText
-            android:id="@+id/edittext_chatroom_peoplelist"
+            android:id="@+id/edittext_newchat_peoplelist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@+id/button_chatroom_addpeople"
+            android:layout_toStartOf="@+id/button_newchat_addpeople"
             android:background="?colorBackgroundFloating"
             android:hint="@string/hint_fragment_newchat_addfiled"
             android:inputType="text"
@@ -78,7 +78,7 @@
         <!--            android:textColor="?colorPrimary" />-->
 
         <ImageButton
-            android:id="@+id/button_chatroom_addpeople"
+            android:id="@+id/button_newchat_addpeople"
             android:layout_width="52dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -91,7 +91,7 @@
 
     <!--    container 3-->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_chatroom"
+        android:id="@+id/recyclerview_newchat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -99,7 +99,7 @@
         android:layout_marginRight="10dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
-        app:layout_constraintTop_toBottomOf="@+id/container_chatroom_addpeoplefiled" />
+        app:layout_constraintTop_toBottomOf="@+id/container_newchat_addpeoplefiled" />
 
     <TextView
         android:id="@+id/textview_chatroom_indicator"
@@ -107,19 +107,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/view_chatroom"
+        app:layout_constraintBottom_toTopOf="@id/view_newchat"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/view_chatroom"
+        android:id="@+id/view_newchat"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?colorBackgroundFloating"
-        app:layout_constraintBottom_toTopOf="@+id/container_chatroom_typingfiled" />
+        app:layout_constraintBottom_toTopOf="@+id/container_newchat_typingfiled" />
 
     <!--    container 4-->
     <RelativeLayout
-        android:id="@+id/container_chatroom_typingfiled"
+        android:id="@+id/container_newchat_typingfiled"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -128,10 +128,10 @@
 
         <!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
         <EditText
-            android:id="@+id/edittext_chatroom_typing"
+            android:id="@+id/edittext_newchat_typing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/button_chatroom_send"
+            android:layout_toStartOf="@+id/button_newchat_send"
             android:background="?colorBackgroundFloating"
             android:hint="@string/hint_fragment_newchat_testingfiled"
             android:inputType="text"
@@ -139,7 +139,7 @@
             tools:ignore="Autofill" />
 
         <Button
-            android:id="@+id/button_chatroom_send"
+            android:id="@+id/button_newchat_send"
             android:layout_width="84dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
