@@ -18,16 +18,24 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
  */
 public class ChatListViewModel extends ViewModel {
 
-    private MutableLiveData<List<ChatRow>> chatRowsLiveData;
+    private MutableLiveData<List<ChatRow>> rows;
+
+   // private MutableLiveData<List<ChatRow>> chatRowsLiveData;
+
+    public ChatListViewModel() {
+        rows = new MutableLiveData<>(new ArrayList<>());
+    }
 
     public LiveData<List<ChatRow>> getChatRows() {
-        if (chatRowsLiveData == null) {
-            chatRowsLiveData = new MutableLiveData<List<ChatRow>>();
+        return rows;
+    }
 
-            //local data
-            loadChatRows();
+    public void addChatRow(String roomName, String message, int profile, int roomID){
+        List<ChatRow> currentList = rows.getValue();
+        if(currentList != null){
+            currentList.add(0, new ChatRow(roomName,message,profile, roomID));
+            rows.setValue(currentList);
         }
-        return chatRowsLiveData;
     }
 
     /**
@@ -35,24 +43,24 @@ public class ChatListViewModel extends ViewModel {
      */
     private void loadChatRows() {
         //Mock data for testing, can be changed to database later
-        List<ChatRow> rows = new ArrayList<ChatRow>();
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
-        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
-
-        chatRowsLiveData.setValue(rows);
+        //List<ChatRow> rows = new ArrayList<ChatRow>();
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
+//        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));
+//
+//        chatRowsLiveData.setValue(rows);
     }
 }
