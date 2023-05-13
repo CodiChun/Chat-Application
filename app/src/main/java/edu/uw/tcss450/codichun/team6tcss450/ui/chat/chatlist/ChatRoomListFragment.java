@@ -32,6 +32,7 @@ import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 public class ChatRoomListFragment extends Fragment {
 
     //    private RecyclerView myRecyclerView;
+    int HARD_CODE_CHAT_ROOM_ID = 1;
     private ChatRowAdapter myAdapter;
     private ChatListViewModel myViewModel;
     private View myView;
@@ -70,9 +71,9 @@ public class ChatRoomListFragment extends Fragment {
                         // Get the ID of the chat room
 
                         //TODO: UNCOMMENT IT WHEN IT'S NOT HARD CODE
-                        int chatRoomId = data.getChatRoomId();
+                        //int chatRoomId = data.getChatRoomId();
                         //TODO: UNCOMMENT IT WHEN IT'S HARD CODE
-                        //int chatRoomId = 1;
+                        int chatRoomId = HARD_CODE_CHAT_ROOM_ID;
 
                         String chatRoomName = data.getName();
 

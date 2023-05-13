@@ -24,6 +24,7 @@ public class ChatListViewModel extends ViewModel {
 
     public ChatListViewModel() {
         rows = new MutableLiveData<>(new ArrayList<>());
+        addChatRow("Global Chat", "see ya", R.drawable.image_chatlist_profile_32dp, 1);
     }
 
     public LiveData<List<ChatRow>> getChatRows() {
@@ -44,7 +45,7 @@ public class ChatListViewModel extends ViewModel {
     private void loadChatRows() {
         //Mock data for testing, can be changed to database later
         //List<ChatRow> rows = new ArrayList<ChatRow>();
-//        rows.add(new ChatRow("Codi", "see ya", R.drawable.image_chatlist_profile_32dp));
+
 //        rows.add(new ChatRow("Julia", "ok", R.drawable.image_chatlist_profile_32dp));
 //        rows.add(new ChatRow("JD", "NP", R.drawable.image_chatlist_profile_32dp));
 //        rows.add(new ChatRow("Majed", "It works", R.drawable.image_chatlist_profile_32dp));

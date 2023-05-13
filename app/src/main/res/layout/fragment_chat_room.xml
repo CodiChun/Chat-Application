@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container_chatroom_fragmentcontainer"
+    tools:context=".ui.chat.chatroom.ChatRoomFragment">
     >
 
     <RelativeLayout
@@ -37,11 +38,13 @@
             app:srcCompat="@drawable/buttonimage_chatroom_back_32dp" />
 
     </RelativeLayout>
+
+
     <!--  Used for loading new messages  -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"
-        android:layout_width="338dp"
-        android:layout_height="561dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
@@ -50,10 +53,12 @@
         app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/layout_chatroom_roominfo">
+        app:layout_constraintTop_toBottomOf="@id/layout_chatroom_roominfo"
+        >
+
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_newchat"
+            android:id="@+id/recyclerview_chatroom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
@@ -64,7 +69,15 @@
             app:layout_constraintBottom_toTopOf="@+id/textview_chatroom_indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layout_chatroom_roominfo" />
+            app:layout_constraintTop_toBottomOf="@+id/layout_chatroom_roominfo"
+
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager"
+            tools:context="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment"
+            tools:listitem="@layout/fragment_chat_message"/>
+
+            />
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
@@ -73,11 +86,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/view_newchat"
+        app:layout_constraintBottom_toTopOf="@id/view_chatroom"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/view_newchat"
+        android:id="@+id/view_chatroom"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?colorBackgroundFloating"

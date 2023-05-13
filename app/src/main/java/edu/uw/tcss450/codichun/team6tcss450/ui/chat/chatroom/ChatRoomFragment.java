@@ -1,5 +1,6 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,9 +12,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -49,6 +52,10 @@ public class ChatRoomFragment extends Fragment {
 
     }
 
+//    public ChatRoomFragment(int theRoomID) {
+//        this.HARD_CODED_CHAT_ID = theRoomID;
+//    }
+
     //*************
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,16 +77,15 @@ public class ChatRoomFragment extends Fragment {
 //        myToolBar = myView.findViewById(R.id.topbar_chatroom);
 
 //        //TODO: following part was to get info from chat list, could be delete?
-//        if(getArguments()!=null) {
 //            chatRoomId = getArguments().getInt("chatRoomId");
-//            HARD_CODED_CHAT_ID = chatRoomId;
+//            //TODO: LINK CHAT ROOM ID
+//            //HARD_CODED_CHAT_ID = chatRoomId;
 //            //int chatRoomId = HARD_CODED_CHAT_ID;
 //            // Get the name of the chat room
 //            chatRoomName = getArguments().getString("chatRoomName");
 //            // Set the text of the TextView to the chat room name
 //            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
 //            textView.setText(chatRoomName);
-//        }
 
 
         return myView;
@@ -92,7 +98,9 @@ public class ChatRoomFragment extends Fragment {
         //get new chat room name
         if(getArguments()!=null){
             chatRoomId = getArguments().getInt("newChatRoomId");
+            chatRoomId = HARD_CODED_CHAT_ID; //TODO: COMMENT THIS WHEN IT'S NOT HARD CODE
             chatRoomName = getArguments().getString("newChatRoomName");
+            chatRoomName = "Global Chat"; //TODO: DELETE IT WHEN IT'S NOT HARD CODE
             // Set the text of the TextView to the chat room name
             TextView textView = myView.findViewById(R.id.textView_chatroom_name);
             textView.setText(chatRoomName);
@@ -100,7 +108,6 @@ public class ChatRoomFragment extends Fragment {
 
         myNavController = Navigation.findNavController(view);
         // Button listeners
-        //addButtonSend(view);
         addNavigationBack(view);
 
         //*************
@@ -109,7 +116,22 @@ public class ChatRoomFragment extends Fragment {
         //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
         binding.swipeContainer.setRefreshing(true);
 
-        final RecyclerView rv = binding.recyclerviewNewchat;
+        final RecyclerView rv = binding.recyclerviewChatroom;
+
+        /**
+         * Global Layout Listener to detect when the keyboard is shown
+         * Scroll to the end of the list when the keyboard is shown
+         */
+        rv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (keyboardShown(rv.getRootView())) {
+                    rv.scrollToPosition(rv.getAdapter().getItemCount() - 1);
+                }
+            }
+        });
+
+
         //Set the Adapter to hold a reference to the list FOR THIS chat ID that the ViewModel
         //holds.
         rv.setAdapter(new ChatRecyclerViewAdapter(
@@ -147,19 +169,11 @@ public class ChatRoomFragment extends Fragment {
         mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
                 binding.edittextChatroomMessage.setText(""));
 
+
         //*************
 
     }
 
-//    private void addButtonSend(View view){
-//        Button buttonSend = (Button) view.findViewById(R.id.button_chatroom_send);
-//        buttonSend.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                //TODO: add action
-//            }
-//        });
-//    }
 
     private void addNavigationBack(View view) {
         ImageButton buttonBack = (ImageButton) view.findViewById(R.id.imageButton_chatroom_back);
@@ -169,5 +183,19 @@ public class ChatRoomFragment extends Fragment {
                 myNavController.navigate(R.id.action_chatRoomFragment_to_navigation_chatlist);
             }
         });
+    }
+
+    /**
+     * Help method of to check if the keyboard is shown
+     * @param rootView
+     * @return
+     */
+    public boolean keyboardShown(View rootView) {
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
     }
 }
