@@ -41,7 +41,7 @@ public class ChatListViewModel extends AndroidViewModel {
     private MutableLiveData<List<ChatRow>> rows;
     private Map<Integer, MutableLiveData<List<ChatRow>>> mRows;
 
-    final String END_POINT = "chats";
+    final String END_POINT = "chatroom";
 
     public ChatListViewModel(@NonNull Application application) {
         super(application);
@@ -129,53 +129,30 @@ public class ChatListViewModel extends AndroidViewModel {
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
 
-//        JSONArray jsonMembersArray = new JSONArray(memberIds);
-//
-//        JSONObject jsonBody = new JSONObject();
-//        try {
-//            jsonBody.put("memberIds", jsonMembersArray);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        // Do something with response
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Do something when error occurred
-//                        error.printStackTrace();
-//                    }
-//                }
-//        );
+        JSONArray jsonMembersArray = new JSONArray(memberIds);
 
-        JSONObject requestBody = new JSONObject();
+        JSONObject jsonBody = new JSONObject();
         try {
-            requestBody.put("memberId", memberIds.get(0));
+            jsonBody.put("memberIds", jsonMembersArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // handle the response
-                        System.out.println("Success! Member added to chat.");
+                        // Do something with response
                     }
                 },
                 new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // handle the error
-                System.out.println("Error! Could not add member to chat.");
-            }
-        }) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Do something when error occurred
+                        error.printStackTrace();
+                    }
+                })
+                         {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
@@ -183,6 +160,36 @@ public class ChatListViewModel extends AndroidViewModel {
                 return headers;
             }
         };
+
+//        JSONObject requestBody = new JSONObject();
+//        try {
+//            requestBody.put("memberId", memberIds.get(0));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        // handle the response
+//                        System.out.println("Success! Member added to chat.");
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // handle the error
+//                System.out.println("Error! Could not add member to chat.");
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Authorization", jwt);
+//                return headers;
+//            }
+//        };
 
         // Add JsonObjectRequest to the RequestQueue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
