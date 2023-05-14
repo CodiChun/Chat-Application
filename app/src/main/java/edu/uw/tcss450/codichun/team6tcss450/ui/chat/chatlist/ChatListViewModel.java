@@ -9,6 +9,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,7 +41,7 @@ public class ChatListViewModel extends AndroidViewModel {
     private MutableLiveData<List<ChatRow>> rows;
     private Map<Integer, MutableLiveData<List<ChatRow>>> mRows;
 
-    final String END_POINT = "chatroom";
+    final String END_POINT = "chats";
 
     public ChatListViewModel(@NonNull Application application) {
         super(application);
@@ -83,7 +85,7 @@ public class ChatListViewModel extends AndroidViewModel {
                 Request.Method.POST,
                 url,
                 body,
-                response -> handleCreateNewChatRoomSuccess(response, callback, memberId),
+                response -> handleCreateNewChatRoomSuccess(response, callback, memberId, jwt),
                 this::handleError) {
 
             @Override
@@ -106,12 +108,12 @@ public class ChatListViewModel extends AndroidViewModel {
 
 
 
-    private void handleCreateNewChatRoomSuccess(final JSONObject response, ChatRoomCreationCallback callback,  final List<Integer> memberId) {
+    private void handleCreateNewChatRoomSuccess(final JSONObject response, ChatRoomCreationCallback callback,  final List<Integer> memberId, final String jwt) {
         try {
             if (response.has("chatID")) {
                 int chatId = response.getInt("chatID");
                 callback.onChatRoomCreated(chatId);
-                addMemberToChat(chatId, memberId);
+                addMemberToChat(chatId, memberId, jwt);
                 // Here you can create a new ChatRow with the obtained chatId and update your list
                 // For instance:
                 //addChatRow("New Room", new ArrayList<>(), chatId, R.drawable.image_chatlist_profile_32dp);
@@ -124,33 +126,63 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
-    private void addMemberToChat(int chatId, List<Integer> memberIds) {
+    private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
 
-        JSONArray jsonMembersArray = new JSONArray(memberIds);
+//        JSONArray jsonMembersArray = new JSONArray(memberIds);
+//
+//        JSONObject jsonBody = new JSONObject();
+//        try {
+//            jsonBody.put("memberIds", jsonMembersArray);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        // Do something with response
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // Do something when error occurred
+//                        error.printStackTrace();
+//                    }
+//                }
+//        );
 
-        JSONObject jsonBody = new JSONObject();
+        JSONObject requestBody = new JSONObject();
         try {
-            jsonBody.put("memberIds", jsonMembersArray);
+            requestBody.put("memberId", memberIds.get(0));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Do something with response
+                        // handle the response
+                        System.out.println("Success! Member added to chat.");
                     }
                 },
                 new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Do something when error occurred
-                        error.printStackTrace();
-                    }
-                }
-        );
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // handle the error
+                System.out.println("Error! Could not add member to chat.");
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
 
         // Add JsonObjectRequest to the RequestQueue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
