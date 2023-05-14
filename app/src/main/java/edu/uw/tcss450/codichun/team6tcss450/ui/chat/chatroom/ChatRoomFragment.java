@@ -44,7 +44,7 @@ public class ChatRoomFragment extends Fragment {
 
     private ChatSendViewModel mSendModel;
 
-    String chatRoomName;
+    String mChatRoomName;
 
     public ChatRoomFragment() {
 
@@ -61,10 +61,10 @@ public class ChatRoomFragment extends Fragment {
 
         if (getArguments() != null) {
             mChatRoomID = getArguments().getInt("chatRoomID");
-            chatRoomName = getArguments().getString("chatRoomName");
+            mChatRoomName = getArguments().getString("chatRoomName");
         }
 
-        System.out.println("chatRoomFragment onCreate: " + chatRoomName);
+        System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
 
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mUserModel = provider.get(UserInfoViewModel.class);
@@ -81,7 +81,7 @@ public class ChatRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
             TextView textView = myView.findViewById(R.id.textView_chatroom_name);
-            textView.setText(chatRoomName);
+            textView.setText(mChatRoomName);
         return myView;
     }
 
@@ -89,14 +89,15 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        //get new chat room name
-//        if(getArguments()!=null){
-//            mChatRoomID = getArguments().getInt("newChatRoomID");
-//            chatRoomName = getArguments().getString("newChatRoomName");
-//            // Set the text of the TextView to the chat room name
-//            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
-//            textView.setText(chatRoomName);
-//        }
+        //get new chat room name and id
+        if(mChatRoomName == null && getArguments()!=null){
+            mChatRoomID = getArguments().getInt("newChatRoomId");
+            mChatRoomName = getArguments().getString("newChatRoomName");
+            // Set the text of the TextView to the chat room name
+            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
+            textView.setText(mChatRoomName);
+        }
+        System.out.println("chatRoomFragment onViewCreated: " + mChatRoomID);
 
 
         myNavController = Navigation.findNavController(view);

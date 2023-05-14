@@ -71,12 +71,12 @@ public class ChatRoomListFragment extends Fragment {
                         // Get the ID of the chat room
 
                         //TODO: UNCOMMENT IT WHEN IT'S NOT HARD CODE
-                        int chatRoomId = data.getChatRoomId();
+                        int chatRoomId = data.getmChatRoomID();
                         System.out.println("on chat room list fragment, data.getChatRoomID: " + chatRoomId);
                         //TODO: UNCOMMENT IT WHEN IT'S HARD CODE
                         //int chatRoomId = HARD_CODE_CHAT_ROOM_ID;
 
-                        String chatRoomName = data.getName();
+                        String chatRoomName = data.getmRoomName();
 
                         // Create a Bundle to hold the chat room ID
                         Bundle bundle = new Bundle();
