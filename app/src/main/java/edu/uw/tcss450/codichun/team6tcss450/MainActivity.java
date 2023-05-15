@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         //setSupportActionBar(findViewById(R.id.toolbar));
 
-        //gain access to the message count ViewModel:
+        //gain access to the message count ViewModel: broadcast
         mNewMessageModel = new ViewModelProvider(this).get(NewMessageCountViewModel.class);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (destination.getId() == R.id.navigation_chatlist) {

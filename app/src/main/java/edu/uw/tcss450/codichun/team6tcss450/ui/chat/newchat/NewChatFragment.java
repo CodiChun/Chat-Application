@@ -36,6 +36,7 @@ public class NewChatFragment extends Fragment {
     public View view;
     private NavController myNavController;
     int HARD_CODE_PROFILE = R.drawable.image_chatlist_profile_32dp;
+    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 18, 19));
 
     UserInfoViewModel mUserModel;
 
@@ -106,7 +107,7 @@ public class NewChatFragment extends Fragment {
 
 
                 //TODO: CHOOSE MEMBERS TO THE GROOUP
-                List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(14, 15, 16));
+
 
                 //get the room name from user input
                 //TODO: HANDLE IF ROOM NAME IS NULL

@@ -41,6 +41,7 @@ public class ChatListViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<ChatRow>> rows;
     private Map<Integer, MutableLiveData<List<ChatRow>>> mRows;
+    List<ChatRow> updatedChatRooms = new ArrayList<>();
 
     final String END_POINT = "chatroom";
     int HARD_CODED_PROFILE = R.drawable.image_chatlist_profile_32dp;
@@ -168,8 +169,61 @@ public class ChatListViewModel extends AndroidViewModel {
 
     }
 
+//    public void loadChats(int memberId, final String jwt) {
+//        //String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "members/" + memberId;
+//        String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
+//        System.out.println("End point for chat list: " + url);
+//
+//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+//                Request.Method.GET,
+//                url,
+//                null,
+//                new Response.Listener<JSONArray>() {
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        List<ChatRow> updatedChatRooms = new ArrayList<>();
+//                        for (int i = 0; i < response.length(); i++) {
+//                            try {
+//                                JSONObject chatObject = response.getJSONObject(i);
+//                                int chatId = chatObject.getInt("chatid");
+//                                String name = chatObject.getString("name");
+//
+//                                // Assuming you have a Chat class with a constructor like Chat(int chatId, String name)
+//                                ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
+//                                //chatList.add(chat);
+//                                System.out.println("new chat room: " + chatId + ", name");
+//                                addChatRow(chatRow);
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        // Update RecyclerView adapter here with the new chat list
+//                        // chatAdapter.updateData(chatList);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // Handle error
+//                        System.out.println("Error! Could not load chats: " + error.getMessage());
+//                    }
+//                }
+//        ){
+//            @Override
+//            public Map<String, String> getHeaders() {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Authorization", "Bearer " + jwt);
+//                return headers;
+//            }
+//        };
+//
+//        // Add JsonArrayRequest to the RequestQueue
+//        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+//                .addToRequestQueue(jsonArrayRequest);
+//    }
+
     public void loadChats(int memberId, final String jwt) {
-        //String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "members/" + memberId;
         String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
         System.out.println("End point for chat list: " + url);
 
@@ -180,18 +234,21 @@ public class ChatListViewModel extends AndroidViewModel {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        List<ChatRow> chatList = new ArrayList<>();
+                        List<ChatRow> updatedChatRooms = new ArrayList<>();
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject chatObject = response.getJSONObject(i);
                                 int chatId = chatObject.getInt("chatid");
                                 String name = chatObject.getString("name");
 
-                                // Assuming you have a Chat class with a constructor like Chat(int chatId, String name)
+                                // Assuming you have a ChatRow class with a constructor like ChatRow(String name, int chatId, int profileImage)
                                 ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
-                                //chatList.add(chat);
-                                System.out.println("new chat room: " + chatId + ", name");
-                                addChatRow(chatRow);
+
+                                // Check if this ChatRow is already present in the list
+                                if (!rows.getValue().contains(chatRow)) {
+                                    System.out.println("new chat room: " + chatId + ", name");
+                                    addChatRow(chatRow);
+                                }
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -221,6 +278,7 @@ public class ChatListViewModel extends AndroidViewModel {
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(jsonArrayRequest);
     }
+
 
 
 

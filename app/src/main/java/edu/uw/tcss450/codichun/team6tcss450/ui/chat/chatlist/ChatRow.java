@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Objects;
 
 
 /**
@@ -97,17 +97,31 @@ public class ChatRow {
         this.mProfile = mProfile;
     }
 
-    /**
-     * Provides equality solely based on MessageId.
-     * @param other the other object to check for equality
-     * @return true if other message ID matches this message ID, false otherwise
-     */
+//    /**
+//     * Provides equality solely based on MessageId.
+//     * @param other the other object to check for equality
+//     * @return true if other message ID matches this message ID, false otherwise
+//     */
+//    @Override
+//    public boolean equals(@Nullable Object other) {
+//        boolean result = false;
+//        if (other instanceof ChatRow) {
+//            result = mChatRoomID == ((ChatRow) other).getmChatRoomID();
+//        }
+//        return result;
+//    }
+@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ChatRow chatRow = (ChatRow) o;
+    return mChatRoomID == chatRow.mChatRoomID &&
+            mRoomName.equals(chatRow.mRoomName);
+}
+
     @Override
-    public boolean equals(@Nullable Object other) {
-        boolean result = false;
-        if (other instanceof ChatRow) {
-            result = mChatRoomID == ((ChatRow) other).getmChatRoomID();
-        }
-        return result;
+    public int hashCode() {
+        return Objects.hash(mRoomName, mChatRoomID);
     }
+
 }
