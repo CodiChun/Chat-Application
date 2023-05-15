@@ -31,8 +31,6 @@ import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
  */
 public class ChatRoomFragment extends Fragment {
 
-    //The chat ID for "global" chat
-    //TODO: MAKE IT NOT HARD CODE
     private int mChatRoomID;
 
     public View myView;
@@ -129,7 +127,7 @@ public class ChatRoomFragment extends Fragment {
         //Set the Adapter to hold a reference to the list FOR THIS chat ID that the ViewModel
         //holds.
         rv.setAdapter(new ChatRecyclerViewAdapter(
-                mChatModel.getMessageListByChatId(mChatRoomID),//HARD_CODED_CHAT_ID
+                mChatModel.getMessageListByChatId(mChatRoomID),
                 mUserModel.getEmail()));
 
 

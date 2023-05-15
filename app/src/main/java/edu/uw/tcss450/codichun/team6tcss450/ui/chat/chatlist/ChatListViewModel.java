@@ -15,6 +15,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,24 +43,24 @@ public class ChatListViewModel extends AndroidViewModel {
     private Map<Integer, MutableLiveData<List<ChatRow>>> mRows;
 
     final String END_POINT = "chatroom";
+    int HARD_CODED_PROFILE = R.drawable.image_chatlist_profile_32dp;
 
     public ChatListViewModel(@NonNull Application application) {
         super(application);
         rows = new MutableLiveData<>(new ArrayList<>());
         mRows = new HashMap<>();
-
-        addChatRow("Global Chat", new ArrayList<>(Arrays.asList(14, 15, 16)),1, R.drawable.image_chatlist_profile_32dp);
-        addChatRow("testroom", new ArrayList<>(Arrays.asList(14, 15)),2, R.drawable.image_chatlist_profile_32dp);
+        //addChatRow(new ChatRow("Global Chat", new ArrayList<>(Arrays.asList(14, 15, 16)),1, R.drawable.image_chatlist_profile_32dp));
+        //addChatRow(new ChatRow("testroom", new ArrayList<>(Arrays.asList(14, 15)),2, R.drawable.image_chatlist_profile_32dp));
     }
 
     public LiveData<List<ChatRow>> getChatRows() {
         return rows;
     }
 
-    public void addChatRow(String roomName, ArrayList<Integer> memberList, int profile, int roomID) {
+    public void addChatRow(ChatRow theChatRow) {
         List<ChatRow> currentList = rows.getValue();
         if (currentList != null) {
-            currentList.add(0, new ChatRow(roomName, memberList, profile, roomID));
+            currentList.add(0, theChatRow);
             rows.setValue(currentList);
         }
     }
@@ -161,56 +162,71 @@ public class ChatListViewModel extends AndroidViewModel {
             }
         };
 
-//        JSONObject requestBody = new JSONObject();
-//        try {
-//            requestBody.put("memberId", memberIds.get(0));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        // handle the response
-//                        System.out.println("Success! Member added to chat.");
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                // handle the error
-//                System.out.println("Error! Could not add member to chat.");
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() {
-//                Map<String, String> headers = new HashMap<>();
-//                headers.put("Authorization", jwt);
-//                return headers;
-//            }
-//        };
-
         // Add JsonObjectRequest to the RequestQueue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(jsonObjectRequest);
 
     }
 
+    public void loadChats(int memberId, final String jwt) {
+        //String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "members/" + memberId;
+        String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
+        System.out.println("End point for chat list: " + url);
 
-    //***************************************
-    //TODO: I NEED TO GET A CHAT ROOM LIST BASE ON THE memberid
-    /**
-     * Register as an observer to listen to a specific chat room's list of messages.
-     * @param theMemberId the chatid of the chat to observer
-     * @param owner the fragments lifecycle owner
-     * @param observer the observer
-     */
-    public void addChatRowObserver(int theMemberId,
-                                   @NonNull LifecycleOwner owner,
-                                   @NonNull Observer<? super List<ChatRow>> observer) {
-        getOrCreateMapEntry(theMemberId).observe(owner, observer);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        List<ChatRow> chatList = new ArrayList<>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject chatObject = response.getJSONObject(i);
+                                int chatId = chatObject.getInt("chatid");
+                                String name = chatObject.getString("name");
+
+                                // Assuming you have a Chat class with a constructor like Chat(int chatId, String name)
+                                ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
+                                //chatList.add(chat);
+                                System.out.println("new chat room: " + chatId + ", name");
+                                addChatRow(chatRow);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        // Update RecyclerView adapter here with the new chat list
+                        // chatAdapter.updateData(chatList);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        System.out.println("Error! Could not load chats: " + error.getMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + jwt);
+                return headers;
+            }
+        };
+
+        // Add JsonArrayRequest to the RequestQueue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(jsonArrayRequest);
     }
+
+
+
+
+
+
     /**
      * Return a reference to the List<> associated with the chat room. If the View Model does
      * not have a mapping for this chatID, it will be created.
@@ -231,99 +247,7 @@ public class ChatListViewModel extends AndroidViewModel {
         }
         return mRows.get(theMemberId);
     }
-    /**
-     * Makes a request to the web service to get the first batch of messages for a given Chat Room.
-     * Parses the response and adds the ChatMessage object to the List associated with the
-     * ChatRoom. Informs observers of the update.
-     *
-     * Subsequent requests to the web service for a given chat room should be made from
-     * getNextMessages()
-     *
-     * @param memberId the chatroom id to request messages of
-     * @param jwt the users signed JWT
-     */
-    public void getFirstChatRooms(final int memberId, final String jwt) {
-        String url = getApplication().getResources().getString(R.string.base_url) + END_POINT +
-                "/" + memberId;
 
-        Request request = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null, //no body for this get request
-                this::handelSuccess,
-                this::handleError) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                headers.put("Authorization", jwt);
-                return headers;
-            }
-        };
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10_000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
-        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
-                .addToRequestQueue(request);
-
-        //code here will run
-    }
-
-    /**
-     * Makes a request to the web service to get the next batch of messages for a given Chat Room.
-     * This request uses the earliest known ChatMessage in the associated list and passes that
-     * messageId to the web service.
-     * Parses the response and adds the ChatMessage object to the List associated with the
-     * ChatRoom. Informs observers of the update.
-     *
-     * Subsequent calls to this method receive earlier and earlier messages.
-     *
-     * @param memberId the chatroom id to request messages of
-     * @param jwt the users signed JWT
-     */
-    public void getNextChatRooms(final int memberId, final String jwt) {
-        String url = getApplication().getResources().getString(R.string.base_url) + END_POINT +
-                "/" +
-                memberId +
-                "/" +
-                mRows.get(memberId).getValue().get(0).getmRoomName();
-
-        Request request = new JsonObjectRequest(
-                Request.Method.GET,
-                url,
-                null, //no body for this get request
-                this::handelSuccess,
-                this::handleError) {
-
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                headers.put("Authorization", jwt);
-                return headers;
-            }
-        };
-
-        request.setRetryPolicy(new DefaultRetryPolicy(
-                10_000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
-        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
-                .addToRequestQueue(request);
-
-        //code here will run
-    }
-
-    public void addChatRows(final int theMemberId, final ChatRow theRoom) {
-        List<ChatRow> list = getChatRoomListByMemberId(theMemberId);
-        list.add(theRoom);
-        getOrCreateMapEntry(theMemberId).setValue(list);
-    }
 
 
     private void handelSuccess(final JSONObject response) {

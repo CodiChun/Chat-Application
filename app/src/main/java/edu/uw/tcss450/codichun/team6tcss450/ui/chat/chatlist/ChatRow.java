@@ -35,6 +35,12 @@ public class ChatRow {
         mProfile = theProfile;
     }
 
+    public ChatRow(String theRoomName, int theChatRoomID, int theProfile) {
+        mRoomName = theRoomName;
+        mChatRoomID = theChatRoomID;
+        mProfile = theProfile;
+    }
+
     /**
      * Static factory method to turn a properly formatted JSON String into a
      * ChatMessage object.

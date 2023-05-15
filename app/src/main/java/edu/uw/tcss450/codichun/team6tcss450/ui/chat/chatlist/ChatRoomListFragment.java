@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -38,6 +39,7 @@ public class ChatRoomListFragment extends Fragment {
     private View myView;
 
     private NavController myNavController;
+    //private UserInfoViewModel mUserModel;
 
 
     public ChatRoomListFragment(){
@@ -50,16 +52,25 @@ public class ChatRoomListFragment extends Fragment {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
 //        myNavController = Navigation.findNavController(myView);
-        RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         myViewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
+
+        //tring to load chat lists
+        UserInfoViewModel model = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
+        //myViewModel.loadChats(model.getUserId(), model.getmJwt());
+        RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        myAdapter = new ChatRowAdapter(getActivity(), new ArrayList<>());
+        recyclerView.setAdapter(myAdapter);
         //myViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
         myViewModel.getChatRows().observe(getViewLifecycleOwner(), new Observer<List<ChatRow>>() {
             @Override
             public void onChanged(List<ChatRow> chatRows) {
-                myAdapter = new ChatRowAdapter(getActivity(), chatRows);
 
+                myAdapter.updateData(chatRows);  // Update data in your adapter
+                myAdapter.notifyDataSetChanged();  // Notify adapter of data change
 
                 myAdapter.setOnItemClickListener(new ChatRowAdapter.OnItemClickListener() {
                     @Override
@@ -93,10 +104,20 @@ public class ChatRoomListFragment extends Fragment {
                     }
                 });
 
-                recyclerView.setAdapter(myAdapter);
+
 
             }
         });
+
+        // Load the chat lists
+        myViewModel.loadChats(model.getUserId(), model.getmJwt());
+        System.out.println("user id is: " + model.getUserId());
+
+//        // Observe the chat rows LiveData
+//        myViewModel.getChatRows().observe(getViewLifecycleOwner(), chatRows -> {
+//            myAdapter.updateData(chatRows);  // Update data in your adapter
+//            myAdapter.notifyDataSetChanged();  // Notify adapter of data change
+//        });
 
 
         return myView;

@@ -132,7 +132,7 @@ public class NewChatFragment extends Fragment {
                         System.out.println("newchatroomid: " + newChatRoomId);
                         // Here, you can perform actions after the chat room has been created.
                         // For example, navigate to the new chat room based on the chatId.
-                        viewModel.addChatRow(chatRoomName, (ArrayList<Integer>) HARD_CODED_MEMBERS, newChatRoomId, HARD_CODE_PROFILE);
+                        viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) HARD_CODED_MEMBERS, newChatRoomId, HARD_CODE_PROFILE));
                         //TODO: get the message from user input
 
                         //set new data to bundle

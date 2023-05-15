@@ -85,4 +85,7 @@ dependencies {
     //for ??
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //jwt
+    implementation 'com.auth0:java-jwt:3.18.1'
 }
