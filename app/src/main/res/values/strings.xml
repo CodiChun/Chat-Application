@@ -121,7 +121,7 @@
     <string name="action_register_short">Register</string>
     <string name="title_home">Home</string>
     <string name="title_chat">Chat</string>
-
+    <string name="hint_nickname">Nick Name</string>
 
 
 </resources>
