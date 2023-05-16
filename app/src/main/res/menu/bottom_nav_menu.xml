@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/navigation_chatlist"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/ic_navigator_chat_24dp"
         android:title="chat" />
 
     <item
         android:id="@+id/navigation_contactlist"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/ic_navigator_contact_24"
         android:title="contact" />
 
 
     <item
         android:id="@+id/navigation_weatherlist"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/ic_navigator_weather_24dp"
         android:title="weather" />
 
 

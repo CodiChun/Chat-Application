@@ -16,9 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatListViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
@@ -33,6 +36,9 @@ public class NewChatFragment extends Fragment {
     public View view;
     private NavController myNavController;
     int HARD_CODE_PROFILE = R.drawable.image_chatlist_profile_32dp;
+    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 19, 21));
+
+    UserInfoViewModel mUserModel;
 
 
     @Override
@@ -48,6 +54,7 @@ public class NewChatFragment extends Fragment {
 //        addCancelButtonListener();
 //        addAddPeopleButtonListener();
 
+
         return view;
     }
 
@@ -55,6 +62,7 @@ public class NewChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         myNavController = Navigation.findNavController(view);
+        mUserModel = new ViewModelProvider(requireActivity()).get(UserInfoViewModel.class);
         // Button listeners
         addCancelButtonListener(view);
         addAddPeopleButtonListener(view);
@@ -95,31 +103,49 @@ public class NewChatFragment extends Fragment {
             public void onClick(View view) {
                 //TODO: add correct new data to the chatting history
 
-                // Assign a unique chat room number
-                int newChatRoomId = hashCode();
+                // TODO: get a unique chat room number from database
+
+
+                //TODO: CHOOSE MEMBERS TO THE GROOUP
+
 
                 //get the room name from user input
                 //TODO: HANDLE IF ROOM NAME IS NULL
 
                 String chatRoomName = editTextRoomName.getText().toString();
-                String message = editTextMessage.getText().toString();
+
+                //TODO:ADD THE NEW MESSAGE
+                //String message = editTextMessage.getText().toString();
 
                 //update the chat list
                 ChatListViewModel viewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
-                viewModel.addChatRow(chatRoomName, message, HARD_CODE_PROFILE, newChatRoomId);
 
 
+                //update database
+                viewModel.createNewChatRoom(chatRoomName,
+                        HARD_CODED_MEMBERS,
+                        mUserModel.getmJwt(),
+                new ChatListViewModel.ChatRoomCreationCallback() {
+                    @Override
+                    public void onChatRoomCreated(int chatId) {
+                        int newChatRoomId = chatId;
+                        System.out.println("chatid: " + chatId);
+                        System.out.println("newchatroomid: " + newChatRoomId);
+                        // Here, you can perform actions after the chat room has been created.
+                        // For example, navigate to the new chat room based on the chatId.
+                        viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) HARD_CODED_MEMBERS, newChatRoomId, HARD_CODE_PROFILE));
+                        //TODO: get the message from user input
 
-                //TODO: get the message from user input
-
-                //set new data to bundle
-                Bundle bundleNewRoom = new Bundle();
-                bundleNewRoom.putInt("newChatRoomId", newChatRoomId);
-                bundleNewRoom.putString("newChatRoomName", chatRoomName);
+                        //set new data to bundle
+                        Bundle bundleNewRoom = new Bundle();
+                        bundleNewRoom.putInt("newChatRoomId", newChatRoomId);
+                        bundleNewRoom.putString("newChatRoomName", chatRoomName);
 
 
-                //pass the bundle to the new chat room
-                myNavController.navigate(R.id.action_newChatFragment_to_chatRoomFragment, bundleNewRoom);
+                        //pass the bundle to the new chat room
+                        myNavController.navigate(R.id.action_newChatFragment_to_chatRoomFragment, bundleNewRoom);
+                    }
+                });
             }
         });
     }

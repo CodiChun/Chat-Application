@@ -44,9 +44,12 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ChatRowViewHolder holder, int position) {
-        holder.nameView.setText(rows.get(position).getName());
-        holder.messageView.setText(rows.get(position).getMessage());
-        holder.profileView.setImageResource(rows.get(position).getImage());
+        holder.nameView.setText(rows.get(position).getmRoomName());
+
+        //TODO: SHOW THE LAST MESSAGE
+        //holder.messageView.setText(rows.get(position).g);
+
+        holder.profileView.setImageResource(rows.get(position).getmProfile());
 
         //new
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -79,4 +82,7 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
         notifyDataSetChanged();
     }
 
+//    public void setData(List<ChatRow> newChatRow){
+//        this.chat
+//    }
 }

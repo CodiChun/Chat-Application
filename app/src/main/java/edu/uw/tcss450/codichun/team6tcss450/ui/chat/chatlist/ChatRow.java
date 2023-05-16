@@ -1,5 +1,16 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 
+import androidx.annotation.Nullable;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+
 /**
  * An object for a row of the chat list
  * @author codichun
@@ -7,58 +18,110 @@ package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
  */
 public class ChatRow {
 
-    String name;
-    String message;
-    int profile;
+
+    private int mChatRoomID;
+    private String mRoomName;
 
 
-    int ChatRoomId;
 
+    private List<Integer> mMemberID;
+    private int mProfile;
+    //private String mLastMessage;
 
-    public ChatRow(String name, String message, int image, int ChatRoomID) {
-        this.name = name;
-        this.message = message;
-        this.profile = image;
-        this.ChatRoomId = ChatRoomID;
+    public ChatRow(String theRoomName, ArrayList<Integer> theMemberID, int theChatRoomID, int theProfile) {
+        mRoomName = theRoomName;
+        mMemberID = theMemberID;
+        mChatRoomID = theChatRoomID;
+        mProfile = theProfile;
     }
 
-    public String getName() {
-        return name;
+    public ChatRow(String theRoomName, int theChatRoomID, int theProfile) {
+        mRoomName = theRoomName;
+        mChatRoomID = theChatRoomID;
+        mProfile = theProfile;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    /**
+     * Static factory method to turn a properly formatted JSON String into a
+     * ChatMessage object.
+     * @param cmAsJson the String to be parsed into a ChatMessage Object.
+     * @return a ChatMessage Object with the details contained in the JSON String.
+     * @throws JSONException when cmAsString cannot be parsed into a ChatMessage.
+     */
+    public static ChatRow createFromJsonString(final String cmAsJson) throws JSONException {
+        final JSONObject cr = new JSONObject(cmAsJson);
+        final JSONArray membersArray = cr.getJSONArray("memberId");
+        List<Integer> membersList = new ArrayList<>();
 
-    public String getMessage() {
-        return message;
-    }
+        for (int i = 0; i < membersArray.length(); i++) {
+            membersList.add(membersArray.getInt(i));
+        }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getImage() {
-        return profile;
-    }
-
-    public void setImage(int image) {
-        this.profile = image;
-    }
-
-
-
-    public int getChatRoomId() {
-        return ChatRoomId;
+        return new ChatRow(cr.getString("chatRoomName"), (ArrayList<Integer>) membersList, cr.getInt("chatId"), cr.getInt("profile"));
     }
 
 
-
-    public void setProfile(int profile) {
-        this.profile = profile;
+    public String getmRoomName() {
+        return mRoomName;
     }
 
-    public void setChatRoomId(int chatRoomId) {
-        ChatRoomId = chatRoomId;
+    public List<Integer> getmMemberID() {
+        return mMemberID;
     }
+
+    public int getmChatRoomID() {
+        return mChatRoomID;
+    }
+
+    public void setChatRoomID(int theID){
+        mChatRoomID = theID;
+    }
+
+    public void setmChatRoomID(int mChatRoomID) {
+        this.mChatRoomID = mChatRoomID;
+    }
+
+    public void setmRoomName(String mRoomName) {
+        this.mRoomName = mRoomName;
+    }
+
+    public void setmMemberID(List<Integer> mMemberID) {
+        this.mMemberID = mMemberID;
+    }
+
+    public int getmProfile() {
+        return mProfile;
+    }
+
+    public void setmProfile(int mProfile) {
+        this.mProfile = mProfile;
+    }
+
+//    /**
+//     * Provides equality solely based on MessageId.
+//     * @param other the other object to check for equality
+//     * @return true if other message ID matches this message ID, false otherwise
+//     */
+//    @Override
+//    public boolean equals(@Nullable Object other) {
+//        boolean result = false;
+//        if (other instanceof ChatRow) {
+//            result = mChatRoomID == ((ChatRow) other).getmChatRoomID();
+//        }
+//        return result;
+//    }
+@Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ChatRow chatRow = (ChatRow) o;
+    return mChatRoomID == chatRow.mChatRoomID &&
+            mRoomName.equals(chatRow.mRoomName);
+}
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mRoomName, mChatRoomID);
+    }
+
 }
