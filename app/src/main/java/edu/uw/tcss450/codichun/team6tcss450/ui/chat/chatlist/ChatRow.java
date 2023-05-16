@@ -6,14 +6,20 @@ package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
  * @version 1.0
  */
 public class ChatRow {
+
     String name;
     String message;
     int profile;
 
-    public ChatRow(String name, String message, int image) {
+
+    int ChatRoomId;
+
+
+    public ChatRow(String name, String message, int image, int ChatRoomID) {
         this.name = name;
         this.message = message;
         this.profile = image;
+        this.ChatRoomId = ChatRoomID;
     }
 
     public String getName() {
@@ -38,5 +44,21 @@ public class ChatRow {
 
     public void setImage(int image) {
         this.profile = image;
+    }
+
+
+
+    public int getChatRoomId() {
+        return ChatRoomId;
+    }
+
+
+
+    public void setProfile(int profile) {
+        this.profile = profile;
+    }
+
+    public void setChatRoomId(int chatRoomId) {
+        ChatRoomId = chatRoomId;
     }
 }

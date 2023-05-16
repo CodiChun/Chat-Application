@@ -8,7 +8,22 @@
         android:id="@+id/navigation_chatlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment"
         android:label="fragment_chat_room_list"
-        tools:layout="@layout/fragment_chat_room_list" />
+        tools:layout="@layout/fragment_chat_room_list" >
+        <action
+            android:id="@+id/action_navigation_chatlist_to_newChatFragment"
+            app:destination="@id/newChatFragment" />
+        <action
+            android:id="@+id/action_navigation_chatlist_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" >
+            <argument
+                android:name="chatRoomId"
+                app:argType="integer" />
+            <argument
+                android:name="chatRoomName"
+                app:argType="string" />
+        </action>
+
+    </fragment>
     <fragment
         android:id="@+id/navigation_contactlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactsListFragment"
@@ -17,4 +32,26 @@
         android:id="@+id/navigation_weatherlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.weather.WeatherListFragment"
         android:label="WeatherListFragment" />
+    <fragment
+        android:id="@+id/newChatFragment"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.newchat.NewChatFragment"
+        android:label="NewChatFragment" >
+        <action
+            android:id="@+id/action_newChatFragment_to_navigation_chatlist"
+            app:destination="@id/navigation_chatlist" />
+        <action
+            android:id="@+id/action_newChatFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_newChatFragment_to_navigation_contactlist2"
+            app:destination="@id/navigation_contactlist" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment"
+        android:label="ChatRoomFragment" >
+        <action
+            android:id="@+id/action_chatRoomFragment_to_navigation_chatlist"
+            app:destination="@id/navigation_chatlist" />
+    </fragment>
 </navigation>
