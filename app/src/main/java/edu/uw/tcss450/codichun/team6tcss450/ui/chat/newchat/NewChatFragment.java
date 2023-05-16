@@ -36,7 +36,7 @@ public class NewChatFragment extends Fragment {
     public View view;
     private NavController myNavController;
     int HARD_CODE_PROFILE = R.drawable.image_chatlist_profile_32dp;
-    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 18, 19));
+    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 19, 21));
 
     UserInfoViewModel mUserModel;
 
