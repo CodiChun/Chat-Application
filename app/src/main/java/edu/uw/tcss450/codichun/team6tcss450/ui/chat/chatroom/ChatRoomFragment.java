@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
@@ -17,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 //import android.widget.Toolbar;
@@ -33,9 +31,7 @@ import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
  */
 public class ChatRoomFragment extends Fragment {
 
-    //The chat ID for "global" chat
-    //TODO: MAKE IT NOT HARD CODE
-    private int HARD_CODED_CHAT_ID = 1;
+    private int mChatRoomID;
 
     public View myView;
 
@@ -45,8 +41,8 @@ public class ChatRoomFragment extends Fragment {
     private UserInfoViewModel mUserModel;
 
     private ChatSendViewModel mSendModel;
-    int chatRoomId;
-    String chatRoomName;
+
+    String mChatRoomName;
 
     public ChatRoomFragment() {
 
@@ -60,10 +56,18 @@ public class ChatRoomFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mChatRoomID = getArguments().getInt("chatRoomID");
+            mChatRoomName = getArguments().getString("chatRoomName");
+        }
+
+        System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
+
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mUserModel = provider.get(UserInfoViewModel.class);
         mChatModel = provider.get(ChatViewModel.class);
-        mChatModel.getFirstMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
+        mChatModel.getFirstMessages(mChatRoomID, mUserModel.getmJwt());
         mSendModel = provider.get(ChatSendViewModel.class);
     }
     //*************
@@ -74,20 +78,8 @@ public class ChatRoomFragment extends Fragment {
 
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room, container, false);
-//        myToolBar = myView.findViewById(R.id.topbar_chatroom);
-
-//        //TODO: following part was to get info from chat list, could be delete?
-//            chatRoomId = getArguments().getInt("chatRoomId");
-//            //TODO: LINK CHAT ROOM ID
-//            //HARD_CODED_CHAT_ID = chatRoomId;
-//            //int chatRoomId = HARD_CODED_CHAT_ID;
-//            // Get the name of the chat room
-//            chatRoomName = getArguments().getString("chatRoomName");
-//            // Set the text of the TextView to the chat room name
-//            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
-//            textView.setText(chatRoomName);
-
-
+            TextView textView = myView.findViewById(R.id.textView_chatroom_name);
+            textView.setText(mChatRoomName);
         return myView;
     }
 
@@ -95,16 +87,16 @@ public class ChatRoomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //get new chat room name
-        if(getArguments()!=null){
-            chatRoomId = getArguments().getInt("newChatRoomId");
-            chatRoomId = HARD_CODED_CHAT_ID; //TODO: COMMENT THIS WHEN IT'S NOT HARD CODE
-            chatRoomName = getArguments().getString("newChatRoomName");
-            chatRoomName = "Global Chat"; //TODO: DELETE IT WHEN IT'S NOT HARD CODE
+        //get new chat room name and id
+        if(mChatRoomName == null && getArguments()!=null){
+            mChatRoomID = getArguments().getInt("newChatRoomId");
+            mChatRoomName = getArguments().getString("newChatRoomName");
             // Set the text of the TextView to the chat room name
             TextView textView = myView.findViewById(R.id.textView_chatroom_name);
-            textView.setText(chatRoomName);
+            textView.setText(mChatRoomName);
         }
+        System.out.println("chatRoomFragment onViewCreated: " + mChatRoomID);
+
 
         myNavController = Navigation.findNavController(view);
         // Button listeners
@@ -135,17 +127,17 @@ public class ChatRoomFragment extends Fragment {
         //Set the Adapter to hold a reference to the list FOR THIS chat ID that the ViewModel
         //holds.
         rv.setAdapter(new ChatRecyclerViewAdapter(
-                mChatModel.getMessageListByChatId(HARD_CODED_CHAT_ID),//HARD_CODED_CHAT_ID
+                mChatModel.getMessageListByChatId(mChatRoomID),
                 mUserModel.getEmail()));
 
 
         //When the user scrolls to the top of the RV, the swiper list will "refresh"
         //The user is out of messages, go out to the service and get more
         binding.swipeContainer.setOnRefreshListener(() -> {
-            mChatModel.getNextMessages(HARD_CODED_CHAT_ID, mUserModel.getmJwt());
+            mChatModel.getNextMessages(mChatRoomID, mUserModel.getmJwt());
         });
 
-        mChatModel.addMessageObserver(HARD_CODED_CHAT_ID, getViewLifecycleOwner(),
+        mChatModel.addMessageObserver(mChatRoomID, getViewLifecycleOwner(),
                 list -> {
                     /*
                      * This solution needs work on the scroll position. As a group,
@@ -161,7 +153,7 @@ public class ChatRoomFragment extends Fragment {
 
         //Send button was clicked. Send the message via the SendViewModel
         binding.buttonChatroomSend.setOnClickListener(button -> {
-            mSendModel.sendMessage(HARD_CODED_CHAT_ID,
+            mSendModel.sendMessage(mChatRoomID,
                     mUserModel.getmJwt(),
                     binding.edittextChatroomMessage.getText().toString());
         });

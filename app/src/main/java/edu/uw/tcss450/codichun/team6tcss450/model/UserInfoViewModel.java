@@ -3,6 +3,8 @@ package edu.uw.tcss450.codichun.team6tcss450.model;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class UserInfoViewModel extends ViewModel {
 
@@ -41,6 +43,13 @@ public class UserInfoViewModel extends ViewModel {
             throw new IllegalArgumentException(
                     "Argument must be: " + UserInfoViewModel.class);
         }
+    }
+
+
+    public int getUserId(){
+        DecodedJWT djwt = JWT.decode(mJwt);
+        int memberId = djwt.getClaim("memberid").asInt();
+        return memberId;
     }
 
 

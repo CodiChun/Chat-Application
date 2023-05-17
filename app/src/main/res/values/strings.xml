@@ -125,6 +125,10 @@
     <string name="action_register_short">Register</string>
     <string name="title_home">Home</string>
     <string name="title_chat">Chat</string>
+    <string name="switch_sign_in">Stay Signed in</string>
+    <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
+    <string name="keys_prefs_jwt">Sharded Prefs JWT</string>
+    <string name="action_sign_out">Sign Out</string>
 
 
 
