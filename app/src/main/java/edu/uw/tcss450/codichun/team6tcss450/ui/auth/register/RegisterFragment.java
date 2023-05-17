@@ -96,7 +96,12 @@ public class RegisterFragment extends Fragment {
                 this::validateEmail,
                 result -> binding.editLast.setError("Please enter a valid Last Name."));
     }
-
+    private void validateNick() {
+        mNameValidator.processResult(
+                mNameValidator.apply(binding.editLast.getText().toString().trim()),
+                this::validateFirst,
+                result -> binding.editLast.setError("Please enter a valid Nick Name."));
+    }
     private void validateEmail() {
         mEmailValidator.processResult(
                 mEmailValidator.apply(binding.editEmail.getText().toString().trim()),
