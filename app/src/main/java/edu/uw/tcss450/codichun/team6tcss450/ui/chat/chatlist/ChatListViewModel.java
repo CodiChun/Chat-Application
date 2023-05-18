@@ -17,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -144,7 +146,7 @@ public class ChatListViewModel extends AndroidViewModel {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Do something with response
+                        System.out.println(memberIds.toString() + "is(are) added to " + chatId);
                     }
                 },
                 new Response.ErrorListener() {
@@ -152,6 +154,7 @@ public class ChatListViewModel extends AndroidViewModel {
                     public void onErrorResponse(VolleyError error) {
                         // Do something when error occurred
                         error.printStackTrace();
+                        System.out.println(error.getMessage());
                     }
                 })
                          {
@@ -169,59 +172,36 @@ public class ChatListViewModel extends AndroidViewModel {
 
     }
 
-//    public void loadChats(int memberId, final String jwt) {
-//        //String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "members/" + memberId;
-//        String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
-//        System.out.println("End point for chat list: " + url);
-//
-//        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-//                Request.Method.GET,
-//                url,
-//                null,
-//                new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        List<ChatRow> updatedChatRooms = new ArrayList<>();
-//                        for (int i = 0; i < response.length(); i++) {
-//                            try {
-//                                JSONObject chatObject = response.getJSONObject(i);
-//                                int chatId = chatObject.getInt("chatid");
-//                                String name = chatObject.getString("name");
-//
-//                                // Assuming you have a Chat class with a constructor like Chat(int chatId, String name)
-//                                ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
-//                                //chatList.add(chat);
-//                                System.out.println("new chat room: " + chatId + ", name");
-//                                addChatRow(chatRow);
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        // Update RecyclerView adapter here with the new chat list
-//                        // chatAdapter.updateData(chatList);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Handle error
-//                        System.out.println("Error! Could not load chats: " + error.getMessage());
-//                    }
-//                }
-//        ){
-//            @Override
-//            public Map<String, String> getHeaders() {
-//                Map<String, String> headers = new HashMap<>();
-//                headers.put("Authorization", "Bearer " + jwt);
-//                return headers;
-//            }
-//        };
-//
-//        // Add JsonArrayRequest to the RequestQueue
-//        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
-//                .addToRequestQueue(jsonArrayRequest);
-//    }
+    public void removeMemberFromChat(int chatId, String email, final String jwt) {
+        String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId + "/" + email;
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.DELETE,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println(email + " has left the group " + chatId);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println(error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + jwt);
+                return headers;
+            }
+        };
+        // Add JsonObjectRequest to the RequestQueue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(stringRequest);
+    }
 
     public void loadChats(int memberId, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;

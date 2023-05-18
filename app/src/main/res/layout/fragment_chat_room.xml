@@ -37,6 +37,17 @@
             android:background="?colorBackgroundFloating"
             app:srcCompat="@drawable/buttonimage_chatroom_back_32dp" />
 
+        <ImageButton
+            android:id="@+id/imageButton_chatroom_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_chatroom_settings_24" />
+
+
     </RelativeLayout>
 
 

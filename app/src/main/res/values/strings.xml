@@ -109,7 +109,7 @@
     //for new chat fragment
     <string name="hint_fragment_newchat_addfiled">To: </string>
     <string name="hint_fragment_newchat_testingfiled">Enter Message</string>
-    <string name="buttonname_fragment_newchat_send">Send</string>
+    <string name="buttonname_fragment_newchat_create">Create</string>
 
     //copied from lab5
     <string name="hint_first">First Name</string>
@@ -125,7 +125,6 @@
     <string name="keys_shared_prefs">My Auth App Shared Prefs</string>
     <string name="keys_prefs_jwt">Sharded Prefs JWT</string>
     <string name="action_sign_out">Sign Out</string>
-
 
 
 </resources>

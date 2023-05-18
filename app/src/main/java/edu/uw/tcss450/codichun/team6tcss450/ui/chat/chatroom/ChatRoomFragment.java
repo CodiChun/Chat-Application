@@ -102,6 +102,16 @@ public class ChatRoomFragment extends Fragment {
         // Button listeners
         addNavigationBack(view);
 
+        //add info button
+        ImageButton editButton = view.findViewById(R.id.imageButton_chatroom_edit);
+        editButton.setOnClickListener(v -> {
+            Bundle roomInfo = new Bundle();
+            roomInfo.putInt("chatId", mChatRoomID);
+            roomInfo.putString("name", mChatRoomName);
+            myNavController.navigate(R.id.action_chatRoomFragment_to_roomInfoFragment, roomInfo);
+        });
+
+
         //*************
         FragmentChatRoomBinding binding = FragmentChatRoomBinding.bind(getView());
 

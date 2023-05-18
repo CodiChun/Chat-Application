@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +19,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatListViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMember;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMemberAdapter;
 
 /**
  * create an instance of this fragment.
  * @author codichun
  * @version 1.0
  */
-public class NewChatFragment extends Fragment {
+public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.OnRemoveMemberListener{
 
     public View view;
     private NavController myNavController;
@@ -39,6 +58,12 @@ public class NewChatFragment extends Fragment {
     List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 19, 21));
 
     UserInfoViewModel mUserModel;
+    private RoomInfoMemberAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<RoomInfoMember> mMembersList;
+    private int mChatId;
+    private String mJwt;
+
 
 
     @Override
@@ -53,6 +78,11 @@ public class NewChatFragment extends Fragment {
 //        // Button listeners
 //        addCancelButtonListener();
 //        addAddPeopleButtonListener();
+        adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
+        recyclerView = view.findViewById(R.id.recyclerview_newchat);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mMembersList =  new ArrayList<>();
 
 
         return view;
@@ -63,6 +93,20 @@ public class NewChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         myNavController = Navigation.findNavController(view);
         mUserModel = new ViewModelProvider(requireActivity()).get(UserInfoViewModel.class);
+
+
+//        adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
+//        recyclerView = view.findViewById(R.id.recyclerview_newchat);
+//        recyclerView.setAdapter(adapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        mMembersList =  new ArrayList<>();
+        // Retrieve chatId and jwt from your fragment arguments or wherever you store them
+
+
+
+        //TODO:UNCOMMENT TO Call fetchMembers to get the member list
+        //fetchMembers( mUserModel.getmJwt());
+
         // Button listeners
         addCancelButtonListener(view);
         addAddPeopleButtonListener(view);
@@ -97,7 +141,7 @@ public class NewChatFragment extends Fragment {
     private void addSendButtonListener(){
         Button buttonSend = (Button)view.findViewById(R.id.button_newchat_send);
         EditText editTextRoomName = view.findViewById(R.id.edittext_newchat_roomname);
-        EditText editTextMessage = view.findViewById(R.id.edittext_newchat_typing);
+        //EditText editTextMessage = view.findViewById(R.id.edittext_newchat_typing);
         buttonSend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -148,5 +192,73 @@ public class NewChatFragment extends Fragment {
                 });
             }
         });
+    }
+
+    //TODO: DOUBLE CHECK THIS WHEN JULIA IMPLEMENT THE CONTACTS ENDPOINTS
+    private void fetchMembers(String jwt) {
+
+        String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "contacts/list";
+
+        // Create a JSON object with the request parameters
+        JSONObject params = new JSONObject();
+        try {
+            params.put("memberid_a", mUserModel.getUserId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Create a new JSON request to fetch the contacts
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Parse the response and retrieve the contacts array
+                            JSONArray contactsArray = response.getJSONArray("contacts");
+
+                            // Process the contacts array
+                            for (int i = 0; i < contactsArray.length(); i++) {
+                                JSONObject contactObject = contactsArray.getJSONObject(i);
+
+                                // Extract contact information
+                                int contactId = contactObject.getInt("memberid");
+                                String username = contactObject.getString("username");
+                                String firstname = contactObject.getString("firstname");
+                                String lastname = contactObject.getString("lastname");
+                                int verified = contactObject.getInt("verified");
+
+                                // Process the contact data
+                                mMembersList.add(new RoomInfoMember(username));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error response
+                        error.printStackTrace();
+                        System.out.println(error.getMessage());
+                    }
+                }
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String>  params = new HashMap<>();
+                params.put("authorization", "Bearer " + jwt); // replace with your JWT Token
+                return params;
+            }
+        };
+        // Add the request to the RequestQueue.
+        RequestQueueSingleton.getInstance(getActivity().getApplication().getApplicationContext())
+                .addToRequestQueue(request);
+    }
+
+    @Override
+    public void onRemoveMember(String position) {
+
     }
 }
