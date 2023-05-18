@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/image_current_weather"
-            android:layout_width="135dp"
-            android:layout_height="141dp"
+            android:layout_width="112dp"
+            android:layout_height="104dp"
             android:layout_marginBottom="3dp"
             app:layout_constraintBottom_toTopOf="@+id/label_city"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +46,8 @@
 
         <TextView
             android:id="@+id/label_city"
-            android:layout_width="115dp"
-            android:layout_height="41dp"
+            android:layout_width="113dp"
+            android:layout_height="74dp"
             android:gravity="center"
             android:text="76°"
             app:layout_constraintBottom_toTopOf="@id/list_hourly"
@@ -61,7 +61,6 @@
             android:layout_height="58dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

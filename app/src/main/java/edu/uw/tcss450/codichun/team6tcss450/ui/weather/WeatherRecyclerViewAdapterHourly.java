@@ -1,5 +1,6 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.weather;
 
+import android.content.Context;
 import android.graphics.drawable.Icon;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,10 +64,14 @@ public class WeatherRecyclerViewAdapterHourly extends RecyclerView.Adapter<Weath
         /**
          * Helper used to determine if the preview should be displayed or not.
          */
-        void setBlog(final WeatherData blog) {
-            mBlog = blog;
-            binding.textHour.setText(blog.getmTime());
-            binding.textWeatherinfo.setText(blog.getmTemp());
+        void setBlog(final WeatherData data) {
+            Context c = mView.getContext();
+            String drawablename = data.getmIcon();
+            int drawableId = c.getResources().getIdentifier(drawablename, "drawable", c.getPackageName());
+            mBlog = data;
+            binding.textHour.setText(data.getmTime().substring(11,19));
+            binding.textWeatherinfo.setText(data.getmTemp() + "°F");
+            binding.imageWeather.setImageResource(drawableId);
         }
     }
 }
