@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url">https://jds1223-tcss450-group6.herokuapp.com/</string>
-<!--    <string name="base_url">https://codichun-tcss450-labs.herokuapp.com/</string>-->
+<!--    <string name="base_url">https://jds1223-tcss450-group6.herokuapp.com/</string>-->
+    <string name="base_url">https://codichun-tcss450-labs.herokuapp.com/</string>
 </resources>
