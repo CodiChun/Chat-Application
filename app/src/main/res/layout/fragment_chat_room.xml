@@ -45,7 +45,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="8dp"
             android:background="?attr/selectableItemBackground"
-            app:srcCompat="@drawable/ic_chatroom_info_24" />
+            app:srcCompat="@drawable/ic_chatroom_settings_24" />
 
 
     </RelativeLayout>

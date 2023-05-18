@@ -127,24 +127,24 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <!--        https://sendbird.com/developer/tutorials/android-chat-tutorial-building-a-messaging-ui-->
-        <EditText
-            android:id="@+id/edittext_newchat_typing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/button_newchat_send"
-            android:background="?colorBackgroundFloating"
-            android:hint="@string/hint_fragment_newchat_testingfiled"
-            android:inputType="text"
-            android:maxLines="6"
-            tools:ignore="Autofill" />
+<!--        <EditText-->
+<!--            android:id="@+id/edittext_newchat_typing"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_toStartOf="@+id/button_newchat_send"-->
+<!--            android:background="?colorBackgroundFloating"-->
+<!--            android:hint="@string/hint_fragment_newchat_testingfiled"-->
+<!--            android:inputType="text"-->
+<!--            android:maxLines="6"-->
+<!--            tools:ignore="Autofill" />-->
 
         <Button
             android:id="@+id/button_newchat_send"
-            android:layout_width="84dp"
-            android:layout_height="48dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackground"
-            android:text="@string/buttonname_fragment_newchat_send"
+            android:text="@string/buttonname_fragment_newchat_create"
             android:textColor="?colorPrimary" />
 
     </RelativeLayout>
