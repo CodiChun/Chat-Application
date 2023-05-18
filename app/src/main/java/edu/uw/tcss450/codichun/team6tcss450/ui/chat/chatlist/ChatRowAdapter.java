@@ -85,4 +85,9 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 //    public void setData(List<ChatRow> newChatRow){
 //        this.chat
 //    }
+
+
+    public List<ChatRow> getRows() {
+        return rows;
+    }
 }
