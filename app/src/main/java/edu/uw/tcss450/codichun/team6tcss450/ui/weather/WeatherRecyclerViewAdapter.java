@@ -1,5 +1,6 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.weather;
 
+import android.content.Context;
 import android.graphics.drawable.Icon;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,11 +82,15 @@ public class WeatherRecyclerViewAdapter extends RecyclerView.Adapter<WeatherRecy
                                 R.drawable.ic_more_grey_24dp));
             }
         }
-        void setBlog(final WeatherData blog) {
-            mBlog = blog;
-            binding.textDayofweek.setText(blog.getmDay());
-            binding.textWeatherinfo.setText(blog.getmTemp() + blog.getmWind());
-            binding.textCity.setText(blog.getmCity());
+        void setBlog(final WeatherData data) {
+            Context c = mView.getContext();
+            String drawablename = data.getmIcon();
+            int drawableId = c.getResources().getIdentifier(drawablename, "drawable", c.getPackageName());
+            mBlog = data;
+            binding.textDayofweek.setText(data.getmDay());
+            binding.textWeatherinfo.setText(data.getmTemp() + "°F \n" + data.getmDescription());
+            binding.textCity.setText(data.getmCity());
+            binding.imageWeather.setImageResource(drawableId);
             displayPreview();
         }
     }
