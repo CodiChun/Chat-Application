@@ -27,6 +27,12 @@ public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAd
         this.mContext = context;
     }
 
+    public RoomInfoMemberAdapter(List<RoomInfoMember> mMembersList, Context context) {
+        this.members = mMembersList;
+        this.mContext = context;
+    }
+
+
     @NonNull
     @Override
     public RoomInfoMemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
