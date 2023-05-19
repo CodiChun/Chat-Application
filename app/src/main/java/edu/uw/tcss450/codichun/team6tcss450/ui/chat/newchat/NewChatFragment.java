@@ -58,7 +58,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
     List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 19, 21));
 
     UserInfoViewModel mUserModel;
-    private RoomInfoMemberAdapter adapter;
+    private NewRoomAdapter adapter;
     private RecyclerView recyclerView;
     private List<RoomInfoMember> mMembersList;
     private int mChatId;
@@ -78,7 +78,16 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 //        // Button listeners
 //        addCancelButtonListener();
 //        addAddPeopleButtonListener();
-        adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
+
+        //mock data
+        mMembersList =  new ArrayList<>();
+        mMembersList.add(new RoomInfoMember("test1@test.com"));
+        mMembersList.add(new RoomInfoMember("test2@test.com"));
+        mMembersList.add(new RoomInfoMember("test3@test.com"));
+        adapter = new NewRoomAdapter(mMembersList, getContext());
+
+
+        //adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
         recyclerView = view.findViewById(R.id.recyclerview_newchat);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -109,7 +118,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 
         // Button listeners
         addCancelButtonListener(view);
-        addAddPeopleButtonListener(view);
+        //addAddPeopleButtonListener(view);
         addSendButtonListener();
     }
 
@@ -123,20 +132,20 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
         });
     }
 
-    private void addAddPeopleButtonListener(View view){
-        ImageButton buttonAddPeople = (ImageButton)view.findViewById(R.id.button_newchat_addpeople);
-        buttonAddPeople.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                //TODO: NOT WORKING
-                //myNavController.navigate(R.id.action_newChatFragment_to_navigation_chatlist);
-                //myNavController.navigate(R.id.navigation_chatlist);
-//                NavController myNavController2 = Navigation.findNavController(requireActivity(), R.id.navigation_chatlist);
-//                myNavController2.navigate(R.id.navigation_chatlist);
-
-            }
-        });
-    }
+//    private void addAddPeopleButtonListener(View view){
+//        ImageButton buttonAddPeople = (ImageButton)view.findViewById(R.id.button_newchat_addpeople);
+//        buttonAddPeople.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                //TODO: NOT WORKING
+//                //myNavController.navigate(R.id.action_newChatFragment_to_navigation_chatlist);
+//                //myNavController.navigate(R.id.navigation_chatlist);
+////                NavController myNavController2 = Navigation.findNavController(requireActivity(), R.id.navigation_chatlist);
+////                myNavController2.navigate(R.id.navigation_chatlist);
+//
+//            }
+//        });
+//    }
 
     private void addSendButtonListener(){
         Button buttonSend = (Button)view.findViewById(R.id.button_newchat_send);
