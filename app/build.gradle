@@ -89,4 +89,9 @@ dependencies {
     //jwt
     implementation 'com.auth0:java-jwt:3.18.1'
     implementation 'com.auth0.android:jwtdecode:2.0.0'
+
+    //for contacts
+    apply plugin: "androidx.navigation.safeargs"
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
 }
