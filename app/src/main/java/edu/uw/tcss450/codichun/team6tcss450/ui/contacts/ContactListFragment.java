@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+
 import androidx.navigation.Navigation;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -63,42 +65,21 @@ public class ContactListFragment extends Fragment {
     }
 
     /*
+    public void addDeleteButtonListener(View view) {
+        ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_delete);
+        buttonCancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                deleteContact(view);
+            }
+        });
+    }
+
     private void deleteContact(View view) {
-        ContactListFragmentArgs args = ContactListFragmentArgs.fromBundle(getArguments());
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Are you sure you want to delete " + args.getContacts().getFirstName() + " " + args.getContacts().getLastName() + "?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mContactModel.deleteContact(mInfoViewModel.getJwt(), mInfoViewModel.getEmail(), args.getContacts().getEmail());
-                        getActivity().onBackPressed();
-                    }
-                })
-                .setNegativeButton("No", null);
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
-     */
-
-    /*
-    //private FragmentContactBinding binding;
-
-    private ContactViewModel mModel;
-    //private UserInfoViewModel mInfoViewModel;
-    //private int mChatID;
-    //private boolean mThroughChat;
 
 
-    public ContactFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mModel = new ViewModelProvider(getActivity()).get(ContactViewModel.class);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

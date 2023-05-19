@@ -92,46 +92,6 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
             binding.textContact.setText(contact.getFirstName());
 
         }
-        /*
-        public ContactViewHolder(View view) {
-            super(view);
-            mView = view;
-            binding = FragmentContactCardBinding.bind(view);
-            binding.cardRoot.setOnClickListener(this::handleClick);
 
-        }
-
-        private void handleClick(final View theView) {
-            mExpandedFlags.put(mContact,!mExpandedFlags.get(mContact));
-            displayFullContact();
-        }
-
-        private void displayFullContact() {
-            if (mExpandedFlags.get(mContact)) {
-                binding.nickName.setVisibility(View.VISIBLE);
-                binding.email.setVisibility(View.VISIBLE);
-                binding.chatButton.setVisibility(View.VISIBLE);
-                binding.removeButton.setVisibility(View.VISIBLE);
-            } else {
-
-                binding.nickName.setVisibility(View.GONE);
-                binding.email.setVisibility(View.GONE);
-                binding.chatButton.setVisibility(View.GONE);
-                binding.removeButton.setVisibility(View.GONE);
-            }
-        }
-
-        void setContacts(final Contact contact) {
-            mContact = contact;
-            binding.fullName.setText(contact.getName());
-            binding.nickName.setText(contact.getNick());
-            binding.email.setText(contact.getEmail());
-
-            displayFullContact();
-
-        }
-
-
-         */
     }
 }
