@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_contactlist"
-        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactsListFragment"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactListFragment"
         android:label="ContactsListFragment" />
     <fragment
         android:id="@+id/navigation_weatherlist"
