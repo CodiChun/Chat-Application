@@ -27,12 +27,6 @@ public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAd
         this.mContext = context;
     }
 
-    public RoomInfoMemberAdapter(List<RoomInfoMember> mMembersList, Context context) {
-        this.members = mMembersList;
-        this.mContext = context;
-    }
-
-
     @NonNull
     @Override
     public RoomInfoMemberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,6 +41,7 @@ public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAd
         holder.memberNameTextView.setText(member.getEmail());
         holder.removeMemberButton.setOnClickListener(v -> {
             // Remove the member from the members list
+            RoomInfoMember selected = members.get(position);
             members.remove(position);
 
             if (members.isEmpty()) {
@@ -63,7 +58,7 @@ public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAd
             }
 
             //remove database
-            RoomInfoMember selected = members.get(position);
+
 
             mListener.onRemoveMember(selected.getEmail());
 
