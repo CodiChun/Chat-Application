@@ -55,7 +55,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
     public View view;
     private NavController myNavController;
     int HARD_CODE_PROFILE = R.drawable.image_chatlist_profile_32dp;
-    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(17, 19, 21));
+    List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(26, 27, 28));
 
     UserInfoViewModel mUserModel;
     private NewRoomAdapter adapter;
