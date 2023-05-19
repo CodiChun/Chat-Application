@@ -28,6 +28,18 @@ public class ContactGenerator extends Fragment {
         }
     }
 
+    public static Contact[] removeContacts(Contact[] contacts, int index) {
+        Contact[] newContacts = new Contact[contacts.length - 1];
+        for (int i = 0; i < contacts.length; i++) {
+            if (i < index) {
+                newContacts[i] = contacts[i];
+            } else if (i > index) {
+                newContacts[i - 1] = contacts[i];
+            }
+        }
+        return newContacts;
+    }
+
     // returns a list of contact cards
     public static List<Contact> getContactsList() {return Arrays.asList(CONTACTS);}
 

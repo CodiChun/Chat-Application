@@ -15,34 +15,16 @@ public class ContactCardFragment extends Fragment {
 
     private FragmentContactCardBinding binding;
 
-    private static final String mParam1 = "test1";
-    private static final String mParam2 = "test2";
-
-    private String m1;
-    private String m2;
 
     public ContactCardFragment() {
         // Required empty public constructor
     }
 
 
-    public static ContactCardFragment newInstance(String m1, String m2) {
-        ContactCardFragment fragment = new ContactCardFragment();
-        Bundle args = new Bundle();
-        args.putString(mParam1, m1);
-        args.putString(mParam2, m2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            m1 = getArguments().getString(mParam1);
-            m2 = getArguments().getString(mParam2);
-        }
 
     }
 

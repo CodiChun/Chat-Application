@@ -21,15 +21,4 @@ public class ContactListViewModel extends AndroidViewModel {
         //mContacts.setValue(new ArrayList<>());
     }
 
-    /*
-    public void addContactsObserver(@NonNull LifecycleOwner owner,
-                                    @NonNull Observer<? super List<Contact>> observer) {
-        mContacts.observe(owner, observer);
-    }
-
-    public void setContacts(List<Contact> contacts){ mContacts.setValue(contacts);}
-
-    public List<Contact> getContacts(){return mContacts.getValue();}
-
-     */
 }
