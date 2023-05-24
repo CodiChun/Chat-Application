@@ -63,10 +63,25 @@ public class WeatherListViewModel extends AndroidViewModel {
                                              @NonNull Observer<? super WeatherData> observer) {
         mCurrentData.observe(owner, observer);
     }
-    public void connectGetCurrent() {
+    public void connectGetCurrent(final String jwt,final String query){
         String url =
-                "https://api.weatherbit.io/v2.0/current?city=Tacoma,WA&units=I&key=3533b5d42baa4fa5b8dbdebd88798450";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,null, //no body for this get request
+                getApplication().getResources().getString(R.string.base_url) + "weather";
+        JSONObject body = new JSONObject();
+        try {
+            if (Character.isDigit(query.charAt(0))){
+                body.put("zipcode",query);
+                body.put("city","NA");
+                body.put("latlong","NA");
+            }else {
+                body.put("city", query);
+                body.put("zipcode","NA");
+                body.put("latlong","NA");
+            }
+            body.put("forecast", "current");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,body,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
@@ -93,7 +108,13 @@ public class WeatherListViewModel extends AndroidViewModel {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Error :" + error.toString());
             }
-        });
+        }){
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -102,10 +123,26 @@ public class WeatherListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
-    public void connectGetDaily() {
+    public void connectGetDaily(String jwt,String query) {
+        mWeatherList.getValue().clear();
         String url =
-                "https://api.weatherbit.io/v2.0/forecast/daily?city=Tacoma,WA&units=I&key=3533b5d42baa4fa5b8dbdebd88798450";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,null, //no body for this get request
+                getApplication().getResources().getString(R.string.base_url) + "weather";
+        JSONObject body = new JSONObject();
+        try {
+            if (Character.isDigit(query.charAt(0))){
+                body.put("zipcode",query);
+                body.put("city","NA");
+                body.put("latlong","NA");
+            }else {
+                body.put("city", query);
+                body.put("zipcode","NA");
+                body.put("latlong","NA");
+            }
+            body.put("forecast", "daily");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,body,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
@@ -126,9 +163,10 @@ public class WeatherListViewModel extends AndroidViewModel {
                                     mWeatherList.getValue().add(OneDay);
                                 }
                             }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR!", e.getMessage());
+                            Log.e("ERROR Daily!", e.getMessage());
                         }
                         mWeatherList.setValue(mWeatherList.getValue());
                     }
@@ -137,7 +175,13 @@ public class WeatherListViewModel extends AndroidViewModel {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Error :" + error.toString());
             }
-        });
+        }){
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -146,10 +190,26 @@ public class WeatherListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
-    public void connectGetHourly() {
+    public void connectGetHourly(String jwt,String query) {
+        mWeatherListHourly.getValue().clear();
         String url =
-                "https://api.weatherbit.io/v2.0/forecast/hourly?city=Tacoma,WA&units=I&key=3533b5d42baa4fa5b8dbdebd88798450&hours=24";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url,null, //no body for this get request
+                getApplication().getResources().getString(R.string.base_url) + "weather";
+        JSONObject body = new JSONObject();
+        try {
+            if (Character.isDigit(query.charAt(0))){
+                body.put("zipcode",query);
+                body.put("city","NA");
+                body.put("latlong","NA");
+            }else {
+                body.put("city", query);
+                body.put("zipcode","NA");
+                body.put("latlong","NA");
+            }
+            body.put("forecast", "hourly");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,body,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject result) {
@@ -172,7 +232,7 @@ public class WeatherListViewModel extends AndroidViewModel {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.e("ERROR!", e.getMessage());
+                            Log.e("ERROR Hourly!", e.getMessage());
                         }
                         mWeatherListHourly.setValue(mWeatherListHourly.getValue());
                     }
@@ -181,7 +241,13 @@ public class WeatherListViewModel extends AndroidViewModel {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "Error :" + error.toString());
             }
-        });
+        }){
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
