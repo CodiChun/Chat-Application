@@ -109,7 +109,6 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 //        recyclerView.setAdapter(adapter);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        mMembersList =  new ArrayList<>();
-        // Retrieve chatId and jwt from your fragment arguments or wherever you store them
 
 
 
@@ -184,8 +183,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
                         int newChatRoomId = chatId;
                         System.out.println("chatid: " + chatId);
                         System.out.println("newchatroomid: " + newChatRoomId);
-                        // Here, you can perform actions after the chat room has been created.
-                        // For example, navigate to the new chat room based on the chatId.
+                        // navigate to the new chat room based on the chatId.
                         viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) HARD_CODED_MEMBERS, newChatRoomId, HARD_CODE_PROFILE));
                         //TODO: get the message from user input
 
@@ -257,7 +255,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<>();
-                params.put("authorization", "Bearer " + jwt); // replace with your JWT Token
+                params.put("authorization", "Bearer " + jwt);
                 return params;
             }
         };
