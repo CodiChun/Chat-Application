@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import edu.uw.tcss450.codichun.team6tcss450.AuthActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -20,7 +21,7 @@ import me.pushy.sdk.Pushy;
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND;
 import static android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE;
 
-public class PushReceiver extends BroadcastReceiver {
+public abstract class PushReceiver extends BroadcastReceiver {
 
     public static final String RECEIVED_NEW_MESSAGE = "new message from pushy";
 
@@ -95,4 +96,6 @@ public class PushReceiver extends BroadcastReceiver {
         }
 
     }
+
+    public abstract void onReceived(JSONObject payload, Context context);
 }
