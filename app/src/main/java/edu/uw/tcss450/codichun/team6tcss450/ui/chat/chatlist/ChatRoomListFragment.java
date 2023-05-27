@@ -1,6 +1,10 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,6 +32,7 @@ import java.util.List;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentChatRoomListBinding;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
+import edu.uw.tcss450.codichun.team6tcss450.services.PushReceiver;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 
 /**
@@ -45,6 +50,8 @@ public class ChatRoomListFragment extends Fragment {
 
     private NavController myNavController;
     //private UserInfoViewModel mUserModel;
+    private BroadcastReceiver mChatRoomUpdateReceiver;
+    private UserInfoViewModel model;
 
 
     public ChatRoomListFragment(){
@@ -62,7 +69,7 @@ public class ChatRoomListFragment extends Fragment {
         myViewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
 
         //tring to load chat lists
-        UserInfoViewModel model = new ViewModelProvider(getActivity())
+       model = new ViewModelProvider(getActivity())
                 .get(UserInfoViewModel.class);
         //myViewModel.loadChats(model.getUserId(), model.getmJwt());
         RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
@@ -205,6 +212,39 @@ public class ChatRoomListFragment extends Fragment {
     };
 
 
+    /**
+     * For updating new created chat room to all members
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mChatRoomUpdateReceiver == null) {
+            mChatRoomUpdateReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    int newChatRoomId = intent.getIntExtra("chatRoomId", -1);
+                    if (newChatRoomId != -1) {
+                        // TODO: handle the new chat room ID.
+                        // This involve calling a method on ViewModel to fetch the chat room data from the server and add it to the list.
+
+                        //myViewModel.updateList(model.getUserId() ,model.getmJwt());
+                        System.out.println("***** new chat room broadcast received ******");
+                        myViewModel.loadChats(model.getUserId() ,model.getmJwt());
+                    }
+                }
+            };
+        }
+        IntentFilter filter = new IntentFilter(PushReceiver.RECEIVED_NEW_CHATROOM);
+        getActivity().registerReceiver(mChatRoomUpdateReceiver, filter);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mChatRoomUpdateReceiver != null) {
+            getActivity().unregisterReceiver(mChatRoomUpdateReceiver);
+        }
+    }
 
 
 }

@@ -56,6 +56,10 @@ public class ChatListViewModel extends AndroidViewModel {
         //addChatRow(new ChatRow("testroom", new ArrayList<>(Arrays.asList(14, 15)),2, R.drawable.image_chatlist_profile_32dp));
     }
 
+    /**
+     * Get the current chat items on the recycler view
+     * @return the current chat items on the recycler view
+     */
     public LiveData<List<ChatRow>> getChatRows() {
         return rows;
     }
@@ -74,6 +78,13 @@ public class ChatListViewModel extends AndroidViewModel {
         getOrCreateMapEntry(theMemberId).setValue(list);
     }
 
+    /**
+     * Create a new chat room on the list
+     * @param roomName
+     * @param memberId
+     * @param jwt
+     * @param callback
+     */
     public void createNewChatRoom(final String roomName, final List<Integer> memberId, final String jwt, ChatRoomCreationCallback callback) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT;
 
@@ -110,7 +121,13 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 
-
+    /**
+     * Handle success when create a new chat room
+     * @param response
+     * @param callback
+     * @param memberId
+     * @param jwt
+     */
 
     private void handleCreateNewChatRoomSuccess(final JSONObject response, ChatRoomCreationCallback callback,  final List<Integer> memberId, final String jwt) {
         try {
@@ -130,6 +147,12 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Add a member to a chat room
+     * @param chatId
+     * @param memberIds
+     * @param jwt
+     */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
 
@@ -172,6 +195,12 @@ public class ChatListViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Remove a member from a chat room
+     * @param chatId
+     * @param email
+     * @param jwt
+     */
     public void removeMemberFromChat(int chatId, String email, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId + "/" + email;
 
@@ -203,6 +232,11 @@ public class ChatListViewModel extends AndroidViewModel {
                 .addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Load all the chat rooms for the member
+     * @param memberId
+     * @param jwt
+     */
     public void loadChats(int memberId, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
         System.out.println("End point for chat list: " + url);
@@ -220,8 +254,6 @@ public class ChatListViewModel extends AndroidViewModel {
                                 JSONObject chatObject = response.getJSONObject(i);
                                 int chatId = chatObject.getInt("chatid");
                                 String name = chatObject.getString("name");
-
-                                // Assuming you have a ChatRow class with a constructor like ChatRow(String name, int chatId, int profileImage)
                                 ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
 
                                 // Check if this ChatRow is already present in the list
@@ -235,7 +267,7 @@ public class ChatListViewModel extends AndroidViewModel {
                             }
                         }
                         // Update RecyclerView adapter here with the new chat list
-                        // chatAdapter.updateData(chatList);
+                        rows.postValue(rows.getValue());
                     }
                 },
                 new Response.ErrorListener() {
@@ -347,6 +379,60 @@ public class ChatListViewModel extends AndroidViewModel {
     //************************
     public interface ChatRoomCreationCallback {
         void onChatRoomCreated(int chatId);
+    }
+
+    /**
+     * Load the newest chat room from database
+     */
+    public void updateList(int memberId, final String jwt) {
+        String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
+        System.out.println("End point for chat list: " + url);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            if (response.length() > 0) {
+                                JSONObject chatObject = response.getJSONObject(0);
+                                int chatId = chatObject.getInt("chatid");
+                                String name = chatObject.getString("name");
+                                ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
+
+                                // Check if this ChatRow is already present in the list
+                                if (!rows.getValue().contains(chatRow)) {
+                                    System.out.println("new chat room: " + chatId + ", name");
+                                    addChatRow(chatRow);
+                                }
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        System.out.println("Error! Could not load chats: " + error.getMessage());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + jwt);
+                return headers;
+            }
+        };
+
+        // Add JsonArrayRequest to the RequestQueue
+        RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
+                .addToRequestQueue(jsonArrayRequest);
     }
 
 }
