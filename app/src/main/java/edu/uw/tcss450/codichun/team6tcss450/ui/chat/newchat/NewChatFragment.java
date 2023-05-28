@@ -85,7 +85,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 //        mContactList.add(new RoomInfoMember("test1@test.com"));
 //        mContactList.add(new RoomInfoMember("test2@test.com"));
 //        mContactList.add(new RoomInfoMember("test3@test.com"));
-        adapter = new NewRoomAdapter(mContactList, getContext());
+        adapter = new NewRoomAdapter(mContactList, getContext(), mUserModel.getUserId());
 
 
         //adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
@@ -172,10 +172,13 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
                 //update the chat list
                 ChatListViewModel viewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
 
+                //update selected member list
+                mSelectedMembers = adapter.getSelectedMembers();
+
 
                 //update database
                 viewModel.createNewChatRoom(chatRoomName,
-                        HARD_CODED_MEMBERS,
+                        mSelectedMembers,
                         mUserModel.getmJwt(),
                 new ChatListViewModel.ChatRoomCreationCallback() {
                     @Override
@@ -184,7 +187,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
                         System.out.println("chatid: " + chatId);
                         System.out.println("newchatroomid: " + newChatRoomId);
                         // navigate to the new chat room based on the chatId.
-                        viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) HARD_CODED_MEMBERS, newChatRoomId, HARD_CODE_PROFILE));
+                        viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) mSelectedMembers, newChatRoomId, HARD_CODE_PROFILE));
                         //TODO: get the message from user input
 
                         //set new data to bundle
