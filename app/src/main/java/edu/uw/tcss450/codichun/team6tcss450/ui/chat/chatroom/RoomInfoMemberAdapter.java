@@ -38,7 +38,7 @@ public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAd
     public void onBindViewHolder(@NonNull RoomInfoMemberViewHolder holder, int position) {
         RoomInfoMember member = members.get(position);
 
-        holder.memberNameTextView.setText(member.getEmail());
+        holder.memberNameTextView.setText(member.getUsername());
         holder.removeMemberButton.setOnClickListener(v -> {
             // Remove the member from the members list
             RoomInfoMember selected = members.get(position);

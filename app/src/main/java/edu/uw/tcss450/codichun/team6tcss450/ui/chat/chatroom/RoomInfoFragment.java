@@ -105,7 +105,9 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
                         for (int i = 0; i < membersArray.length(); i++) {
                             JSONObject memberObject = membersArray.getJSONObject(i);
                             String email = memberObject.getString("email");
-                            members.add(new RoomInfoMember(email));
+                            String username = memberObject.getString("username");
+                            int memberid = Integer.parseInt(memberObject.getString("memberid"));
+                            members.add(new RoomInfoMember(username, memberid, email));
                         }
 
                         // Set the members to the adapter

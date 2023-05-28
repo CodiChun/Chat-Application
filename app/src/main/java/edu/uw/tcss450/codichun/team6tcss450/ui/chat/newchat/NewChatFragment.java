@@ -11,7 +11,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +37,6 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatListViewModel;
-import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMember;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMemberAdapter;
@@ -56,11 +52,12 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
     private NavController myNavController;
     int HARD_CODE_PROFILE = R.drawable.image_chatlist_profile_32dp;
     List<Integer> HARD_CODED_MEMBERS = new ArrayList<>(Arrays.asList(26, 27, 28));
+    List<Integer> mSelectedMembers;
 
     UserInfoViewModel mUserModel;
     private NewRoomAdapter adapter;
     private RecyclerView recyclerView;
-    private List<RoomInfoMember> mMembersList;
+    private List<RoomInfoMember> mContactList;
     private int mChatId;
     private String mJwt;
 
@@ -72,6 +69,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_new_chat, container, false);
+        mSelectedMembers = new ArrayList<>();
 
 //        myNavController = Navigation.findNavController(myView);
 //
@@ -79,19 +77,21 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 //        addCancelButtonListener();
 //        addAddPeopleButtonListener();
 
-        //mock data
-        mMembersList =  new ArrayList<>();
-        mMembersList.add(new RoomInfoMember("test1@test.com"));
-        mMembersList.add(new RoomInfoMember("test2@test.com"));
-        mMembersList.add(new RoomInfoMember("test3@test.com"));
-        adapter = new NewRoomAdapter(mMembersList, getContext());
+        //get contact list data
+        mContactList =  new ArrayList<>();
+        mUserModel = new ViewModelProvider(getActivity())
+                .get(UserInfoViewModel.class);
+        fetchMembers(mUserModel.getmJwt());
+//        mContactList.add(new RoomInfoMember("test1@test.com"));
+//        mContactList.add(new RoomInfoMember("test2@test.com"));
+//        mContactList.add(new RoomInfoMember("test3@test.com"));
+        adapter = new NewRoomAdapter(mContactList, getContext());
 
 
         //adapter = new RoomInfoMemberAdapter((RoomInfoMemberAdapter.OnRemoveMemberListener) this);
         recyclerView = view.findViewById(R.id.recyclerview_newchat);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mMembersList =  new ArrayList<>();
 
 
         return view;
@@ -203,45 +203,44 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 
     //TODO: DOUBLE CHECK THIS WHEN JULIA IMPLEMENT THE CONTACTS ENDPOINTS
     private void fetchMembers(String jwt) {
+        int memberId = mUserModel.getUserId();
 
-        String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "contacts/list";
-
-        // Create a JSON object with the request parameters
-        JSONObject params = new JSONObject();
-        try {
-            params.put("memberid_a", mUserModel.getUserId());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "contacts/list/" + memberId + "/1";
+        System.out.println("end point for chat list on new chat fragment: " + url);
 
         // Create a new JSON request to fetch the contacts
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, params,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
+
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             // Parse the response and retrieve the contacts array
-                            JSONArray contactsArray = response.getJSONArray("contacts");
+                            JSONArray contactsArray = response.getJSONArray("rows"); // change from "contacts" to "rows"
 
                             // Process the contacts array
                             for (int i = 0; i < contactsArray.length(); i++) {
                                 JSONObject contactObject = contactsArray.getJSONObject(i);
 
                                 // Extract contact information
-                                int contactId = contactObject.getInt("memberid");
-                                String username = contactObject.getString("username");
+                                int contactId = contactObject.getInt("id");
+                                String username = contactObject.getString("nickname");
+                                String email = contactObject.getString("email"); //
                                 String firstname = contactObject.getString("firstname");
                                 String lastname = contactObject.getString("lastname");
-                                int verified = contactObject.getInt("verified");
 
                                 // Process the contact data
-                                mMembersList.add(new RoomInfoMember(username));
+                                mContactList.add(new RoomInfoMember(username, contactId, email)); // adjust constructor as needed
+                                System.out.println("new chat fragment got data: " + username);
                             }
+
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            System.out.println(e.getMessage());
+                            System.out.println("New Chat Fragment" + e.getMessage());
                         }
                     }
+
                 },
                 new Response.ErrorListener() {
                     @Override
@@ -263,6 +262,7 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
         RequestQueueSingleton.getInstance(getActivity().getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
+
 
     @Override
     public void onRemoveMember(String position) {
