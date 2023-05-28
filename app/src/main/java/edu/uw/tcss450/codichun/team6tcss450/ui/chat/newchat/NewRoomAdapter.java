@@ -54,7 +54,7 @@ public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfo
     public void onBindViewHolder(@NonNull NewRoomAdapter.RoomInfoMemberViewHolder holder, int position) {
         RoomInfoMember member = members.get(position);
 
-        holder.memberNameTextView.setText(member.getEmail());
+        holder.memberNameTextView.setText(member.getUsername());
 
         // Reset the checkbox state
         holder.selectBox.setOnCheckedChangeListener(null);
