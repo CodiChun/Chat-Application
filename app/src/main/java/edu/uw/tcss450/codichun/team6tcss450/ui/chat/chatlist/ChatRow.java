@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 /**
- * An object for a row of the chat list
+ * An object for a item of the chat list recycler view
  * @author codichun
  * @version 1.0
  */
@@ -29,6 +29,13 @@ public class ChatRow {
     private String mLastMessage;
     private boolean hasNewMessage;
 
+    /**
+     * Constructor
+     * @param theRoomName
+     * @param theMemberID
+     * @param theChatRoomID
+     * @param theProfile
+     */
     public ChatRow(String theRoomName, ArrayList<Integer> theMemberID, int theChatRoomID, int theProfile) {
         mRoomName = theRoomName;
         mMemberID = theMemberID;
@@ -37,6 +44,12 @@ public class ChatRow {
         hasNewMessage = false;
     }
 
+    /**
+     * Constructor
+     * @param theRoomName
+     * @param theChatRoomID
+     * @param theProfile
+     */
     public ChatRow(String theRoomName, int theChatRoomID, int theProfile) {
         mRoomName = theRoomName;
         mChatRoomID = theChatRoomID;
@@ -116,19 +129,6 @@ public class ChatRow {
         this.mLastMessage = mLastMessage;
     }
 
-    //    /**
-//     * Provides equality solely based on MessageId.
-//     * @param other the other object to check for equality
-//     * @return true if other message ID matches this message ID, false otherwise
-//     */
-//    @Override
-//    public boolean equals(@Nullable Object other) {
-//        boolean result = false;
-//        if (other instanceof ChatRow) {
-//            result = mChatRoomID == ((ChatRow) other).getmChatRoomID();
-//        }
-//        return result;
-//    }
 @Override
 public boolean equals(Object o) {
     if (this == o) return true;

@@ -17,6 +17,11 @@ import java.util.List;
 import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
+/**
+ * The adapter fot the recycler view on the chat room information page
+ * @author codichun
+ * @version 1.0
+ */
 public class RoomInfoMemberAdapter extends RecyclerView.Adapter<RoomInfoMemberAdapter.RoomInfoMemberViewHolder> {
 
     private List<RoomInfoMember> members;

@@ -43,8 +43,6 @@ import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
  */
 public class ChatRoomListFragment extends Fragment {
 
-    //    private RecyclerView myRecyclerView;
-    int HARD_CODE_CHAT_ROOM_ID = 1;
     private ChatRowAdapter myAdapter;
     private ChatListViewModel myViewModel;
     private View myView;
@@ -57,6 +55,9 @@ public class ChatRoomListFragment extends Fragment {
     private BroadcastReceiver mChatUpdateReceiver;
 
 
+    /**
+     * Constructor
+     */
     public ChatRoomListFragment(){
 
     }
@@ -83,6 +84,7 @@ public class ChatRoomListFragment extends Fragment {
         getActivity().registerReceiver(mChatUpdateReceiver, filter);
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -96,24 +98,16 @@ public class ChatRoomListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chat_room_list, container, false);
-//        myNavController = Navigation.findNavController(myView);
-
-
         myViewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
 
         //tring to load chat lists
        model = new ViewModelProvider(getActivity())
                 .get(UserInfoViewModel.class);
-        //myViewModel.loadChats(model.getUserId(), model.getmJwt());
         RecyclerView recyclerView = myView.findViewById(R.id.recyclerview_chatList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         //add the swiper
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
-//        myAdapter = new ChatRowAdapter(getActivity(), new ArrayList<>());
-//        recyclerView.setAdapter(myAdapter);
-        //myViewModel = new ViewModelProvider(this).get(ChatListViewModel.class);
 
         // check if the adapter is null before creating a new one
         if(myAdapter == null) {
@@ -129,7 +123,6 @@ public class ChatRoomListFragment extends Fragment {
                     myAdapter.setOnItemClickListener(new ChatRowAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
-                            //Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment);
                             // Get the data at position
                             ChatRow data = myAdapter.getDataAtPosition(position);
 
@@ -148,9 +141,6 @@ public class ChatRoomListFragment extends Fragment {
                             bundle.putInt("chatRoomID", chatRoomId);
                             bundle.putString("chatRoomName", chatRoomName);
                             //System.out.println("on chat room list fragment, bundle: " + bundle.getInt("chatRoomID"));
-
-                            //Let the notification image go
-
 
                             // Use Navigation Component to navigate to the new Fragment
                             Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment, bundle);
@@ -172,15 +162,12 @@ public class ChatRoomListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //******************
         UserInfoViewModel model = new ViewModelProvider(getActivity())
                 .get(UserInfoViewModel.class);
-        //FragmentChatRoomListBinding.bind(getView()).textHello.setText("Hello " + model.getEmail());
-        //******************
         myNavController = Navigation.findNavController(view);
         addButtonNewChat(view);
 
-        //tool bar
+        //tool bar for log out
         Toolbar myToolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
         if(((AppCompatActivity)getActivity()).getSupportActionBar() != null){
@@ -188,6 +175,10 @@ public class ChatRoomListFragment extends Fragment {
         }
     }
 
+    /**
+     * Button lisener for create a new chat room
+     * @param view
+     */
     private void addButtonNewChat(View view){
         Button buttonNewChat = (Button) view.findViewById(R.id.button_newchatroom_chatlist);
         buttonNewChat.setOnClickListener(new View.OnClickListener(){
@@ -229,9 +220,6 @@ public class ChatRoomListFragment extends Fragment {
                     int chatRoomId = myAdapter.getRows().get(position).getmChatRoomID();
                     UserInfoViewModel userInfoModel = new ViewModelProvider(getActivity())
                             .get(UserInfoViewModel.class);
-//                    myData.remove(position);
-//                    notifyItemRemoved(position);
-//                    notifyItemRangeChanged(position, myData.size());
                     int position = viewHolder.getAdapterPosition();
                     myAdapter.getRows().remove(position);
                     myAdapter.notifyItemRemoved(position);
@@ -264,11 +252,9 @@ public class ChatRoomListFragment extends Fragment {
                 public void onReceive(Context context, Intent intent) {
                     int newChatRoomId = intent.getIntExtra("chatRoomId", -1);
                     if (newChatRoomId != -1) {
-                        // TODO: handle the new chat room ID.
                         // This involve calling a method on ViewModel to fetch the chat room data from the server and add it to the list.
-
                         //myViewModel.updateList(model.getUserId() ,model.getmJwt());
-                        System.out.println("***** new chat room broadcast received ******");
+                        //System.out.println("***** new chat room broadcast received ******");
                         myViewModel.loadChats(model.getUserId() ,model.getmJwt());
                     }
                 }
@@ -286,10 +272,18 @@ public class ChatRoomListFragment extends Fragment {
         }
     }
 
+    /**
+     * Getter for chat row adapter
+     * @return
+     */
     public ChatRowAdapter getChatRowAdapter() {
         return myAdapter;
     }
 
+    /**
+     * Setter for chat row adapter
+     * @param myAdapter
+     */
     public void setMyAdapter(ChatRowAdapter myAdapter) {
         this.myAdapter = myAdapter;
     }

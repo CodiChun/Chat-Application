@@ -78,26 +78,35 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
         return rows.size();
     }
 
-    //new
+    /**
+     * Interface for when an chat row item is clicked
+     */
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    //new
+    /**
+     * get the position of a chat row item
+     * @param position
+     * @return
+     */
     public ChatRow getDataAtPosition(int position){
         return rows.get(position);
     }
 
+    /**
+     * Update the chat list
+     * @param newChatRow
+     */
     public void updateData(List<ChatRow> newChatRow){
         rows = newChatRow;
         notifyDataSetChanged();
     }
 
-//    public void setData(List<ChatRow> newChatRow){
-//        this.chat
-//    }
-
-
+    /**
+     * Get the chat list
+     * @return a list of chat rows
+     */
     public List<ChatRow> getRows() {
         return rows;
     }

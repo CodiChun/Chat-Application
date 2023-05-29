@@ -23,6 +23,11 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMember;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.newchat.NewChatFragment;
 
+/**
+ * The recycler view adapter for new chat room
+ * @author codichun
+ * @version 1.0
+ */
 public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfoMemberViewHolder> {
 
     private List<RoomInfoMember> members;
@@ -30,12 +35,22 @@ public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfo
     List<Integer> mSelectedList;
 
 
+    /**
+     * Constructor
+     * @param context
+     */
     public NewRoomAdapter(Context context) {
         this.members = new ArrayList<>();
         this.mContext = context;
         this.mSelectedList = new ArrayList<>();
     }
 
+    /**
+     * Constructor
+     * @param mMembersList
+     * @param context
+     * @param userId
+     */
     public NewRoomAdapter(List<RoomInfoMember> mMembersList, Context context, int userId) {
         this.members = mMembersList;
         this.mContext = context;
@@ -81,16 +96,26 @@ public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfo
         return members.size();
     }
 
+    /**
+     * Set the member list for the new chat room
+     * @param members
+     */
     public void setMembers(List<RoomInfoMember> members) {
         this.members = members;
         notifyDataSetChanged(); // Notify the adapter that the data has changed so it can update the RecyclerView
     }
 
-    // Getter method to get the selected members outside of the adapter
+    /**
+     * Getter method to get the selected members outside of the adapter
+     * @return
+     */
     public List<Integer> getSelectedMembers() {
         return mSelectedList;
     }
 
+    /**
+     * View Holder for chat room member list
+     */
     public static class RoomInfoMemberViewHolder extends RecyclerView.ViewHolder {
         TextView memberNameTextView;
         CheckBox selectBox;
