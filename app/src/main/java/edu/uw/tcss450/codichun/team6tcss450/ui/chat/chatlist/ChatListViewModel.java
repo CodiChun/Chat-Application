@@ -33,6 +33,7 @@ import java.util.Objects;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatMessage;
 
 
 /**
@@ -435,4 +436,24 @@ public class ChatListViewModel extends AndroidViewModel {
                 .addToRequestQueue(jsonArrayRequest);
     }
 
+    public void updateChatRowWithNewMessage(int chatId, ChatMessage message) {
+        List<ChatRow> updatedRows = new ArrayList<>(rows.getValue());
+        for (ChatRow row : updatedRows) {
+            if (row.getmChatRoomID() == chatId) {
+                row.setHasNewMessage(true);
+                row.setmLastMessage(message.getMessage());
+                break;
+            }
+        }
+        rows.postValue(updatedRows);
+
+    }
+
+    public MutableLiveData<List<ChatRow>> getRows() {
+        return rows;
+    }
+
+    public void setRows(MutableLiveData<List<ChatRow>> rows) {
+        this.rows = rows;
+    }
 }

@@ -33,6 +33,7 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentChatRoomListBinding;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.services.PushReceiver;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatMessage;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatRoomFragment;
 
 /**
@@ -53,10 +54,42 @@ public class ChatRoomListFragment extends Fragment {
     private BroadcastReceiver mChatRoomUpdateReceiver;
     private UserInfoViewModel model;
 
+    private BroadcastReceiver mChatUpdateReceiver;
+
 
     public ChatRoomListFragment(){
 
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize the BroadcastReceiver
+        mChatUpdateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Get the new message and the chat room ID
+                ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
+                int chatId = intent.getIntExtra("chatid", -1);
+
+                // Update the ViewModel
+                myViewModel.updateChatRowWithNewMessage(chatId, cm);
+            }
+        };
+
+        // Register the BroadcastReceiver to receive a broadcast whenever there is a new chat message
+        IntentFilter filter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
+        getActivity().registerReceiver(mChatUpdateReceiver, filter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Unregister the BroadcastReceiver when the fragment is destroyed
+        getActivity().unregisterReceiver(mChatUpdateReceiver);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +133,10 @@ public class ChatRoomListFragment extends Fragment {
                             // Get the data at position
                             ChatRow data = myAdapter.getDataAtPosition(position);
 
+                            //set the notification image go
+                            ChatRow clickedRow = chatRows.get(position);
+                            clickedRow.setHasNewMessage(false);
+
                             // Get the ID of the chat room
                             int chatRoomId = data.getmChatRoomID();
                             //System.out.println("on chat room list fragment, data.getChatRoomID: " + chatRoomId);
@@ -111,6 +148,9 @@ public class ChatRoomListFragment extends Fragment {
                             bundle.putInt("chatRoomID", chatRoomId);
                             bundle.putString("chatRoomName", chatRoomName);
                             //System.out.println("on chat room list fragment, bundle: " + bundle.getInt("chatRoomID"));
+
+                            //Let the notification image go
+
 
                             // Use Navigation Component to navigate to the new Fragment
                             Navigation.findNavController(view).navigate(R.id.action_navigation_chatlist_to_chatRoomFragment, bundle);
@@ -246,5 +286,11 @@ public class ChatRoomListFragment extends Fragment {
         }
     }
 
+    public ChatRowAdapter getChatRowAdapter() {
+        return myAdapter;
+    }
 
+    public void setMyAdapter(ChatRowAdapter myAdapter) {
+        this.myAdapter = myAdapter;
+    }
 }

@@ -44,6 +44,7 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ChatRowViewHolder holder, int position) {
+        ChatRow row = rows.get(position);
         holder.nameView.setText(rows.get(position).getmRoomName());
 
         //TODO: SHOW THE LAST MESSAGE
@@ -60,6 +61,16 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
                 }
             }
         });
+
+        // Show or hide the notification image based on the hasNewMessage property
+        if (row.isHasNewMessage()) {
+            holder.notificationImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.notificationImageView.setVisibility(View.GONE);
+        }
+
+        //set new message on the item
+        holder.setMessageView(row.getmLastMessage());
     }
 
     @Override

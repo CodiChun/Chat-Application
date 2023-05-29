@@ -36,8 +36,16 @@
         tools:text="@string/text_fragment_chatroom_message"
         />
 
+    <ImageView
+        android:id="@+id/ImageView_chatrow_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_notifications_active_24"
+        android:visibility="gone" />
 
-<!--    <ImageButton-->
+
+
+    <!--    <ImageButton-->
 <!--        android:id="@+id/button_chatrow_toroom"-->
 <!--        android:layout_width="48dp"-->
 <!--        android:layout_height="48dp"-->
