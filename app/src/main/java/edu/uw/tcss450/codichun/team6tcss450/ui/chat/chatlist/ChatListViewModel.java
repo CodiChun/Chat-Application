@@ -150,8 +150,8 @@ public class ChatListViewModel extends AndroidViewModel {
      */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
-        System.out.println("ChatListViewModel: " +url);
-        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt: " + jwt);
+        //System.out.println("ChatListViewModel: " +url);
+        //System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt: " + jwt);
 
         JSONArray jsonMembersArray = new JSONArray(memberIds);
 
@@ -173,7 +173,6 @@ public class ChatListViewModel extends AndroidViewModel {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        System.out.println(error.getMessage());
                     }
                 })
                          {
@@ -235,7 +234,7 @@ public class ChatListViewModel extends AndroidViewModel {
      */
     public void loadChats(int memberId, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
-        System.out.println("End point for chat list: " + url);
+        //System.out.println("End point for chat list: " + url);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -254,7 +253,7 @@ public class ChatListViewModel extends AndroidViewModel {
 
                                 // Check if this ChatRow is already present in the list
                                 if (!rows.getValue().contains(chatRow)) {
-                                    System.out.println("new chat room: " + chatId + ", name");
+                                    //System.out.println("new chat room: " + chatId + ", name");
                                     addChatRow(chatRow);
                                 }
 

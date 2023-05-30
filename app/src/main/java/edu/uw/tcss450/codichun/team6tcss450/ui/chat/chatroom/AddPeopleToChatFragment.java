@@ -100,7 +100,7 @@ public class AddPeopleToChatFragment extends Fragment {
         int memberId = mUserModel.getUserId();
 
         String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "contacts2/list/" + memberId + "/1";
-        System.out.println("end point for chat list on new chat fragment: " + url);
+        //System.out.println("end point for chat list on new chat fragment: " + url);
 
         // Create a new JSON request to fetch the contacts
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -175,11 +175,11 @@ public class AddPeopleToChatFragment extends Fragment {
 
                 //add member to chat
                 addMemberToChat(mChatId, mSelectedMembers, mUserModel.getmJwt());
-                System.out.println("***********AddPeopleToChat, chatId: " + mChatId + ", member list: " + mSelectedMembers.toString());
+                //System.out.println("***********AddPeopleToChat, chatId: " + mChatId + ", member list: " + mSelectedMembers.toString());
 
                 //go back to chat room
                 Navigation.findNavController(requireView()).popBackStack();
-                System.out.println("create click");
+                //System.out.println("create click");
 
             }
         });
@@ -193,8 +193,8 @@ public class AddPeopleToChatFragment extends Fragment {
      */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = requireActivity().getApplication().getResources().getString(R.string.base_url) + "chatroom2" + "/" + chatId;
-        System.out.println("AddPeople: " +url);
-        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt" + jwt);
+//        System.out.println("AddPeople: " +url);
+//        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt" + jwt);
 
         JSONArray jsonMembersArray = new JSONArray(memberIds);
 
@@ -214,7 +214,7 @@ public class AddPeopleToChatFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("Response", response.toString());
-                        System.out.println(response.toString());
+                        //System.out.println(response.toString());
 
                     }
                 },
