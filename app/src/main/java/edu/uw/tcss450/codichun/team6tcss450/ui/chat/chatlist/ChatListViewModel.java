@@ -150,6 +150,8 @@ public class ChatListViewModel extends AndroidViewModel {
      */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
+        System.out.println("ChatListViewModel: " +url);
+        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt: " + jwt);
 
         JSONArray jsonMembersArray = new JSONArray(memberIds);
 
