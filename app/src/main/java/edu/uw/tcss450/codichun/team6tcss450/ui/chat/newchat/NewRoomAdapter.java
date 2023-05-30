@@ -51,11 +51,14 @@ public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfo
      * @param context
      * @param userId
      */
-    public NewRoomAdapter(List<RoomInfoMember> mMembersList, Context context, int userId) {
+    public NewRoomAdapter(List<RoomInfoMember> mMembersList, Context context, int userId, boolean newChat) {
         this.members = mMembersList;
         this.mContext = context;
         mSelectedList = new ArrayList<>();
-        mSelectedList.add(userId);
+        if(newChat==true){
+            mSelectedList.add(userId);
+        }
+
     }
 
     @NonNull
