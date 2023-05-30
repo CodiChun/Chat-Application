@@ -9,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -25,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -97,7 +100,7 @@ public class AddPeopleToChatFragment extends Fragment {
         int memberId = mUserModel.getUserId();
 
         String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "contacts2/list/" + memberId + "/1";
-        System.out.println("end point for chat list on new chat fragment: " + url);
+        //System.out.println("end point for chat list on new chat fragment: " + url);
 
         // Create a new JSON request to fetch the contacts
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -172,11 +175,11 @@ public class AddPeopleToChatFragment extends Fragment {
 
                 //add member to chat
                 addMemberToChat(mChatId, mSelectedMembers, mUserModel.getmJwt());
-                System.out.println("jwt: " + mUserModel.getmJwt() +  ", chatId: " + mChatId + ", member list" + mSelectedMembers);
+                //System.out.println("***********AddPeopleToChat, chatId: " + mChatId + ", member list: " + mSelectedMembers.toString());
 
                 //go back to chat room
                 Navigation.findNavController(requireView()).popBackStack();
-                System.out.println("create click");
+                //System.out.println("create click");
 
             }
         });
@@ -189,8 +192,9 @@ public class AddPeopleToChatFragment extends Fragment {
      * @param jwt
      */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
-        String url = requireActivity().getApplication().getResources().getString(R.string.base_url) + "chatroom" + "/" + chatId;
-        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString());
+        String url = requireActivity().getApplication().getResources().getString(R.string.base_url) + "chatroom2" + "/" + chatId;
+//        System.out.println("AddPeople: " +url);
+//        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt" + jwt);
 
         JSONArray jsonMembersArray = new JSONArray(memberIds);
 
@@ -201,26 +205,40 @@ public class AddPeopleToChatFragment extends Fragment {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+        // Create a new JsonObjectRequest
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println(memberIds.toString() + "is(are) added to " + chatId);
+                        Log.d("Response", response.toString());
+                        //System.out.println(response.toString());
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        // Do something when error occurred
+                        String responseBody = "";
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        }
+
+                        Log.e("Volley Error", "Error code: " + (error.networkResponse != null ? error.networkResponse.statusCode : "")
+                                + ", Error Body: " + responseBody);
+
                         error.printStackTrace();
-                        System.out.println("AddPeopleToChatFragment: " + error.getMessage());
                     }
-                })
-        {
+                }
+        ) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", jwt);
-                return headers;
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwt);
+                return params;
             }
         };
 

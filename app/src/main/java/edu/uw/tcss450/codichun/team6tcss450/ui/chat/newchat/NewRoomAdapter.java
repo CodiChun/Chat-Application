@@ -55,7 +55,7 @@ public class NewRoomAdapter extends RecyclerView.Adapter<NewRoomAdapter.RoomInfo
         this.members = mMembersList;
         this.mContext = context;
         mSelectedList = new ArrayList<>();
-        if(newChat==true){
+        if(newChat){
             mSelectedList.add(userId);
         }
 
