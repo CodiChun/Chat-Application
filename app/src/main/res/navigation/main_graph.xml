@@ -72,5 +72,16 @@
         <action
             android:id="@+id/action_roomInfoFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_roomInfoFragment_to_addPeopleToChatFragment"
+            app:destination="@id/addPeopleToChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPeopleToChatFragment"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.AddPeopleToChatFragment"
+        android:label="AddPeopleToChatFragment" >
+        <action
+            android:id="@+id/action_addPeopleToChatFragment_to_roomInfoFragment"
+            app:destination="@id/roomInfoFragment" />
     </fragment>
 </navigation>

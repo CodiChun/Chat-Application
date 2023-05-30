@@ -170,7 +170,6 @@ public class ChatListViewModel extends AndroidViewModel {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Do something when error occurred
                         error.printStackTrace();
                         System.out.println(error.getMessage());
                     }

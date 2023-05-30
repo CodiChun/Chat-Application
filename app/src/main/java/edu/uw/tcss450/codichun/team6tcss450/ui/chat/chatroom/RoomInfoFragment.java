@@ -82,7 +82,9 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
 
         addMemberButton.setOnClickListener(v -> {
             // TODO: Implement the functionality to add a new member, could be a new fragment to add member
-            // Navigation.findNavController(v).navigate(R.id.action_to_addMemberFragment);
+            Bundle toAddPeopleBundle = new Bundle();
+            toAddPeopleBundle.putInt("chatId", mChatId);
+            Navigation.findNavController(v).navigate(R.id.action_roomInfoFragment_to_addPeopleToChatFragment, toAddPeopleBundle);
         });
 
         // Fetch room name and set it to roomNameTextView

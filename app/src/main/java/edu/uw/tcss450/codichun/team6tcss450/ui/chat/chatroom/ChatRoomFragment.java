@@ -58,7 +58,7 @@ public class ChatRoomFragment extends Fragment {
             mChatRoomName = getArguments().getString("chatRoomName");
         }
 
-        System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
+        //System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
 
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mUserModel = provider.get(UserInfoViewModel.class);
