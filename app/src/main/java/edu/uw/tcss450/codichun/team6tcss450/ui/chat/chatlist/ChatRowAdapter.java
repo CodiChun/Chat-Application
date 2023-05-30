@@ -44,6 +44,7 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ChatRowViewHolder holder, int position) {
+        ChatRow row = rows.get(position);
         holder.nameView.setText(rows.get(position).getmRoomName());
 
         //TODO: SHOW THE LAST MESSAGE
@@ -60,6 +61,16 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
                 }
             }
         });
+
+        // Show or hide the notification image based on the hasNewMessage property
+        if (row.isHasNewMessage()) {
+            holder.notificationImageView.setVisibility(View.VISIBLE);
+        } else {
+            holder.notificationImageView.setVisibility(View.GONE);
+        }
+
+        //set new message on the item
+        holder.setMessageView(row.getmLastMessage());
     }
 
     @Override
@@ -67,26 +78,35 @@ public class ChatRowAdapter extends RecyclerView.Adapter<ChatRowViewHolder> {
         return rows.size();
     }
 
-    //new
+    /**
+     * Interface for when an chat row item is clicked
+     */
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    //new
+    /**
+     * get the position of a chat row item
+     * @param position
+     * @return
+     */
     public ChatRow getDataAtPosition(int position){
         return rows.get(position);
     }
 
+    /**
+     * Update the chat list
+     * @param newChatRow
+     */
     public void updateData(List<ChatRow> newChatRow){
         rows = newChatRow;
         notifyDataSetChanged();
     }
 
-//    public void setData(List<ChatRow> newChatRow){
-//        this.chat
-//    }
-
-
+    /**
+     * Get the chat list
+     * @return a list of chat rows
+     */
     public List<ChatRow> getRows() {
         return rows;
     }
