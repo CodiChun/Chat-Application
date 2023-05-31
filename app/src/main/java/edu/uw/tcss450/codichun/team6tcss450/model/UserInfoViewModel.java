@@ -25,7 +25,6 @@ public class UserInfoViewModel extends ViewModel {
     }
 
     public static class UserInfoViewModelFactory implements ViewModelProvider.Factory {
-
         private final String email;
         private final String jwt;
 

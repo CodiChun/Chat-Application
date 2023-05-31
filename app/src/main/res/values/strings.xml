@@ -132,6 +132,8 @@
     <string name="label_username">User Name: %1$s</string>
     <string name="contact_card_name"></string>
 
-
+    //Location (probably temporary)
+    <string name="label_location">Current location:</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>
