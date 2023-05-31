@@ -1,7 +1,6 @@
 package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,18 +16,44 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
  */
 public class ChatRowViewHolder extends RecyclerView.ViewHolder {
 
-    ImageView profileView;
+    ImageView profileView, notificationImageView;
     TextView nameView, messageView;
 
-//    public Button buttonToRoom;
 
+    /**
+     * Constructor
+     * @param itemView
+     */
     public ChatRowViewHolder(@NonNull View itemView) {
         super(itemView);
         profileView = itemView.findViewById(R.id.imageview_chatroomview_profile);
         nameView = itemView.findViewById(R.id.textview_chatroomview_name);
         messageView = itemView.findViewById((R.id.textview_chatroomview_message));
-//        buttonToRoom = itemView.findViewById(R.id.button_chatrow_toroom);
+        notificationImageView = itemView.findViewById(R.id.ImageView_chatrow_notification);
     }
 
+    public ImageView getProfileView() {
+        return profileView;
+    }
+
+    public void setProfileView(ImageView profileView) {
+        this.profileView = profileView;
+    }
+
+    public TextView getNameView() {
+        return nameView;
+    }
+
+    public void setNameView(TextView nameView) {
+        this.nameView = nameView;
+    }
+
+    public TextView getMessageView() {
+        return messageView;
+    }
+
+    public void setMessageView(String message) {
+        this.messageView.setText(message);
+    }
 
 }

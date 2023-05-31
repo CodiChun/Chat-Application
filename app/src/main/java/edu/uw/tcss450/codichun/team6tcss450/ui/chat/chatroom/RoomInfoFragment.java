@@ -35,6 +35,11 @@ import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 
+/**
+ * The fragment for chat room information
+ * @author codichun
+ * @version 1.0
+ */
 public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.OnRemoveMemberListener{
 
     private RoomInfoMemberAdapter adapter;
@@ -76,8 +81,10 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
         });
 
         addMemberButton.setOnClickListener(v -> {
-            // Implement the functionality to add a new member, could be a new fragment to add member
-            // Navigation.findNavController(v).navigate(R.id.action_to_addMemberFragment);
+            // TODO: Implement the functionality to add a new member, could be a new fragment to add member
+            Bundle toAddPeopleBundle = new Bundle();
+            toAddPeopleBundle.putInt("chatId", mChatId);
+            Navigation.findNavController(v).navigate(R.id.action_roomInfoFragment_to_addPeopleToChatFragment, toAddPeopleBundle);
         });
 
         // Fetch room name and set it to roomNameTextView
@@ -90,6 +97,11 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
     }
 
 
+    /**
+     * Get the member list of the current chat room
+     * @param chatId
+     * @param jwt
+     */
     private void fetchMembers(int chatId, String jwt) {
 
         String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "chats" + "/" + chatId;
@@ -105,7 +117,9 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
                         for (int i = 0; i < membersArray.length(); i++) {
                             JSONObject memberObject = membersArray.getJSONObject(i);
                             String email = memberObject.getString("email");
-                            members.add(new RoomInfoMember(email));
+                            String username = memberObject.getString("username");
+                            int memberid = Integer.parseInt(memberObject.getString("memberid"));
+                            members.add(new RoomInfoMember(username, memberid, email));
                         }
 
                         // Set the members to the adapter
@@ -115,7 +129,6 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
                     }
                 },
                 error -> {
-                    // Handle error here
                     Log.e("RoomInfoFragment", "That didn't work!", error);
                     System.out.println("RoomInfoFragment" + error.getMessage());
                 }) {
@@ -133,9 +146,12 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
     }
 
 
-
-
-
+    /**
+     * Remove a member from the chat room
+     * @param chatId
+     * @param email
+     * @param jwt
+     */
     public void removeMemberFromChat(int chatId, String email, final String jwt) {
         String url = getActivity().getApplication().getResources().getString(R.string.base_url) + "chats" + "/" + chatId + "/" + email;
 
@@ -167,6 +183,10 @@ public class RoomInfoFragment extends Fragment implements RoomInfoMemberAdapter.
                 .addToRequestQueue(stringRequest);
     }
 
+    /**
+     * update recycler view when remove a member
+     * @param email
+     */
     @Override
     public void onRemoveMember(String email) {
         ViewModelProvider provider = new ViewModelProvider(getActivity());

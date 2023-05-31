@@ -2,6 +2,8 @@ package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
@@ -76,6 +78,18 @@ public class ChatSendViewModel extends AndroidViewModel {
 
 
     private void handleError(final VolleyError error) {
+//
+//        if (Objects.isNull(error.networkResponse)) {
+//            Log.e("NETWORK ERROR", error.getMessage());
+//        }
+//        else {
+//            String data = new String(error.networkResponse.data, Charset.defaultCharset());
+//            Log.e("CLIENT ERROR",
+//                    error.networkResponse.statusCode +
+//                            " " +
+//                            data);
+//        }
+//    }
         if (Objects.isNull(error.networkResponse)) {
             Log.e("NETWORK ERROR", error.getMessage());
         }
@@ -85,6 +99,11 @@ public class ChatSendViewModel extends AndroidViewModel {
                     error.networkResponse.statusCode +
                             " " +
                             data);
+
+            if (error.networkResponse.statusCode == 403) {
+                // User has been removed from the chat room
+                Toast.makeText(getApplication(), "You have been removed from this chat room", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

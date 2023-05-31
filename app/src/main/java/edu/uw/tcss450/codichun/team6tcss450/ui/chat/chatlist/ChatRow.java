@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 /**
- * An object for a row of the chat list
+ * An object for a item of the chat list recycler view
  * @author codichun
  * @version 1.0
  */
@@ -26,19 +26,35 @@ public class ChatRow {
 
     private List<Integer> mMemberID;
     private int mProfile;
-    //private String mLastMessage;
+    private String mLastMessage;
+    private boolean hasNewMessage;
 
+    /**
+     * Constructor
+     * @param theRoomName
+     * @param theMemberID
+     * @param theChatRoomID
+     * @param theProfile
+     */
     public ChatRow(String theRoomName, ArrayList<Integer> theMemberID, int theChatRoomID, int theProfile) {
         mRoomName = theRoomName;
         mMemberID = theMemberID;
         mChatRoomID = theChatRoomID;
         mProfile = theProfile;
+        hasNewMessage = false;
     }
 
+    /**
+     * Constructor
+     * @param theRoomName
+     * @param theChatRoomID
+     * @param theProfile
+     */
     public ChatRow(String theRoomName, int theChatRoomID, int theProfile) {
         mRoomName = theRoomName;
         mChatRoomID = theChatRoomID;
         mProfile = theProfile;
+        hasNewMessage = false;
     }
 
     /**
@@ -97,19 +113,22 @@ public class ChatRow {
         this.mProfile = mProfile;
     }
 
-//    /**
-//     * Provides equality solely based on MessageId.
-//     * @param other the other object to check for equality
-//     * @return true if other message ID matches this message ID, false otherwise
-//     */
-//    @Override
-//    public boolean equals(@Nullable Object other) {
-//        boolean result = false;
-//        if (other instanceof ChatRow) {
-//            result = mChatRoomID == ((ChatRow) other).getmChatRoomID();
-//        }
-//        return result;
-//    }
+    public boolean isHasNewMessage() {
+        return hasNewMessage;
+    }
+
+    public void setHasNewMessage(boolean hasNewMessage) {
+        this.hasNewMessage = hasNewMessage;
+    }
+
+    public String getmLastMessage() {
+        return mLastMessage;
+    }
+
+    public void setmLastMessage(String mLastMessage) {
+        this.mLastMessage = mLastMessage;
+    }
+
 @Override
 public boolean equals(Object o) {
     if (this == o) return true;

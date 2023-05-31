@@ -5,10 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -25,7 +23,6 @@ import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +30,11 @@ import java.util.Objects;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatMessage;
 
 
 /**
+ * The view model of chat room list
  * @author codichun
  * @version 1.0
  */
@@ -56,10 +55,18 @@ public class ChatListViewModel extends AndroidViewModel {
         //addChatRow(new ChatRow("testroom", new ArrayList<>(Arrays.asList(14, 15)),2, R.drawable.image_chatlist_profile_32dp));
     }
 
+    /**
+     * Get the current chat items on the recycler view
+     * @return the current chat items on the recycler view
+     */
     public LiveData<List<ChatRow>> getChatRows() {
         return rows;
     }
 
+    /**
+     * Add a new chat row
+     * @param theChatRow
+     */
     public void addChatRow(ChatRow theChatRow) {
         List<ChatRow> currentList = rows.getValue();
         if (currentList != null) {
@@ -68,12 +75,13 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
-    public void updateChatRow(int theMemberId, ChatRow theChatRow){
-        List<ChatRow> list = getChatRoomListByMemberId(theMemberId);
-        list.add(0, theChatRow);
-        getOrCreateMapEntry(theMemberId).setValue(list);
-    }
-
+    /**
+     * Create a new chat room on the list
+     * @param roomName
+     * @param memberId
+     * @param jwt
+     * @param callback
+     */
     public void createNewChatRoom(final String roomName, final List<Integer> memberId, final String jwt, ChatRoomCreationCallback callback) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT;
 
@@ -110,7 +118,13 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 
-
+    /**
+     * Handle success when create a new chat room
+     * @param response
+     * @param callback
+     * @param memberId
+     * @param jwt
+     */
 
     private void handleCreateNewChatRoomSuccess(final JSONObject response, ChatRoomCreationCallback callback,  final List<Integer> memberId, final String jwt) {
         try {
@@ -118,8 +132,6 @@ public class ChatListViewModel extends AndroidViewModel {
                 int chatId = response.getInt("chatID");
                 callback.onChatRoomCreated(chatId);
                 addMemberToChat(chatId, memberId, jwt);
-                // Here you can create a new ChatRow with the obtained chatId and update your list
-                // For instance:
                 //addChatRow("New Room", new ArrayList<>(), chatId, R.drawable.image_chatlist_profile_32dp);
             } else {
                 Log.e("JSON PARSE ERROR", "No chatId found in response");
@@ -130,8 +142,16 @@ public class ChatListViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Add a member to a chat room
+     * @param chatId
+     * @param memberIds
+     * @param jwt
+     */
     private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId;
+        //System.out.println("ChatListViewModel: " +url);
+        //System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt: " + jwt);
 
         JSONArray jsonMembersArray = new JSONArray(memberIds);
 
@@ -152,9 +172,7 @@ public class ChatListViewModel extends AndroidViewModel {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Do something when error occurred
                         error.printStackTrace();
-                        System.out.println(error.getMessage());
                     }
                 })
                          {
@@ -172,6 +190,12 @@ public class ChatListViewModel extends AndroidViewModel {
 
     }
 
+    /**
+     * Remove a member from a chat room
+     * @param chatId
+     * @param email
+     * @param jwt
+     */
     public void removeMemberFromChat(int chatId, String email, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + END_POINT + "/" + chatId + "/" + email;
 
@@ -203,9 +227,14 @@ public class ChatListViewModel extends AndroidViewModel {
                 .addToRequestQueue(stringRequest);
     }
 
+    /**
+     * Load all the chat rooms for the member
+     * @param memberId
+     * @param jwt
+     */
     public void loadChats(int memberId, final String jwt) {
         String url = getApplication().getResources().getString(R.string.base_url) + "member/" + memberId;
-        System.out.println("End point for chat list: " + url);
+        //System.out.println("End point for chat list: " + url);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -220,13 +249,11 @@ public class ChatListViewModel extends AndroidViewModel {
                                 JSONObject chatObject = response.getJSONObject(i);
                                 int chatId = chatObject.getInt("chatid");
                                 String name = chatObject.getString("name");
-
-                                // Assuming you have a ChatRow class with a constructor like ChatRow(String name, int chatId, int profileImage)
                                 ChatRow chatRow = new ChatRow(name, chatId, HARD_CODED_PROFILE);
 
                                 // Check if this ChatRow is already present in the list
                                 if (!rows.getValue().contains(chatRow)) {
-                                    System.out.println("new chat room: " + chatId + ", name");
+                                    //System.out.println("new chat room: " + chatId + ", name");
                                     addChatRow(chatRow);
                                 }
 
@@ -235,7 +262,7 @@ public class ChatListViewModel extends AndroidViewModel {
                             }
                         }
                         // Update RecyclerView adapter here with the new chat list
-                        // chatAdapter.updateData(chatList);
+                        rows.postValue(rows.getValue());
                     }
                 },
                 new Response.ErrorListener() {
@@ -260,11 +287,6 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 
-
-
-
-
-
     /**
      * Return a reference to the List<> associated with the chat room. If the View Model does
      * not have a mapping for this chatID, it will be created.
@@ -287,49 +309,10 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 
-
-    private void handelSuccess(final JSONObject response) {
-        List<ChatRow> list;
-        if (!response.has("memberId")) {
-            throw new IllegalStateException("Unexpected response in ChatListViewModel: " + response);
-        }
-        try {
-            list = getChatRoomListByMemberId(response.getInt("memberId"));
-            JSONArray chatRoomsJSA = response.getJSONArray("rows"); //TODO: rows??
-            for(int i = 0; i < chatRoomsJSA.length(); i++) {
-                JSONObject chatRoomJSO = chatRoomsJSA.getJSONObject(i);
-
-                final JSONArray membersArray = chatRoomJSO.getJSONArray("memberId");
-                List<Integer> membersList = new ArrayList<>();
-                for (int j = 0; j < membersArray.length(); j++) {
-                    membersList.add(membersArray.getInt(j));
-                }
-
-                ChatRow chatRow = new ChatRow(
-                        chatRoomJSO.getString("chatRoomName"),
-                        (ArrayList<Integer>) membersList,
-                        chatRoomJSO.getInt("chatId"),
-                        chatRoomJSO.getInt("profile")
-                );
-                if (!list.contains(chatRow)) {
-                    // don't add a duplicate
-                    list.add(0, chatRow);
-                } else {
-                    // this shouldn't happen but could with the asynchronous
-                    // nature of the application
-                    Log.wtf("Chat chatRoomJSO already received",
-                            "Or duplicate id:" + chatRow.getmChatRoomID());
-                }
-
-            }
-            //inform observers of the change (setValue)
-            getOrCreateMapEntry(response.getInt("chatId")).setValue(list);
-        }catch (JSONException e) {
-            Log.e("JSON PARSE ERROR", "Found in handle Success ChatViewModel");
-            Log.e("JSON PARSE ERROR", "Error: " + e.getMessage());
-        }
-    }
-
+    /**
+     * Handle error
+     * @param error
+     */
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
             Log.e("NETWORK ERROR", error.getMessage());
@@ -344,9 +327,45 @@ public class ChatListViewModel extends AndroidViewModel {
     }
 
 
-    //************************
+    /**
+     * A call back when a new chat room created
+     */
     public interface ChatRoomCreationCallback {
         void onChatRoomCreated(int chatId);
     }
 
+    /**
+     * Update a new chat room to chat list when a new room is added
+     * All members who is invited to the new chat room will have updated list
+     * @param chatId
+     * @param message
+     */
+    public void updateChatRowWithNewMessage(int chatId, ChatMessage message) {
+        List<ChatRow> updatedRows = new ArrayList<>(rows.getValue());
+        for (ChatRow row : updatedRows) {
+            if (row.getmChatRoomID() == chatId) {
+                row.setHasNewMessage(true);
+                row.setmLastMessage(message.getMessage());
+                break;
+            }
+        }
+        rows.postValue(updatedRows);
+
+    }
+
+    /**
+     * get chat room list
+     * @return rows
+     */
+    public MutableLiveData<List<ChatRow>> getRows() {
+        return rows;
+    }
+
+    /**
+     * Set chat room list
+     * @param rows
+     */
+    public void setRows(MutableLiveData<List<ChatRow>> rows) {
+        this.rows = rows;
+    }
 }

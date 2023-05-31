@@ -1,9 +1,7 @@
-package edu.uw.tcss450.codichun.team6tcss450.ui.chat.newchat;
+package edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -11,6 +9,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,15 +39,12 @@ import edu.uw.tcss450.codichun.team6tcss450.io.RequestQueueSingleton;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatListViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
-import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMember;
-import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMemberAdapter;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.newchat.NewRoomAdapter;
 
 /**
  * create an instance of this fragment.
- * @author codichun
- * @version 1.0
  */
-public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.OnRemoveMemberListener{
+public class AddPeopleToChatFragment extends Fragment {
 
     public View view;
     private NavController myNavController;
@@ -61,14 +59,11 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
     private int mChatId;
     private String mJwt;
 
-
-
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_new_chat, container, false);
+        view = inflater.inflate(R.layout.fragment_add_people_to_chat, container, false);
         mSelectedMembers = new ArrayList<>();
 
         //get contact list data
@@ -82,90 +77,19 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
 //        mContactList.add(new RoomInfoMember("test2@test.com"));
 //        mContactList.add(new RoomInfoMember("test3@test.com"));
 
-        adapter = new NewRoomAdapter(mContactList, getContext(), mUserModel.getUserId(), true);
-        recyclerView = view.findViewById(R.id.recyclerview_newchat);
+        adapter = new NewRoomAdapter(mContactList, getContext(), mUserModel.getUserId(), false);
+        recyclerView = view.findViewById(R.id.recyclerview_addtochat);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //get the chatId
+        mChatId = getArguments().getInt("chatId");
+
+        //add buttons
+        addConfirmButtonListener();
+        addCancelButtonListener();
 
         return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        myNavController = Navigation.findNavController(view);
-        mUserModel = new ViewModelProvider(requireActivity()).get(UserInfoViewModel.class);
-
-        //TODO:UNCOMMENT TO Call fetchMembers to get the member list
-        //fetchMembers( mUserModel.getmJwt());
-
-        // Button listeners
-        addCancelButtonListener(view);
-        //addAddPeopleButtonListener(view);
-        addCreateButtonListener();
-    }
-
-    /**
-     * add the button fo cancel
-     * @param view
-     */
-    private void addCancelButtonListener(View view){
-        ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_newchat_cancel);
-        buttonCancel.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                myNavController.navigate(R.id.action_newChatFragment_to_navigation_chatlist);
-            }
-        });
-    }
-
-    /**
-     * add the button for create room
-     */
-    private void addCreateButtonListener(){
-        Button buttonCreate = (Button)view.findViewById(R.id.button_newchat_send);
-        EditText editTextRoomName = view.findViewById(R.id.edittext_newchat_roomname);
-        buttonCreate.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                //get the room name from user input
-                //TODO: HANDLE IF ROOM NAME IS NULL
-
-                String chatRoomName = editTextRoomName.getText().toString();
-
-                //update the chat list
-                ChatListViewModel viewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
-
-                //update selected member list
-                mSelectedMembers = adapter.getSelectedMembers();
-
-                //update database
-                viewModel.createNewChatRoom(chatRoomName,
-                        mSelectedMembers,
-                        mUserModel.getmJwt(),
-                new ChatListViewModel.ChatRoomCreationCallback() {
-                    @Override
-                    public void onChatRoomCreated(int chatId) {
-                        int newChatRoomId = chatId;
-                        //System.out.println("chatid: " + chatId);
-                        //System.out.println("newchatroomid: " + newChatRoomId);
-                        // navigate to the new chat room based on the chatId.
-                        viewModel.addChatRow(new ChatRow(chatRoomName, (ArrayList<Integer>) mSelectedMembers, newChatRoomId, HARD_CODE_PROFILE));
-                        //TODO: get the message from user input
-
-                        //set new data to bundle
-                        Bundle bundleNewRoom = new Bundle();
-                        bundleNewRoom.putInt("newChatRoomId", newChatRoomId);
-                        bundleNewRoom.putString("newChatRoomName", chatRoomName);
-
-                        //pass the bundle to the new chat room
-                        myNavController.navigate(R.id.action_newChatFragment_to_chatRoomFragment, bundleNewRoom);
-                    }
-                });
-            }
-        });
     }
 
     /**
@@ -232,9 +156,112 @@ public class NewChatFragment extends Fragment implements RoomInfoMemberAdapter.O
                 .addToRequestQueue(request);
     }
 
+    /**
+     * add the button for confirm
+     */
+    private void addConfirmButtonListener(){
+        Button buttonCreate = (Button)view.findViewById(R.id.button_addtochat_confirm);
+        //EditText editTextRoomName = view.findViewById(R.id.edittext_newchat_roomname);
+        buttonCreate.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //String chatRoomName = editTextRoomName.getText().toString();
 
-    @Override
-    public void onRemoveMember(String position) {
 
+                ChatListViewModel viewModel = new ViewModelProvider(requireActivity()).get(ChatListViewModel.class);
+
+                //update selected member list
+                mSelectedMembers = adapter.getSelectedMembers();
+
+                //add member to chat
+                addMemberToChat(mChatId, mSelectedMembers, mUserModel.getmJwt());
+                //System.out.println("***********AddPeopleToChat, chatId: " + mChatId + ", member list: " + mSelectedMembers.toString());
+
+                //go back to chat room
+                Navigation.findNavController(requireView()).popBackStack();
+                //System.out.println("create click");
+
+            }
+        });
     }
+
+    /**
+     * Add members to a chat room
+     * @param chatId
+     * @param memberIds
+     * @param jwt
+     */
+    private void addMemberToChat(int chatId, List<Integer> memberIds, final String jwt) {
+        String url = requireActivity().getApplication().getResources().getString(R.string.base_url) + "chatroom2" + "/" + chatId;
+//        System.out.println("AddPeople: " +url);
+//        System.out.println("addMemberToChat called: chatId: " + chatId + ", membersIds: " + memberIds.toString() + "jwt" + jwt);
+
+        JSONArray jsonMembersArray = new JSONArray(memberIds);
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("memberIds", jsonMembersArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        // Create a new JsonObjectRequest
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Response", response.toString());
+                        //System.out.println(response.toString());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Do something when error occurred
+                        String responseBody = "";
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            responseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                        }
+
+                        Log.e("Volley Error", "Error code: " + (error.networkResponse != null ? error.networkResponse.statusCode : "")
+                                + ", Error Body: " + responseBody);
+
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + jwt);
+                return params;
+            }
+        };
+
+        // Add JsonObjectRequest to the RequestQueue
+        RequestQueueSingleton.getInstance(requireActivity().getApplication().getApplicationContext())
+                .addToRequestQueue(jsonObjectRequest);
+    }
+
+
+    /**
+     * add the button fo cancel
+     * go back to last page
+     */
+    private void addCancelButtonListener(){
+        ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_addtochat_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(requireView()).popBackStack();
+            }
+        });
+    }
+
+
+
 }

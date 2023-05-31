@@ -6,6 +6,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -42,6 +43,10 @@ import edu.uw.tcss450.codichun.team6tcss450.model.NewMessageCountViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.model.PushyTokenViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 import edu.uw.tcss450.codichun.team6tcss450.services.PushReceiver;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatListViewModel;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRoomListFragment;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRow;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatlist.ChatRowAdapter;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatMessage;
 import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.ChatViewModel;
 
@@ -182,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
                 new ViewModelProvider(MainActivity.this)
                         .get(ChatViewModel.class);
 
+
+
         @Override
         public void onReceive(Context context, Intent intent) {
             NavController nc =
@@ -192,6 +199,28 @@ public class MainActivity extends AppCompatActivity {
             if (intent.hasExtra("chatMessage")) {
 
                 ChatMessage cm = (ChatMessage) intent.getSerializableExtra("chatMessage");
+                int chatId = intent.getIntExtra("chatid", -1);
+
+
+
+//                //chat row notification
+//                ChatRowAdapter chatRowAdapter = ((MainActivity) context).getChatRowAdapter();
+//                if (chatRowAdapter != null) {
+//                    for (ChatRow row : chatRowAdapter.getRows()) {
+//                        if (row.getmChatRoomID() == chatId) {
+//                            row.setHasNewMessage(true);
+//                            chatRowAdapter.notifyItemChanged(chatRowAdapter.getRows().indexOf(row));
+//                            ChatListViewModel chatListViewModel = new ViewModelProvider((MainActivity) context).get(ChatListViewModel.class);
+//                            chatListViewModel.updateChatRowWithNewMessage(chatId);
+//                            break;
+//                        }
+//                    }
+//                }
+                // Update the ViewModel
+                ChatListViewModel chatListViewModel = new ViewModelProvider((MainActivity) context).get(ChatListViewModel.class);
+                chatListViewModel.updateChatRowWithNewMessage(chatId, cm);
+
+
 
                 //If the user is not on the chat screen, update the
                 // NewMessageCountView Model
@@ -205,6 +234,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public ChatRowAdapter getChatRowAdapter() {
+        // Get the NavHostFragment
+        Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+
+        // Check if the current fragment is a ChatRoomListFragment
+        if (navHostFragment != null && navHostFragment.getChildFragmentManager().getFragments().get(0) instanceof ChatRoomListFragment) {
+            // Cast to ChatRoomListFragment and return the ChatRowAdapter
+            ChatRoomListFragment fragment = (ChatRoomListFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+            return fragment.getChatRowAdapter();
+        } else {
+            return null;
+        }
+    }
+
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -213,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
         registerReceiver(mPushMessageReceiver, iFilter);
-        //startLocationUpdates();
     }
 
     @Override
@@ -225,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
         unregisterReceiver(mPushMessageReceiver);
-        //stopLocationUpdates();
     }
 
     @Override

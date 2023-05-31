@@ -48,11 +48,7 @@ public class ChatRoomFragment extends Fragment {
 
     }
 
-//    public ChatRoomFragment(int theRoomID) {
-//        this.HARD_CODED_CHAT_ID = theRoomID;
-//    }
 
-    //*************
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +58,7 @@ public class ChatRoomFragment extends Fragment {
             mChatRoomName = getArguments().getString("chatRoomName");
         }
 
-        System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
+        //System.out.println("chatRoomFragment onCreate: " + mChatRoomID);
 
         ViewModelProvider provider = new ViewModelProvider(getActivity());
         mUserModel = provider.get(UserInfoViewModel.class);
@@ -70,7 +66,7 @@ public class ChatRoomFragment extends Fragment {
         mChatModel.getFirstMessages(mChatRoomID, mUserModel.getmJwt());
         mSendModel = provider.get(ChatSendViewModel.class);
     }
-    //*************
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +91,7 @@ public class ChatRoomFragment extends Fragment {
             TextView textView = myView.findViewById(R.id.textView_chatroom_name);
             textView.setText(mChatRoomName);
         }
-        System.out.println("chatRoomFragment onViewCreated: " + mChatRoomID);
+        //System.out.println("chatRoomFragment onViewCreated: " + mChatRoomID);
 
 
         myNavController = Navigation.findNavController(view);
@@ -111,8 +107,6 @@ public class ChatRoomFragment extends Fragment {
             myNavController.navigate(R.id.action_chatRoomFragment_to_roomInfoFragment, roomInfo);
         });
 
-
-        //*************
         FragmentChatRoomBinding binding = FragmentChatRoomBinding.bind(getView());
 
         //SetRefreshing shows the internal Swiper view progress bar. Show this until messages load
@@ -171,12 +165,13 @@ public class ChatRoomFragment extends Fragment {
         mSendModel.addResponseObserver(getViewLifecycleOwner(), response ->
                 binding.edittextChatroomMessage.setText(""));
 
-
-        //*************
-
     }
 
 
+    /**
+     * button listener to go back to last page
+     * @param view
+     */
     private void addNavigationBack(View view) {
         ImageButton buttonBack = (ImageButton) view.findViewById(R.id.imageButton_chatroom_back);
         buttonBack.setOnClickListener(new View.OnClickListener() {
