@@ -136,5 +136,5 @@
     <string name="label_username">User Name: %1$s</string>
     <string name="contact_card_name"></string>
 
-
+    <string name="label_location">LocationFragment</string>
 </resources>

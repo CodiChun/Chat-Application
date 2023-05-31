@@ -286,13 +286,14 @@ public class WeatherListViewModel extends AndroidViewModel {
         temp.add("Puyallup");
         mLocations.setValue(temp);
     }
-    public void getLocations(String jwt,String email){
+    public void getLocations(String jwt,String email, int id){
         mLocations.getValue().clear();
         String url =
                 getApplication().getResources().getString(R.string.base_url) + "weather/userlocations";
         JSONObject body = new JSONObject();
         try {
             body.put("email",email);
+            body.put("id" , id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -307,14 +308,18 @@ public class WeatherListViewModel extends AndroidViewModel {
                             for (int i = 0; i < cities.length(); i++) {
                                 JSONObject memberObject = cities.getJSONObject(i);
                                 String city = memberObject.getString("city");
+                                Log.i("RESPONSE TAG",city);
                                 locations.add(city);
+                            }
+                            if (!locations.contains("Current Location")){
+                                locations.add(0,"Current Location");
                             }
                             mLocations.setValue(locations);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e("ERROR Locations!", e.getMessage());
                         }
-
+                        Log.i("POST RESPONSE CHECK", mLocations.getValue().toString());
                     }
                 },new Response.ErrorListener() {
             @Override
@@ -327,6 +332,7 @@ public class WeatherListViewModel extends AndroidViewModel {
                 headers.put("Authorization", jwt);
                 return headers;
             }
+
         };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 10_000,
@@ -336,14 +342,15 @@ public class WeatherListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
-    public void addLocations(String jwt,String email,String city){
+    public void addLocations(String jwt,String email,String city,int id){
         mLocations.getValue().clear();
         String url =
-                getApplication().getResources().getString(R.string.base_url) + "weather/addlocations";
+                getApplication().getResources().getString(R.string.base_url) + "weather/addlocation";
         JSONObject body = new JSONObject();
         try {
             body.put("email",email);
             body.put("city",city);
+            body.put("id",id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

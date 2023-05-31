@@ -37,12 +37,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyCwYejBL6ROEHMM8K1VG_XD_mpZc2VaiQk" />
 
         <activity
             android:name=".MapsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="title_activity_maps" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize" />

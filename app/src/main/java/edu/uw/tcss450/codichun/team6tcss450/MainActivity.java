@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     mLocationModel.setLocation(location);
                 }
-            };
+            }
         };
         createLocationRequest();
     }
@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
         }
         IntentFilter iFilter = new IntentFilter(PushReceiver.RECEIVED_NEW_MESSAGE);
         registerReceiver(mPushMessageReceiver, iFilter);
+        //startLocationUpdates();
     }
 
     @Override
@@ -269,6 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         unregisterReceiver(mPushMessageReceiver);
+        //stopLocationUpdates();
     }
 
     @Override

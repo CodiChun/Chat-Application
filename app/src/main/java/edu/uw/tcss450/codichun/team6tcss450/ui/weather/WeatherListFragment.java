@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
@@ -34,14 +35,14 @@ public class WeatherListFragment extends Fragment{
     private View myView;
     UserInfoViewModel mUserModel;
     LocationViewModel mLocationModel;
-    List<String> uLocations;
+    MutableLiveData<List<String>> uLocations;
     public WeatherListFragment(){}
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = new ViewModelProvider(getActivity()).get(WeatherListViewModel.class);
         mUserModel = new ViewModelProvider(requireActivity()).get(UserInfoViewModel.class);
-        mLocationModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
+        uLocations = new MutableLiveData<>();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,19 +60,21 @@ public class WeatherListFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mLocationModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
         FragmentWeatherListBinding binding = FragmentWeatherListBinding.bind(getView());
         ImageButton location = binding.imageButton;
+        ImageButton save = binding.saveButton;
         SearchView search = binding.searchLocation;
-//        Location currentLoc = mLocationModel.getCurrentLocation();
-//        String latlng = currentLoc.getLatitude() + "," + currentLoc.getLongitude();
-        String latlng = "tacoma";
+        Location currentLoc = mLocationModel.getCurrentLocation();
+        String latlng = currentLoc.getLatitude() + "," + currentLoc.getLongitude();
 
 
         binding.layoutWait.setVisibility(View.VISIBLE);
         System.out.println(latlng);
         String jwt = mUserModel.getmJwt();
-
-        mModel.getLocations(jwt,mUserModel.getEmail());
+        System.out.println(mUserModel.getUserId());
+        mModel.getLocations(jwt,mUserModel.getEmail(), mUserModel.getUserId());
         mModel.connectGetCurrent(jwt, latlng);
         mModel.connectGetDaily(jwt, latlng);
         mModel.connectGetHourly(jwt, latlng);
@@ -93,7 +96,7 @@ public class WeatherListFragment extends Fragment{
             binding.imageCurrentWeather.setImageResource(drawableId);
         });
         mModel.addLocationListObserver(getViewLifecycleOwner(), list ->{
-            uLocations = list;
+            uLocations.setValue(list);
         });
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -114,23 +117,42 @@ public class WeatherListFragment extends Fragment{
             }
         });
         location.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                mModel.getLocations(jwt, mUserModel.getEmail());
-                String[] tempLocations = uLocations.toArray(new String[0]);
+                String[] tempLocations = uLocations.getValue().toArray(new String[0]);
+                Log.i("TEST TEMPLOCATIONs", Arrays.toString(tempLocations));
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Choose Location:")
                         .setItems(tempLocations, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 String input = tempLocations[which];
-                                mModel.connectGetCurrent(jwt, input);
-                                mModel.connectGetDaily(jwt, input);
-                                binding.listRoot.getAdapter().notifyDataSetChanged();
-                                mModel.connectGetHourly(jwt, input);
-                                binding.listHourly.getAdapter().notifyDataSetChanged();
+                                if (!input.equals("Current Location")) {
+                                    mModel.connectGetCurrent(jwt, input);
+                                    mModel.connectGetDaily(jwt, input);
+                                    binding.listRoot.getAdapter().notifyDataSetChanged();
+                                    mModel.connectGetHourly(jwt, input);
+                                    binding.listHourly.getAdapter().notifyDataSetChanged();
+                                }else{
+                                    Location currentLoc = mLocationModel.getCurrentLocation();
+                                    String latlng = currentLoc.getLatitude() + "," + currentLoc.getLongitude();
+                                    mModel.connectGetCurrent(jwt, latlng);
+                                    mModel.connectGetDaily(jwt, latlng);
+                                    binding.listRoot.getAdapter().notifyDataSetChanged();
+                                    mModel.connectGetHourly(jwt, latlng);
+                                    binding.listHourly.getAdapter().notifyDataSetChanged();
+                                }
                             }
                         });
                 builder.show();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String city = binding.labelCity.getText().toString().split("\n")[0];
+                Log.i("TEST CITY SPLIT", city);
+                mModel.addLocations(jwt,mUserModel.getEmail(),city,mUserModel.getUserId());
             }
         });
         binding.layoutWait.setVisibility(View.INVISIBLE);
