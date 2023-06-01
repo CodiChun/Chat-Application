@@ -67,8 +67,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
             if (mEmail.equals(message.getSender())) {
                 //This message is from the user. Format it as such
-                binding.textMessage.setText(message.getSender() +  "    (" + message.getTimeStamp() + ")" +
-                        "\n" + message.getMessage());
+                binding.textMessage.setText(message.getMessage());
                 ViewGroup.MarginLayoutParams layoutParams =
                         (ViewGroup.MarginLayoutParams) card.getLayoutParams();
                 //Set the left margin
@@ -102,7 +101,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 card.requestLayout();
             } else {
                 //This message is from another user. Format it as such
-                binding.textMessage.setText(message.getSender() +  "    (" + message.getTimeStamp() + ")" +
+                binding.textMessage.setText(message.getSender() +
                         "\n" + message.getMessage());
                 ViewGroup.MarginLayoutParams layoutParams =
                         (ViewGroup.MarginLayoutParams) card.getLayoutParams();
