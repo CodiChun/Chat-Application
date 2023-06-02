@@ -61,7 +61,7 @@
             android:layout_height="54dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_mylocation" />
+            app:srcCompat="@drawable/map_24" />
 
         <ImageButton
             android:id="@+id/saveButton"
@@ -70,7 +70,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageButton"
-            app:srcCompat="@android:drawable/ic_menu_save" />
+            app:srcCompat="@drawable/add_location_24" />
 
         <SearchView
             android:id="@+id/search_location"
