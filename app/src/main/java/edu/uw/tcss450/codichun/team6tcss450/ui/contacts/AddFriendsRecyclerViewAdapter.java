@@ -20,15 +20,21 @@ import java.util.HashMap;
 import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 
-public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ViewHolder> {
+
+public class AddFriendsRecyclerViewAdapter extends RecyclerView.Adapter<AddFriendsRecyclerViewAdapter.ViewHolder>{
 
     private final HashMap<Integer,Contact> mContacts;
     private ManageContactViewModel mManage;
 
-    public ContactRecyclerViewAdapter(HashMap<Integer,Contact> contacts){
-        this.mContacts = contacts;
 
+    /**
+     * Constructor
+     * @param contacts current contacts
+     */
+    public AddFriendsRecyclerViewAdapter(HashMap<Integer,Contact> contacts){
+        this.mContacts = contacts;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,6 +42,7 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
         View view = inflater.inflate(R.layout.fragment_contact_card,parent,false);
         mManage = new ViewModelProvider(
                 (ViewModelStoreOwner) MainActivity.getActivity()).get(ManageContactViewModel.class);
+
         return new ViewHolder(view);
     }
 
@@ -47,30 +54,63 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
 
         holder.messageButton.setOnClickListener(Navigation.createNavigateOnClickListener
                 (R.id.action_addFriendsFragment_to_chatRoomFragment));
-        holder.removeButton.setOnClickListener(button ->
-                showRemoveDialog(contact, holder.view, position));
+
+        switch (contact.getStatus()){
+            case RECEIVED_REQUEST:
+                holder.addButton.setOnClickListener(button ->
+                        showAcceptContactDialog(contact, holder.view, position));
+                break;
+            case NOT_CONNECTED:
+                holder.addButton.setOnClickListener(button ->
+                        showSentRequestDialog(contact, holder.view, position));
+        }
     }
 
-    void showRemoveDialog(Contact contact, View view, int position) {
+
+    void showAcceptContactDialog(Contact contact, View view, int position) {
         Dialog dialog = new Dialog(view.getContext());
         dialog.setCancelable(true);
 
-        dialog.setContentView(R.layout.dialogue_contact_remove_contact);
+        dialog.setContentView(R.layout.dialogue_contact_accept_request);
         dialog.findViewById(R.id.button_ok).setOnClickListener(button -> {
+            dialog.dismiss();
+            mManage.connectAcceptContacts(contact.getUserID());
+            removeFromList(position);
+            Toast.makeText(MainActivity.getActivity(),"Request Sent", Toast.LENGTH_SHORT).show();
+        });
+        dialog.findViewById(R.id.button_decline).setOnClickListener(button -> {
             dialog.dismiss();
             mManage.connectRemoveContact(contact.getUserID());
             removeFromList(position);
-            Toast.makeText(MainActivity.getActivity(),"Contact Removed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.getActivity(),"Request Declined", Toast.LENGTH_SHORT).show();
         });
         dialog.findViewById(R.id.button_cancel).setOnClickListener(button -> dialog.dismiss());
         dialog.show();
     }
+
+
+    void showSentRequestDialog(Contact contact, View view, int position) {
+        Dialog dialog = new Dialog(view.getContext());
+        dialog.setCancelable(true);
+
+        dialog.setContentView(R.layout.dialogue_contact_send_request);
+        dialog.findViewById(R.id.button_ok).setOnClickListener(button -> {
+            dialog.dismiss();
+            mManage.connectSendRequest(contact.getUserID());
+            removeFromList(position);
+            Toast.makeText(MainActivity.getActivity(),"Request Sent", Toast.LENGTH_SHORT).show();
+        });
+        dialog.findViewById(R.id.button_cancel).setOnClickListener(button -> dialog.dismiss());
+        dialog.show();
+    }
+
 
     private void removeFromList(int position){
         mContacts.remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position, mContacts.size());
     }
+
 
     @Override
     public int getItemCount() {
@@ -80,17 +120,15 @@ public class ContactRecyclerViewAdapter extends RecyclerView.Adapter<ContactRecy
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView nickname;
-        //private final TextView fullName;
         private final ImageView messageButton;
-        private final ImageView removeButton;
-        //private final CardView cardLayout;
+        private final ImageView addButton;
         private final View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nickname = itemView.findViewById(R.id.contact_name);
             messageButton = itemView.findViewById(R.id.button_chat);
-            removeButton = itemView.findViewById(R.id.button_delete);
+            addButton = itemView.findViewById(R.id.button_delete);
             view = itemView.getRootView();
         }
     }

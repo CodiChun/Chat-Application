@@ -28,7 +28,14 @@
     <fragment
         android:id="@+id/navigation_contactlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactListFragment"
-        android:label="ContactsListFragment" />
+        android:label="ContactsListFragment" >
+        <action
+            android:id="@+id/action_navigation_contactlist_to_addFriendsFragment"
+            app:destination="@id/addFriendsFragment" />
+        <action
+            android:id="@+id/action_navigation_contactlist_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_weatherlist"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.weather.WeatherListFragment"
@@ -83,5 +90,14 @@
         <action
             android:id="@+id/action_addPeopleToChatFragment_to_roomInfoFragment"
             app:destination="@id/roomInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFriendsFragment"
+        android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.AddFriendsFragment"
+        android:label="fragment_add_friends"
+        tools:layout="@layout/fragment_add_contacts" >
+        <action
+            android:id="@+id/action_addFriendsFragment_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
     </fragment>
 </navigation>
