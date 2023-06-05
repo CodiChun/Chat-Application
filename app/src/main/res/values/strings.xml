@@ -46,23 +46,21 @@
     <string name="label_fullname">Full Name</string>
     <string name="label_email">Email: </string>
     <string name="label_username">User Name: </string>
-    <string name="contact_card_name"></string>
-    <string name="chosen_delete_url">https://team-6-tcss-450-backend.herokuapp.com/group/delete</string>
-    <string name="chosen_get_url">https://team-6-tcss-450-backend.herokuapp.com/group/</string>
     <string name="label_send_request">Send Contact Request?</string>
+    <string name="contact_card_name"></string>
     <string name="title_contact_name">Name</string>
-
     <string name="title_request_received">Contact Requests</string>
     <string name="title_search_people">Contacts</string>
     <string name="hint_search_people">first/nickname</string>
-    <string name="button_add_friend_search">Search</string>
-
+    <string name="button_add_contact_search">Search</string>
     <string name="button_decline">Decline</string>
     <string name="button_accept">Accept</string>
     <string name="button_cancel">Cancel</string>
     <string name="title_accept_requests">Accept Contact Request?</string>
     <string name="title_send_requests">Accept Contact Request?</string>
-    <string name="title_remove_friends">Remove Contact?</string>
+    <string name="title_remove_contacts">Remove Contact?</string>
+    <string name="chosen_delete_url">https://team-6-tcss-450-backend.herokuapp.com/group/delete</string>
+    <string name="chosen_get_url">https://team-6-tcss-450-backend.herokuapp.com/group/</string>
 
 
 

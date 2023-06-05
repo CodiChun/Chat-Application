@@ -18,7 +18,8 @@ import java.util.List;
 
 import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
-import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentAddFriendsBinding;
+import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentAddContactsBinding;
+import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentAddContactsBinding;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 
 /**
@@ -28,7 +29,7 @@ import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
  */
 public class AddFriendsFragment extends Fragment {
 
-    private FragmentAddFriendsBinding mBinding;
+    private FragmentAddContactsBinding mBinding;
     private RecyclerView mReceivedRecyclerView, mSearchedRecyclerView;
     private UserInfoViewModel mUser;
 
@@ -41,7 +42,7 @@ public class AddFriendsFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mBinding = FragmentAddFriendsBinding.inflate(inflater);
+        mBinding = FragmentAddContactsBinding.inflate(inflater);
         return mBinding.getRoot();
     }
 
@@ -64,8 +65,9 @@ public class AddFriendsFragment extends Fragment {
         getRequests.addPendingListObserver(getViewLifecycleOwner(), this::setAdapterForRequests);
     }
 
+
     /**
-     * display the result of Search People function
+     * Display the searched people
      */
     private void displaySearched(){
         mBinding.editSearchPeople.setError(null);
@@ -81,22 +83,13 @@ public class AddFriendsFragment extends Fragment {
         searchResult.addSearchListObserver(getViewLifecycleOwner(), this::setAdapterForSearch);
     }
 
-    /**
-     * set adapter for Search People
-     * @param contacts the list of results after Search People
-     */
     private void setAdapterForSearch(List<Contact> contacts) {
         HashMap<Integer, Contact> contactMap = new HashMap<>();
         for (Contact contact : contacts) {
             contactMap.put(contacts.indexOf(contact), contact);
         }
-        //mSearchedRecyclerView.setAdapter(new AddFriendsRecyclerViewAdapter(contactMap));
     }
 
-    /**
-     * set adapter for Friend Requests
-     * @param contacts the list of the friend requests
-     */
     private void setAdapterForRequests(List<Contact> contacts) {
         HashMap<Integer, Contact> contactMap = new HashMap<>();
         for (Contact contact : contacts) {

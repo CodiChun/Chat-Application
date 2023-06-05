@@ -95,7 +95,7 @@
         android:id="@+id/addFriendsFragment"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.AddFriendsFragment"
         android:label="fragment_add_friends"
-        tools:layout="@layout/fragment_add_friends" >
+        tools:layout="@layout/fragment_add_contacts" >
         <action
             android:id="@+id/action_addFriendsFragment_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />

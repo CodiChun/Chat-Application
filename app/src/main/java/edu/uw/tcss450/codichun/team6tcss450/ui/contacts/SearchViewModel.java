@@ -27,46 +27,30 @@ import java.util.List;
 import java.util.Map;
 
 import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
+import edu.uw.tcss450.codichun.team6tcss450.R;
 
 public class SearchViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Contact>> mSearchList;
 
-    /**
-     * Constructor
-     * @param application current application
-     */
     public SearchViewModel(@NonNull Application application) {
         super(application);
         mSearchList = new MutableLiveData<>();
         mSearchList.setValue(new ArrayList<>());
     }
 
-    /**
-     * Add observer for the list of results after Search People
-     * @param owner owner
-     * @param observer observer
-     */
     public void addSearchListObserver(@NonNull LifecycleOwner owner,
                                       @Nullable Observer<?super List<Contact>> observer){
         mSearchList.observe(owner,observer);
     }
 
-    /**
-     * Reset the searched list
-     */
     public void resetSearchResults() {
         mSearchList.setValue(new ArrayList<>());
     }
 
-    /**
-     * connect server to search people
-     * @param jwt jwt of the user
-     * @param searched nickname/firstname/lastname/email
-     */
     public void connectSearch(String jwt, String searched) {
         resetSearchResults();
-        String url = "https://team-6-tcss-450-backend.herokuapp.com/" + "search/" + searched;
+        String url = getApplication().getResources().getString(R.string.base_url) + "search/" + searched;
         Request<JSONObject> request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -84,27 +68,17 @@ public class SearchViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
 
-    /**
-     * Handle error from the server
-     * @param error error from the server
-     */
     private void handleError(final VolleyError error) {
         Log.e("ERROR", error.getLocalizedMessage());
     }
-
-    /**
-     * Handle result from the server
-     * @param result result from the server
-     */
     private void handleResult(final JSONObject result) {
         try {
             JSONObject response = result;
-            Status status = Status.NOT_FRIENDS;
+            Status status = Status.NOT_CONNECTED;
 
             if (response.has("rows")) {
                 JSONArray rows = response.getJSONArray("rows");
@@ -123,7 +97,7 @@ public class SearchViewModel extends AndroidViewModel {
                         mSearchList.getValue().add(contact);
                 }
             } else {
-                Log.e("ERROR", "No Friends Provided");
+                Log.e("ERROR", "No Contacts Provided");
                 Toast.makeText(MainActivity.getActivity(),
                         "No users Provided!", Toast.LENGTH_SHORT).show();
             }

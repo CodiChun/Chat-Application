@@ -60,20 +60,11 @@ public class ContactListViewModel extends AndroidViewModel {
         mContacts.observe(owner,observer);
     }
 
-    public void addChosenListObeserver(@NonNull LifecycleOwner owner,
-                                       @Nullable Observer<?super List<Contact>> observer) {
-        mChosenList.observe(owner, observer);
-    }
-
     public void addPendingListObserver(@NonNull LifecycleOwner owner,
                                        @Nullable Observer<?super List<Contact>> observer){
         mPendingList.observe(owner,observer);
     }
 
-    /**
-     * Add to pending requests list
-     * @param contact contact to be added
-     */
     public void addToPendingList(Contact contact) {
         mPendingList.getValue().add(contact);
         mPendingList.setValue(mPendingList.getValue());
@@ -86,7 +77,6 @@ public class ContactListViewModel extends AndroidViewModel {
         mContacts.setValue(new ArrayList<>());
     }
 
-    public void resetChosens() { mChosenList.setValue(new ArrayList<>());}
 
     /**
      * reset requests list
@@ -94,8 +84,6 @@ public class ContactListViewModel extends AndroidViewModel {
     public void resetRequests() {
         mPendingList.setValue(new ArrayList<>());
     }
-
-
 
 
     public void connectDeleteForSelectMember(String nickname) {
@@ -111,7 +99,6 @@ public class ContactListViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
@@ -145,7 +132,6 @@ public class ContactListViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         RequestQueueSingleton.getInstance(getApplication().getApplicationContext())
                 .addToRequestQueue(request);
     }
@@ -195,7 +181,7 @@ public class ContactListViewModel extends AndroidViewModel {
                 for (int mem = 0; mem < rows.length(); mem++) {
                     JSONObject chosenJson = rows.getJSONObject(mem);
                     Contact chosen = new Contact(
-                            chosenJson.getString("memberid"),
+                            chosenJson.getString("memberId"),
                             chosenJson.getString("firstname"),
                             null,
                             null,
@@ -208,7 +194,7 @@ public class ContactListViewModel extends AndroidViewModel {
                     }
                 }
             } else {
-                Log.e("ERROR", "No Chosen Member Exist In Server");
+                Log.e("ERROR", "No Chosen Member Exist");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -217,17 +203,14 @@ public class ContactListViewModel extends AndroidViewModel {
         list.setValue(list.getValue());
     }
 
-
-
     public void connectContacts(int memberId, String jwt, String type) {
-        String url = "https://team-6-tcss-450-backend.herokuapp.com/contacts/" + memberId + "/";
+        String url = getApplication().getResources().getString(R.string.base_url) + "contacts/list/" + memberId +"/";
 
         if (type.equals("requests")) {
             url += 0;
         } else {
             url += 1;
         }
-
         Request<JSONObject> request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -245,7 +228,6 @@ public class ContactListViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
@@ -254,13 +236,12 @@ public class ContactListViewModel extends AndroidViewModel {
         MutableLiveData<List<Contact>> list = mContacts;
         try {
             JSONObject response = result;
-            Status status = Status.FRIENDS;
+            Status status = Status.CONNECTED;
 
             if (type.equals("requests")) {
                 status = Status.RECEIVED_REQUEST;
                 list = mPendingList;
             }
-
             if (response.has("rows")) {
                 JSONArray rows = response.getJSONArray("rows");
                 for (int i = 0; i< rows.length(); i++){
@@ -273,7 +254,6 @@ public class ContactListViewModel extends AndroidViewModel {
                             jsonContact.getString("Userid"),
                             status
                     );
-
                     if(!list.getValue().contains(contact))
                         list.getValue().add(contact);
                 }
@@ -289,20 +269,12 @@ public class ContactListViewModel extends AndroidViewModel {
 
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
-            Log.wtf("NETWORK ERROR", error.getMessage());
+            Log.e("NETWORK ERROR", error.getMessage());
         } else {
             String data = new String(error.networkResponse.data, Charset.defaultCharset());
-            Log.wtf("CLIENT ERROR",
+            Log.e("CLIENT ERROR",
                     error.networkResponse.statusCode + " " + data);
         }
     }
 
-    /**
-     * handle error from server
-     * @param error error
-
-    private void handleError(final VolleyError error) {
-        throw new IllegalStateException(error.getMessage());
-    }
-    */
 }

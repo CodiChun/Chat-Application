@@ -20,7 +20,6 @@ public class Contact implements Serializable {
         this.mStatus = status;
     }
 
-
     public String getFirstName() {
         return  mFirstName;
     }

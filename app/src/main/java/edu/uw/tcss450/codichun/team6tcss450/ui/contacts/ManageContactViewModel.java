@@ -27,16 +27,12 @@ import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
 
-public class ManagerFriendViewModel extends AndroidViewModel {
+public class ManageContactViewModel extends AndroidViewModel {
 
     private final MutableLiveData<JSONObject> mResponse;
     private final UserInfoViewModel mUser;
 
-    /**
-     * Constructor
-     * @param application current application
-     */
-    public ManagerFriendViewModel(@NonNull Application application) {
+    public ManageContactViewModel(@NonNull Application application) {
         super(application);
         mResponse = new MutableLiveData<>();
         mResponse.setValue(new JSONObject());
@@ -45,10 +41,6 @@ public class ManagerFriendViewModel extends AndroidViewModel {
                 .get(UserInfoViewModel.class);
     }
 
-    /**
-     * Handle error from server
-     * @param error error from server
-     */
     private void handleError(final VolleyError error) {
         if (Objects.isNull(error.networkResponse)) {
             try {
@@ -73,13 +65,10 @@ public class ManagerFriendViewModel extends AndroidViewModel {
         }
     }
 
-    /**
-     * remove friend
-     * @param friendId id of friend
-     */
-    public void connectRemoveFriend(String friendId) {
+
+    public void connectRemoveContact(String userId) {
         String url = getApplication().getResources().getString(R.string.base_url) +
-                "friendsList/delete/" + mUser.getUserId() + "/" + friendId;
+                "friendsList/delete/" + mUser.getUserId() + "/" + userId;
         Request request = new JsonObjectRequest(
                 Request.Method.DELETE,
                 url,
@@ -89,8 +78,6 @@ public class ManagerFriendViewModel extends AndroidViewModel {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                // anything works for the jwt for now
                 headers.put("Authorization", mUser.getmJwt());
                 return headers;
             }
@@ -99,21 +86,16 @@ public class ManagerFriendViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
 
-    /**
-     * accept request
-     * @param friendId id of the friend
-     */
-    public void connectAcceptRequest(String friendId) {
+    public void connectAcceptContacts(String userId) {
         String url = getApplication().getResources().getString(R.string.base_url) +
-                "friendsList/verify/" + mUser.getUserId();
+                "contacts/verify/" + mUser.getUserId();
         JSONObject body = new JSONObject();
         try {
-            body.put("memberid",friendId);
+            body.put("memberid",userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -126,8 +108,6 @@ public class ManagerFriendViewModel extends AndroidViewModel {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                // anything works for the jwt for now
                 headers.put("Authorization", mUser.getmJwt());
                 return headers;
             }
@@ -136,26 +116,19 @@ public class ManagerFriendViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
 
-    /**
-     * send request
-     * @param friendId id of the friend
-     */
-    public void connectSendRequest(String friendId) {
+    public void connectSendRequest(String userId) {
         String url = getApplication().getResources().getString(R.string.base_url) +
-                "friendsList/request";
+                "contacts/request";
         JSONObject body = new JSONObject();
         try {
-            body.put("memberid",friendId);
+            body.put("memberId",userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //Log.d("FRIEND REQUEST", "Request from " + mUser.get() + " to " + friendId);
-        //Log.d("FR", "Request Body: " + body);
         Request request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -165,8 +138,6 @@ public class ManagerFriendViewModel extends AndroidViewModel {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                // add headers <key,value>
-                // anything works for the jwt for now
                 headers.put("Authorization", mUser.getmJwt());
                 return headers;
             }
@@ -175,7 +146,6 @@ public class ManagerFriendViewModel extends AndroidViewModel {
                 10_000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //Instantiate the RequestQueue and add the request to the queue
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
