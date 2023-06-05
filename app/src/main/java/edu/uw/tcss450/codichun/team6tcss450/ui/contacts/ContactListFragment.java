@@ -9,14 +9,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
+import java.util.List;
+
+import edu.uw.tcss450.codichun.team6tcss450.MainActivity;
 import edu.uw.tcss450.codichun.team6tcss450.R;
 import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentContactBinding;
 import edu.uw.tcss450.codichun.team6tcss450.databinding.FragmentContactListBinding;
@@ -29,6 +36,58 @@ import edu.uw.tcss450.codichun.team6tcss450.model.UserInfoViewModel;
  */
 public class ContactListFragment extends Fragment {
 
+    private FragmentContactListBinding mBinding;
+    private RecyclerView mRecyclerView;
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mBinding = FragmentContactListBinding.inflate(inflater);
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = mBinding.contactList;
+
+        ContactListViewModel model = new ViewModelProvider((ViewModelStoreOwner)
+                getActivity()).get(ContactListViewModel.class);
+        UserInfoViewModel user = new ViewModelProvider((ViewModelStoreOwner)
+                getActivity()).get(UserInfoViewModel.class);
+
+        model.resetContacts();
+        model.connectContacts(user.getUserId(),user.getmJwt(), "current");
+        model.addContactListObserver(getViewLifecycleOwner(), this::setAdapter);
+
+        mBinding.fabContactsSearch.setOnClickListener(button -> navigateToAddNewFriends());
+
+
+    }
+
+    /**
+     * Set Adapter for the Contacts
+     * @param contacts list of users contacts
+     */
+    private void setAdapter(List<Contact> contacts) {
+        Log.d("ADAPTER", "PARA FROM ADAPTER: " + contacts.toString());
+        HashMap<Integer, Contact> contactMap = new HashMap<>();
+        for (Contact contact : contacts){
+            contactMap.put(contacts.indexOf(contact), contact);
+        }
+        mRecyclerView.setAdapter(new ContactRecyclerViewAdapter(contactMap));
+    }
+
+    /**
+     * Navigate to AddFriendsFragment
+     */
+    private void navigateToAddNewFriends() {
+        Navigation.findNavController(getView()).navigate(ContactListFragmentDirections
+                .actionNavigationContactlistToAddFriendsFragment());
+    }
+
+    /*
     private UserInfoViewModel mInfoViewModel;
     private ContactListViewModel mContactListModel;
     private ContactRecyclerViewAdapter mContactAdapter;
@@ -60,11 +119,11 @@ public class ContactListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view,savedInstanceState);
         FragmentContactListBinding binding = FragmentContactListBinding.bind(getView());
-        mContactAdapter = new ContactRecyclerViewAdapter(ContactGenerator.getContactsList());
-        binding.listRoot.setAdapter(mContactAdapter);
+        //mContactAdapter = new ContactRecyclerViewAdapter(ContactListViewModel.connectContacts());
+        binding.contactList.setAdapter(mContactAdapter);
     }
 
-    /*
+
     public void addDeleteButtonListener(View view) {
         ImageButton buttonCancel = (ImageButton)view.findViewById(R.id.button_delete);
         buttonCancel.setOnClickListener(new View.OnClickListener(){

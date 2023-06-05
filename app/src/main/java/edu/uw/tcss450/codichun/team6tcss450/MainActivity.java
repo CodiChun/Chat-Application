@@ -15,6 +15,7 @@ import android.annotation.SuppressLint;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     private NewMessageCountViewModel mNewMessageModel;
 
+    @SuppressLint("StaticFieldLeak")
+    private static Activity mMainActivity;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static Activity getActivity(){
+        return mMainActivity;
     }
 
     @Override

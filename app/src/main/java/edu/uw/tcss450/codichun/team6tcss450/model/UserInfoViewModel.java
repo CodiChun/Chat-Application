@@ -11,6 +11,8 @@ public class UserInfoViewModel extends ViewModel {
     private final String mEmail;
     private final String mJwt;
 
+    private int incomingRequests;
+
     private UserInfoViewModel(String email, String jwt) {
         mEmail = email;
         mJwt = jwt;
@@ -50,6 +52,14 @@ public class UserInfoViewModel extends ViewModel {
         DecodedJWT djwt = JWT.decode(mJwt);
         int memberId = djwt.getClaim("memberid").asInt();
         return memberId;
+    }
+
+    public void setIncomingRequests(int incomingRequests) {
+        this.incomingRequests = incomingRequests;
+    }
+
+    public int getIncomingRequests() {
+        return this.incomingRequests;
     }
 
 

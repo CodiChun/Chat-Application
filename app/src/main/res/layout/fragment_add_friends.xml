@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.contacts.AddFriendsFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_search_people"
+        android:layout_width="413dp"
+        android:layout_height="341dp"
+        android:orientation="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_search_people"
+        tools:context="edu.uw.tcss450.uiandnavigationlab.ui.blog.BlogListFragment"
+        tools:listitem="@layout/fragment_contact_card_addfriends"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_friend_requests"
+        android:name="edu.uw.tcss450.uiandnavigationlab.ui.blog.BlogFragment"
+        android:layout_width="407dp"
+        android:layout_height="230dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_friend_requests"
+        tools:context="edu.uw.tcss450.uiandnavigationlab.ui.blog.BlogListFragment"
+        tools:listitem="@layout/fragment_contact_card_addfriends" />
+
+    <TextView
+        android:id="@+id/text_friend_requests"
+        android:layout_width="305dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/title_request_received"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintStart_toEndOf="@+id/image_friend_requests"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_search_people"
+        android:layout_width="303dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/title_search_people"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/image_search_people"
+        app:layout_constraintTop_toBottomOf="@+id/list_friend_requests" />
+
+    <EditText
+        android:id="@+id/edit_search_people"
+        android:layout_width="269dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/hint_search_people"
+        android:textStyle="italic"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_people" />
+
+    <Button
+        android:id="@+id/button_search_people"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:text="@string/button_add_friend_search"
+        app:layout_constraintBottom_toTopOf="@+id/list_search_people"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toEndOf="@+id/edit_search_people"
+        app:layout_constraintTop_toBottomOf="@+id/text_search_people"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/image_friend_requests"
+        android:layout_width="58dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/buttonimage_newchat_addperson_32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/image_search_people"
+        android:layout_width="58dp"
+        android:layout_height="49dp"
+        android:src="@drawable/buttonimage_contacts_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_friend_requests" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

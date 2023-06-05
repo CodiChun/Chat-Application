@@ -11,17 +11,8 @@
     android:layout_height="match_parent"
     >
 
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/contacts_new_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/buttonimage_newchat_addperson_32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_root"
+        android:id="@+id/contact_list"
         android:name="edu.uw.tcss450.codichun.team6tcss450.ui.contacts.ContactFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,7 +24,7 @@
         tools:listitem="@layout/fragment_contact_card" />
 
     <EditText
-        android:id="@+id/contacts_search"
+        android:id="@+id/fab_contacts_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -44,4 +35,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Search" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/contacts_new_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/buttonimage_newchat_addperson_32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
