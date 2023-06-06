@@ -55,12 +55,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_current_weather" />
 
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="55dp"
+            android:layout_height="54dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/map_24" />
+
+        <ImageButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton"
+            app:srcCompat="@drawable/add_location_24" />
+
         <SearchView
             android:id="@+id/search_location"
             android:layout_width="141dp"
             android:layout_height="58dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+        </SearchView>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

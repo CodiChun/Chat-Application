@@ -35,11 +35,13 @@ import java.util.Map;
 import java.util.function.IntFunction;
 
 import edu.uw.tcss450.codichun.team6tcss450.R;
+import edu.uw.tcss450.codichun.team6tcss450.ui.chat.chatroom.RoomInfoMember;
 
 public class WeatherListViewModel extends AndroidViewModel {
     private MutableLiveData<List<WeatherData>> mWeatherList;
     private MutableLiveData<List<WeatherData>> mWeatherListHourly;
     private MutableLiveData<WeatherData> mCurrentData;
+    private MutableLiveData<List<String>> mLocations;
 
 
     public WeatherListViewModel(@NonNull Application application) {
@@ -50,6 +52,8 @@ public class WeatherListViewModel extends AndroidViewModel {
         mWeatherListHourly.setValue(new ArrayList<>());
         mCurrentData = new MutableLiveData<>();
         mCurrentData.setValue(new WeatherData());
+        mLocations = new MutableLiveData<>();
+        mLocations.setValue(new ArrayList<>());
     }
     public void addWeatherListObserver(@NonNull LifecycleOwner owner,
                                     @NonNull Observer<? super List<WeatherData>> observer) {
@@ -63,16 +67,25 @@ public class WeatherListViewModel extends AndroidViewModel {
                                              @NonNull Observer<? super WeatherData> observer) {
         mCurrentData.observe(owner, observer);
     }
+    public void addLocationListObserver(@NonNull LifecycleOwner owner,
+                                              @NonNull Observer<? super List<String>> observer) {
+        mLocations.observe(owner, observer);
+    }
     public void connectGetCurrent(final String jwt,final String query){
         String url =
                 getApplication().getResources().getString(R.string.base_url) + "weather";
         JSONObject body = new JSONObject();
         try {
-            if (Character.isDigit(query.charAt(0))){
+            if (query.contains(",")){
+                body.put("city", "NA");
+                body.put("zipcode","NA");
+                body.put("latlong",query);
+                Log.i("LOCATION POST",query);
+            } else if (Character.isDigit(query.charAt(0))) {
                 body.put("zipcode",query);
                 body.put("city","NA");
                 body.put("latlong","NA");
-            }else {
+            } else {
                 body.put("city", query);
                 body.put("zipcode","NA");
                 body.put("latlong","NA");
@@ -129,11 +142,16 @@ public class WeatherListViewModel extends AndroidViewModel {
                 getApplication().getResources().getString(R.string.base_url) + "weather";
         JSONObject body = new JSONObject();
         try {
-            if (Character.isDigit(query.charAt(0))){
+            if (query.contains(",")){
+                body.put("city", "NA");
+                body.put("zipcode","NA");
+                body.put("latlong",query);
+                Log.i("LOCATION POST",query);
+            } else if (Character.isDigit(query.charAt(0))) {
                 body.put("zipcode",query);
                 body.put("city","NA");
                 body.put("latlong","NA");
-            }else {
+            } else {
                 body.put("city", query);
                 body.put("zipcode","NA");
                 body.put("latlong","NA");
@@ -196,11 +214,16 @@ public class WeatherListViewModel extends AndroidViewModel {
                 getApplication().getResources().getString(R.string.base_url) + "weather";
         JSONObject body = new JSONObject();
         try {
-            if (Character.isDigit(query.charAt(0))){
+            if (query.contains(",")){
+                body.put("city", "NA");
+                body.put("zipcode","NA");
+                body.put("latlong",query);
+                Log.i("LOCATION POST",query);
+            } else if (Character.isDigit(query.charAt(0))) {
                 body.put("zipcode",query);
                 body.put("city","NA");
                 body.put("latlong","NA");
-            }else {
+            } else {
                 body.put("city", query);
                 body.put("zipcode","NA");
                 body.put("latlong","NA");
@@ -256,4 +279,106 @@ public class WeatherListViewModel extends AndroidViewModel {
         Volley.newRequestQueue(getApplication().getApplicationContext())
                 .add(request);
     }
+    public void addTempLocations(){
+        List<String> temp = new ArrayList<>();
+        temp.add("tacoma");
+        temp.add("tempe");
+        temp.add("Puyallup");
+        mLocations.setValue(temp);
+    }
+    public void getLocations(String jwt,String email, int id){
+        mLocations.getValue().clear();
+        String url =
+                getApplication().getResources().getString(R.string.base_url) + "weather/userlocations";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("email",email);
+            body.put("id" , id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,body,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject result) {
+                        JSONObject response = result;
+                        try {
+                            JSONArray cities = response.getJSONArray("rows");
+                            List<String> locations = new ArrayList<>();
+                            for (int i = 0; i < cities.length(); i++) {
+                                JSONObject memberObject = cities.getJSONObject(i);
+                                String city = memberObject.getString("city");
+                                Log.i("RESPONSE TAG",city);
+                                locations.add(city);
+                            }
+                            if (!locations.contains("Current Location")){
+                                locations.add(0,"Current Location");
+                            }
+                            mLocations.setValue(locations);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ERROR Locations!", e.getMessage());
+                        }
+                        Log.i("POST RESPONSE CHECK", mLocations.getValue().toString());
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "Error :" + error.toString());
+            }
+        }){
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+    public void addLocations(String jwt,String email,String city,int id){
+        mLocations.getValue().clear();
+        String url =
+                getApplication().getResources().getString(R.string.base_url) + "weather/addlocation";
+        JSONObject body = new JSONObject();
+        try {
+            body.put("email",email);
+            body.put("city",city);
+            body.put("id",id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,body,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject result) {
+                        //add error message?? if error
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "Error :" + error.toString());
+            }
+        }){
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", jwt);
+                return headers;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10_000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //Instantiate the RequestQueue and add the request to the queue
+        Volley.newRequestQueue(getApplication().getApplicationContext())
+                .add(request);
+    }
+
 }

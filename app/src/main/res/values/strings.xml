@@ -63,5 +63,5 @@
     <string name="chosen_get_url">https://team-6-tcss-450-backend.herokuapp.com/group/</string>
 
 
-
+    <string name="label_location">LocationFragment</string>
 </resources>
