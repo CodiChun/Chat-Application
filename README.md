@@ -96,4 +96,6 @@ This an android mobile chat app with weather forcast.
 Email: codichun@outlook.com
 
 # Additional Imformation
-+ App Server: https://github.com/CodiChun/ChatAppServer
++ App Server: 
+  - https://github.com/GreenUpBuddy/jds1223-tcss450-labs
+  - https://github.com/CodiChun/ChatAppServer
